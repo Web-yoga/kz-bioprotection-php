@@ -1,0 +1,23 @@
+---
+alwaysApply: true
+---
+
+### Local testing server
+
+- Site can be test on local server http://kz-bioprotection-php/ - it is point to public/ folder.
+
+### Code style
+
+- When creating styles, always check if you can use Tailwind css.
+- Try to reuse existing code whenever possible and avoid creating duplicate pieces of code.
+-
+
+### text
+
+- Make all comments in the code in English.
+- Text instructions for development planning should be compiled in Russian.
+- This is a multilingual site with @nuxtjs/i18n. The project must support three languages: ru - Russian, en - English and kz - Kazakh. For text displayed to users, use the locales/ folder with files for en.json, ru.json, and kz.json, and use $t('key') for access in components.
+
+### constants
+
+- All major global constants should be stored in a file constants/index.js

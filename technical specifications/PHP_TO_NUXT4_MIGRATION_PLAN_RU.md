@@ -1,0 +1,394 @@
+# Пошаговый план: временный сайт на PHP с легким переносом в Nuxt 4
+
+Документ описывает, как быстро собрать рабочий мультиязычный сайт на PHP + HTML + Tailwind и подготовить его к последующему переносу в Nuxt 4 с минимальными переделками.
+
+---
+
+## 1) Цель и ограничения
+
+Текущая цель:
+
+- быстро запустить сайт;
+- использовать Cockpit как единую админку контента;
+- уложиться в ограничение по хостингу;
+- сохранить архитектуру, удобную для миграции в Nuxt 4.
+
+Страницы (3 шт):
+
+- Главная
+- Очистка от нефти
+- Очистка сточных вод
+
+Языки (3 шт):
+
+- `ru` (русский)
+- `en` (английский)
+- `kz` (казахский)
+
+Общие блоки:
+
+- верхнее меню
+- шапка (hero)
+- контент
+- футер
+- форма обратной связи на каждой странице
+- слайдер и легкие JS-анимации
+
+---
+
+## 2) Общий подход (MVP)
+
+Временная реализация:
+
+- серверный рендер на PHP;
+- контент берется из Cockpit API;
+- HTML-шаблоны пишутся модульно (как компоненты);
+- UI-стили и JS-библиотеки подключаются через npm + Vite (без CDN в production);
+- в `public/assets` выкладываются только собранные production-файлы.
+
+Ключевая идея:
+
+- сейчас делаем PHP-шаблоны, но по структуре максимально похожие на будущие Vue-компоненты.
+
+---
+
+## 3) Рекомендуемая структура проекта
+
+Пример структуры:
+
+```text
+public/
+  assets/
+    css/
+      app.min.css
+    js/
+      slider.js
+      animations.js
+      form.js
+  index.php
+  oil-cleaning.php
+  wastewater-treatment.php
+
+src/
+  config/
+    app.php
+    routes.php
+    languages.php
+  services/
+    cockpit-client.php
+    content-service.php
+  templates/
+    layout.php
+    partials/
+      header.php
+      top-menu.php
+      footer.php
+      contact-form.php
+      slider.php
+    pages/
+      home.php
+      oil-cleaning.php
+      wastewater-treatment.php
+  utils/
+    i18n.php
+    sanitize.php
+```
+
+Почему так:
+
+- `templates/partials/*` можно почти 1:1 переносить в будущие компоненты Nuxt (`components/*`);
+- разделение `services/*` и `templates/*` повторяет будущую логику Nuxt (API-слой отдельно от UI).
+- все сторонние фронтенд-библиотеки устанавливаются через npm и собираются в production через Vite.
+
+---
+
+## 4) Модель маршрутов и языков (обязательно для легкой миграции)
+
+Сразу используйте URL-структуру, похожую на i18n в Nuxt:
+
+- `/ru/`
+- `/ru/oil-cleaning`
+- `/ru/wastewater-treatment`
+- `/en/`
+- `/en/oil-cleaning`
+- `/en/wastewater-treatment`
+- `/kz/`
+- `/kz/oil-cleaning`
+- `/kz/wastewater-treatment`
+
+Что важно:
+
+- язык — всегда в первом сегменте URL;
+- slug страниц одинаковый для всех языков;
+- роуты хранить в одном конфиге (`routes.php`).
+
+---
+
+## 5) Организация контента в Cockpit
+
+Рекомендуется сделать коллекцию/структуру с полями:
+
+- `slug` (`home`, `oil-cleaning`, `wastewater-treatment`)
+- `lang` (`ru`, `en`, `kz`)
+- `title`
+- `seo_title`
+- `seo_description`
+- `hero_title`
+- `hero_subtitle`
+- `sections` (массив блоков)
+- `slider_items` (массив)
+- `form_labels` (подписи полей формы)
+- `menu_items`
+- `footer_content`
+
+Правило:
+
+- все пользовательские тексты должны храниться в Cockpit;
+- в шаблонах не хардкодить контент.
+
+---
+
+## 6) Пошаговая реализация
+
+### Шаг 1. Конфиги и каркас
+
+1. Создать конфиг языков (`ru`, `en`, `kz`).
+2. Создать карту страниц (slug -> шаблон).
+3. Сделать единый layout (`layout.php`) с подключением:
+   - top menu
+   - header
+   - page content
+   - footer
+   - JS/CSS
+
+### Шаг 2. API-клиент Cockpit
+
+1. Реализовать `cockpit-client.php`:
+   - базовый URL;
+   - токен;
+   - GET-запросы;
+   - обработка ошибок.
+2. Реализовать `content-service.php`:
+   - `getPageBySlugAndLang($slug, $lang)`;
+   - `getMenuByLang($lang)`;
+   - `getFooterByLang($lang)`.
+
+### Шаг 3. Роутинг
+
+1. Определять язык и slug из URL.
+2. Валидировать язык (`ru/en/kz`).
+3. Если страницы нет в Cockpit — 404.
+4. Пробрасывать данные в соответствующий page-template.
+
+### Шаг 4. Шаблоны страниц
+
+Сделать 3 page-шаблона:
+
+- `pages/home.php`
+- `pages/oil-cleaning.php`
+- `pages/wastewater-treatment.php`
+
+Каждый шаблон собирается из partial-компонентов:
+
+- `top-menu.php`
+- `header.php`
+- контентные секции
+- `slider.php`
+- `contact-form.php`
+- `footer.php`
+
+### Шаг 5. Tailwind
+
+1. Установить Tailwind как npm-пакет (не через Play CDN).
+2. Подключить Tailwind в `resources/css/app.css` через директивы `@tailwind`.
+3. Добавить пути шаблонов PHP в `content` внутри `tailwind.config.js`.
+4. Собирать production CSS через Vite в `public/assets/css/app.min.css`.
+
+Важно:
+
+- Play CDN использовать только для быстрого прототипирования, не для production;
+- на сервере хранить только результат сборки (`public/assets/*`);
+- `node_modules` использовать только на этапе разработки/сборки.
+
+### Шаг 5.1. Короткая инструкция: Tailwind + Swiper.js + Anime.js + Vite (PHP)
+
+1. Инициализировать npm в корне проекта:
+   - `npm init -y`
+2. Установить зависимости:
+   - `npm i -D vite tailwindcss postcss autoprefixer`
+   - `npm i swiper animejs`
+3. Создать конфиги:
+   - `npx tailwindcss init -p`
+4. Настроить `tailwind.config.js`:
+   - добавить пути к PHP-шаблонам, например:
+     - `./public/**/*.php`
+     - `./src/templates/**/*.php`
+     - `./src/**/*.php`
+5. Создать входные файлы:
+   - `resources/css/app.css` (директивы Tailwind);
+   - `resources/js/app.js` (импорты и инициализация Swiper/Anime.js).
+6. Настроить `vite.config.js`:
+   - входы: `resources/css/app.css`, `resources/js/app.js`;
+   - выход в `public/assets`;
+   - включить `manifest: true`.
+7. Подключать в `layout.php` только собранные файлы из `public/assets`.
+
+### Шаг 6. Форма обратной связи
+
+1. Унифицировать поля формы для всех страниц.
+2. Подписи кнопок/полей брать из Cockpit по языку.
+3. Обработчик формы сделать отдельным endpoint (`POST`).
+4. Ошибки и success-ответы возвращать на текущем языке.
+5. Добавить антиспам (honeypot + rate limit + CSRF token).
+
+### Шаг 7. Слайдер и легкие анимации
+
+1. Для слайдера использовать `Swiper.js` и ставить библиотеку через npm.
+2. Для анимаций текста, изображений и модальных окон использовать `Anime.js` и ставить библиотеку через npm.
+3. Не перегружать страницу эффектами.
+4. Данные слайдера брать из Cockpit.
+
+Рекомендуемые места подключений:
+
+- **PHP (текущий этап)**
+  - хранить исходники в `resources/js/*` и `resources/css/*`;
+  - библиотеки (`Swiper`, `Anime.js`) импортировать в `resources/js/app.js`;
+  - в `public/assets/*` размещать только production-бандлы после сборки Vite;
+  - подключение CSS/JS делать централизованно в `templates/layout.php`.
+
+- **Nuxt 4 (этап миграции)**
+  - устанавливать библиотеки как npm-пакеты;
+  - общий клиентский код подключения выносить в `plugins/swiper.client.ts` и `plugins/anime.client.ts` (или импортировать точечно в компонентах при необходимости);
+  - UI-обвязку слайдера и анимаций держать в переиспользуемых компонентах `components/sections/*` и `components/ui/*`.
+
+### Шаг 8. SEO и мета
+
+1. На каждой странице выставлять `<title>` и `<meta description>` из Cockpit.
+2. Добавить canonical.
+3. Добавить `hreflang` для `ru/en/kz`.
+4. Сделать `sitemap.xml` с мультиязычными URL.
+
+### Шаг 9. Кеширование
+
+Простой вариант:
+
+- file-cache ответа Cockpit на 3-5 минут;
+- сброс кеша по cron или по webhook из Cockpit.
+
+Это уменьшит нагрузку и ускорит сайт.
+
+### Шаг 10. План миграции в Nuxt 4
+
+После стабилизации:
+
+1. Создать Nuxt 4 проект с той же URL-структурой.
+2. Перенести partial-шаблоны в Vue-компоненты.
+3. Переиспользовать Tailwind-классы и дизайн-токены.
+4. Подключить тот же Cockpit API слой.
+5. Поэтапно заменить PHP-роуты на Nuxt-страницы.
+
+---
+
+## 7) Условия, которые обязательны для легкого переноса в Nuxt 4
+
+Ниже checklist — если соблюдать, миграция будет простой:
+
+1. **Единая контент-модель в Cockpit**
+   - одинаковые поля для всех языков и страниц.
+
+2. **Стабильные slug и URL**
+   - одинаковые slug на всех этапах;
+   - язык всегда в URL.
+
+3. **Компонентный подход в PHP**
+   - каждый визуальный блок отдельным partial-файлом.
+
+4. **Разделение данных и представления**
+   - API-запросы только в `services/*`, не в шаблонах.
+
+5. **Tailwind как общий слой UI**
+   - классы и naming не завязаны на PHP.
+
+6. **Минимум специфики PHP в HTML**
+   - не смешивать тяжелую бизнес-логику в шаблонах.
+
+7. **Единые ключи i18n**
+   - одинаковые имена полей/ключей для `ru/en/kz`.
+
+8. **Одинаковая структура формы**
+   - те же поля и валидации, что планируются в Nuxt.
+
+9. **Документированная карта блоков**
+   - соответствие: `partials/*.php` -> `components/*.vue`.
+
+10. **Проверка XSS/санитизации**
+    - на этапе PHP сразу чистить вывод, чтобы потом не менять модель безопасности.
+
+11. **Явная подготовка i18n под Nuxt (`@nuxtjs/i18n`)**
+    - заранее заложить структуру локализации под Nuxt: `locales/ru.json`, `locales/en.json`, `locales/kz.json`;
+    - для всех локальных текстов интерфейса (UI), форм, кнопок, статусов, ошибок и сообщений использовать ключи переводов;
+    - в будущих Nuxt-компонентах обращаться к текстам через `$t('key')`, без хардкода строк в шаблонах.
+
+---
+
+## 8) Пример карты соответствия PHP -> Nuxt
+
+- `templates/partials/top-menu.php` -> `components/layout/TopMenu.vue`
+- `templates/partials/header.php` -> `components/sections/HeroSection.vue`
+- `templates/partials/slider.php` -> `components/sections/MediaSlider.vue`
+- `templates/partials/contact-form.php` -> `components/forms/ContactForm.vue`
+- `templates/partials/footer.php` -> `components/layout/AppFooter.vue`
+- `templates/pages/home.php` -> `pages/[lang]/index.vue`
+- `templates/pages/oil-cleaning.php` -> `pages/[lang]/oil-cleaning.vue`
+- `templates/pages/wastewater-treatment.php` -> `pages/[lang]/wastewater-treatment.vue`
+
+---
+
+## 9) Рекомендуемый порядок запуска (быстро и безопасно)
+
+1. Сначала собрать `ru` версию всех 3 страниц.
+2. Подключить `en` и `kz` через ту же контент-модель.
+3. Подключить форму и антиспам.
+4. Добавить слайдер и анимации.
+5. Проверить SEO и `hreflang`.
+6. Добавить кеш на 3-5 минут.
+7. Зафиксировать карту миграции в Nuxt 4.
+
+---
+
+## 10) Результат, который вы получите
+
+На выходе:
+
+- рабочий мультиязычный сайт с редактированием через Cockpit;
+- минимальный вес и простая поддержка на хостинге;
+- архитектура, которую можно перенести в Nuxt 4 без полного переписывания.
+
+---
+
+## 11) Компиляция JS/CSS для production через Vite
+
+Минимальные команды:
+
+1. Режим разработки (watch/HMR, локально):
+   - `npm run dev`
+2. Production-сборка:
+   - `npm run build`
+3. Предпросмотр production-сборки (локально):
+   - `npm run preview`
+
+Рекомендуемые scripts в `package.json`:
+
+- `"dev": "vite"`
+- `"build": "vite build"`
+- `"preview": "vite preview"`
+
+Что выкладывать на сервер:
+
+- папку `public/assets` (собранные CSS/JS);
+- PHP-код и шаблоны проекта.
+
+Что не выкладывать на production-сервер:
+
+- `node_modules`;
+- исходники сборки, которые не требуются рантайму (если сборка выполняется отдельно в CI/локально).
