@@ -13,11 +13,12 @@ module.exports = defineConfig({
         app: path.resolve(__dirname, "resources/js/app.js"),
       },
       output: {
-        entryFileNames: "js/[name].min.js",
+        /* Content hash in filenames so cache invalidates after each build; paths come from manifest.json */
+        entryFileNames: "js/[name]-[hash].min.js",
         chunkFileNames: "js/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
           if (assetInfo.name && assetInfo.name.endsWith(".css")) {
-            return "css/[name].min.css";
+            return "css/[name]-[hash].min.css";
           }
           return "assets/[name]-[hash][extname]";
         },

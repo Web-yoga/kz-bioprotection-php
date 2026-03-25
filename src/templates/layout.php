@@ -109,8 +109,14 @@ $viteAssets = $isViteDevMode ? ['css' => [], 'js' => []] : getViteAssets();
 </head>
 <body>
 <?php renderPartial('header', ['currentLanguage' => $currentLanguage, 'currentSlug' => $currentSlug]); ?>
-<?php require $pageTemplate; ?>
-<?php renderPartial('footer'); ?>
+<div class="content-frame">
+    <div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>
+    <div class="content-frame__main">
+        <?php require $pageTemplate; ?>
+        <?php renderPartial('footer'); ?>
+    </div>
+    <div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
+</div>
 <?php if (!$isViteDevMode): ?>
 <?php foreach ($viteAssets['js'] as $jsPath): ?>
     <script src="<?= htmlspecialchars($jsPath, ENT_QUOTES, 'UTF-8'); ?>" defer></script>

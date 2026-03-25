@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Scan PHP templates so Tailwind utilities used in *.php are included in the build */
+@source '../../src/templates/**/*.php';
+
 /*
  * Global content layout: full-width row with optional edge bands and a centered
  * column (max-width). Side bands grow equally so the main column stays centered.
@@ -41,8 +44,11 @@
 }
 
 .content-frame__main {
-    flex: 0 0 auto;
-    width: 100%;
+    /* Do not use width: 100% here — it would consume the full flex row and collapse
+     * side bleeds (gradient bands) to zero width. Center column grows up to max-width;
+     * remaining space is shared by left/right bleeds. */
+    flex: 0 1 var(--content-max-width);
+    min-width: 0;
     max-width: var(--content-max-width);
     box-sizing: border-box;
     background-color: var(--content-frame-bleed-inner);
@@ -57,7 +63,6 @@
 
 .site-header .content-frame {
     min-height: 130px;
-    align-items: flex-start;
 }
 
 /* Header layout: logo left, navigation right */
@@ -129,14 +134,33 @@
 }
 
 .site-top-menu__language {
-    height: 36px;
-    padding: 0 14px;
-    border: 1px solid rgba(17, 24, 39, 0.2);
-    border-radius: 9999px;
-    background: #ffffff;
+    height: 40px;
+    min-width: 5.5rem;
+    padding: 0 2.5rem 0 1rem;
+    border: 1px solid rgba(17, 24, 39, 0.18);
+    border-radius: 16px;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' aria-hidden='true'%3E%3Cpath fill='%23111827' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 16px;
     color: #111827;
     font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.site-top-menu__language::-ms-expand {
+    display: none;
+}
+
+.site-top-menu__language:hover {
+    border-color: rgba(17, 24, 39, 0.28);
+    background-color: #f9fafb;
 }
 
 .site-top-menu__language:focus {

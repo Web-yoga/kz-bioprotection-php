@@ -28,8 +28,11 @@ $solutionsUrl = '/' . $lang . '/oil-cleaning';
 $contactUrl = '/' . $lang . '/#contact';
 $newsUrl = '/' . $lang . '/#news';
 ?>
-<nav class="site-top-menu" aria-label="Primary navigation">
-    <ul class="site-top-menu__list">
+<nav
+    class="site-top-menu flex h-[100px] flex-row flex-nowrap items-center justify-end gap-6"
+    aria-label="Primary navigation"
+>
+    <ul class="site-top-menu__list m-0 flex list-none flex-row flex-nowrap items-center gap-6 p-0">
         <li class="site-top-menu__item">
             <a class="site-top-menu__link" href="<?= htmlspecialchars($homeUrl, ENT_QUOTES, 'UTF-8'); ?>">
                 <?= htmlspecialchars(i18n('menu.home', $lang), ENT_QUOTES, 'UTF-8'); ?>
