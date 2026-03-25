@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once dirname(__DIR__, 2) . '/utils/i18n.php';
+
 global $supportedLanguages;
 
 $lang = isset($currentLanguage) ? (string) $currentLanguage : 'en';
@@ -20,13 +22,42 @@ $buildLanguageUrl = static function (string $targetLanguage, string $currentSlug
 
     return '/' . $targetLanguage . '/' . $currentSlug;
 };
+
+$homeUrl = '/' . $lang . '/';
+$solutionsUrl = '/' . $lang . '/oil-cleaning';
+$contactUrl = '/' . $lang . '/#contact';
+$newsUrl = '/' . $lang . '/#news';
 ?>
-<nav>
-    <label for="language-switcher">Language:</label>
+<nav class="site-top-menu" aria-label="Primary navigation">
+    <ul class="site-top-menu__list">
+        <li class="site-top-menu__item">
+            <a class="site-top-menu__link" href="<?= htmlspecialchars($homeUrl, ENT_QUOTES, 'UTF-8'); ?>">
+                <?= htmlspecialchars(i18n('menu.home', $lang), ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        </li>
+        <li class="site-top-menu__item">
+            <a class="site-top-menu__link" href="<?= htmlspecialchars($solutionsUrl, ENT_QUOTES, 'UTF-8'); ?>">
+                <?= htmlspecialchars(i18n('menu.solutions', $lang), ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        </li>
+        <li class="site-top-menu__item">
+            <a class="site-top-menu__link" href="<?= htmlspecialchars($contactUrl, ENT_QUOTES, 'UTF-8'); ?>">
+                <?= htmlspecialchars(i18n('menu.contact', $lang), ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        </li>
+        <li class="site-top-menu__item">
+            <a class="site-top-menu__link" href="<?= htmlspecialchars($newsUrl, ENT_QUOTES, 'UTF-8'); ?>">
+                <?= htmlspecialchars(i18n('menu.news_events', $lang), ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        </li>
+    </ul>
+
     <select
         id="language-switcher"
         name="language"
         onchange="window.location.href=this.value"
+        class="site-top-menu__language"
+        aria-label="Language"
     >
         <?php foreach ($supportedLanguages as $languageCode): ?>
             <?php

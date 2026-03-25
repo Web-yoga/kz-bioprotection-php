@@ -1,1 +1,145 @@
 @import 'tailwindcss';
+
+/*
+ * Global content layout: full-width row with optional edge bands and a centered
+ * column (max-width). Side bands grow equally so the main column stays centered.
+ */
+:root {
+    --content-max-width: 1140px;
+    --content-frame-edge-gradient: 390px;
+    --content-frame-bleed-solid: #e7f2fe;
+    --content-frame-bleed-inner: #ffffff;
+}
+
+.content-frame {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.content-frame__bleed {
+    flex: 1 1 0;
+    min-width: 0;
+    background-color: var(--content-frame-bleed-solid);
+}
+
+/* Inner edge meets main column (#fff); gradient across fixed width, then solid bleed color */
+.content-frame__bleed--left {
+    background: linear-gradient(
+        to left,
+        var(--content-frame-bleed-inner) 0,
+        var(--content-frame-bleed-solid) var(--content-frame-edge-gradient)
+    );
+}
+
+.content-frame__bleed--right {
+    background: linear-gradient(
+        to right,
+        var(--content-frame-bleed-inner) 0,
+        var(--content-frame-bleed-solid) var(--content-frame-edge-gradient)
+    );
+}
+
+.content-frame__main {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: var(--content-max-width);
+    box-sizing: border-box;
+    background-color: var(--content-frame-bleed-inner);
+}
+
+/* Site header */
+.site-header {
+    padding-top: 30px;
+    min-height: 130px; /* 30px padding + 100px header row */
+    box-sizing: border-box;
+}
+
+.site-header .content-frame {
+    min-height: 130px;
+    align-items: flex-start;
+}
+
+/* Header layout: logo left, navigation right */
+.site-header__row {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header__logo {
+    width: 420px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.site-header__logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.site-header__logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.site-header__top-menu {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    height: 100px;
+}
+
+.site-top-menu {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: flex-end;
+}
+
+.site-top-menu__list {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-top-menu__link {
+    display: inline-flex;
+    align-items: center;
+    height: 100px;
+    text-decoration: none;
+    color: #111827;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.site-top-menu__link:hover {
+    text-decoration: underline;
+}
+
+.site-top-menu__language {
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid rgba(17, 24, 39, 0.2);
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #111827;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.site-top-menu__language:focus {
+    outline: 2px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 2px;
+}

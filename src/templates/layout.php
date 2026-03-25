@@ -108,8 +108,7 @@ $viteAssets = $isViteDevMode ? ['css' => [], 'js' => []] : getViteAssets();
 <?php endif; ?>
 </head>
 <body>
-<?php renderPartial('top-menu', ['currentLanguage' => $currentLanguage, 'currentSlug' => $currentSlug]); ?>
-<?php renderPartial('header'); ?>
+<?php renderPartial('header', ['currentLanguage' => $currentLanguage, 'currentSlug' => $currentSlug]); ?>
 <?php require $pageTemplate; ?>
 <?php renderPartial('footer'); ?>
 <?php if (!$isViteDevMode): ?>
