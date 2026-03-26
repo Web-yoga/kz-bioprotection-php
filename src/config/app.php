@@ -10,6 +10,7 @@ define('PAGES_PATH', TEMPLATES_PATH . '/pages');
 
 $supportedLanguages = require SRC_PATH . '/config/languages.php';
 $routes = require SRC_PATH . '/config/routes.php';
+require_once SRC_PATH . '/services/content-api.php';
 
 function renderSitePage(string $slug, string $language): void
 {
@@ -24,6 +25,35 @@ function renderSitePage(string $slug, string $language): void
     $pageTemplate = PAGES_PATH . '/' . $routes[$slug] . '.php';
     $currentLanguage = $language;
     $currentSlug = $slug;
+    $dictionaryContent = fetchDictionaryContent($language);
+    $dictionary = normalizeDictionaryMap($dictionaryContent);
+    $feedbackForm = fetchFeedbackFormContent($language);
+    $pageContent = fetchPageContentBySlug($slug, $language);
+    $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
+
+    $pagePresentationBySlug = [
+        'home' => [
+            'backgroundImg' => '/assets/img/home/home-header.jpg',
+            'titleSource' => static function () use ($pageHomePayload): string {
+                return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
+                    ? trim($pageHomePayload['title'])
+                    : '';
+            },
+        ],
+    ];
+
+    $pagePresentation = $pagePresentationBySlug[$slug] ?? [];
+    $pageTitleResolver = $pagePresentation['titleSource'] ?? null;
+    $pageTitle = is_callable($pageTitleResolver)
+        ? (string) $pageTitleResolver()
+        : (
+            is_array($pageContent) && isset($pageContent['title']) && is_string($pageContent['title'])
+                ? trim($pageContent['title'])
+                : ''
+        );
+    $backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])
+        ? trim($pagePresentation['backgroundImg'])
+        : '';
 
     require TEMPLATES_PATH . '/layout.php';
 }
