@@ -4,6 +4,45 @@
 /* Scan PHP templates so Tailwind utilities used in *.php are included in the build */
 @source '../../src/templates/**/*.php';
 
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src:
+		url('../fonts/roboto-medium.woff2') format('woff2'),
+		url('../fonts/roboto-medium.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src:
+		url('../fonts/roboto-bold.woff2') format('woff2'),
+		url('../fonts/roboto-bold.woff') format('woff');
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+}
+
+b,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-top-menu__link,
+.site-top-menu__language {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+}
+
 /*
  * Global content layout: full-width row with optional edge bands and a centered
  * column (max-width). Side bands grow equally so the main column stays centered.
