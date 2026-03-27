@@ -10,7 +10,8 @@ alwaysApply: true
 
 - When creating styles, always check if you can use Tailwind css.
 - Try to reuse existing code whenever possible and avoid creating duplicate pieces of code.
--
+- Try to use rem for font sizes and dimensions, not specified px values. If I'm writing in pixels, convert them to rem.
+- Use the global section/block spacing token `--section-spacing`, where `3.75rem` (60px) is the default vertical spacing for large screens.
 
 ### text
 

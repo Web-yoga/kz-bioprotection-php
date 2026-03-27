@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-echo basename(__FILE__, '.php') . PHP_EOL;
-
-$dictionaryPayload = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
 $pageHomePayload = isset($pageContent) && is_array($pageContent) ? $pageContent : [];
+$topText = isset($pageHomePayload['topText']) ? trim((string) $pageHomePayload['topText']) : '';
 ?>
-<pre><?= htmlspecialchars((string) json_encode($dictionaryPayload, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), ENT_QUOTES, 'UTF-8'); ?></pre>
-<pre><?= htmlspecialchars((string) json_encode($pageHomePayload, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), ENT_QUOTES, 'UTF-8'); ?></pre>
+<?php if ($topText !== ''): ?>
+	<section class="home-top-text">
+		<div class="home-top-text__content"><?= $topText; ?></div>
+	</section>
+<?php endif; ?>
 <?php
 require TEMPLATES_PATH . '/partials/slider.php';
 require TEMPLATES_PATH . '/partials/contact-form.php';

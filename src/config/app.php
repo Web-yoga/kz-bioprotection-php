@@ -39,6 +39,19 @@ function renderSitePage(string $slug, string $language): void
                     ? trim($pageHomePayload['title'])
                     : '';
             },
+            'subtitleSource' => static function () use ($pageHomePayload): string {
+                if (!is_array($pageHomePayload)) {
+                    return '';
+                }
+
+                foreach (['subtitle', 'sub_title', 'subTitle'] as $subtitleKey) {
+                    if (isset($pageHomePayload[$subtitleKey]) && is_string($pageHomePayload[$subtitleKey])) {
+                        return trim($pageHomePayload[$subtitleKey]);
+                    }
+                }
+
+                return '';
+            },
         ],
     ];
 
@@ -49,6 +62,26 @@ function renderSitePage(string $slug, string $language): void
         : (
             is_array($pageContent) && isset($pageContent['title']) && is_string($pageContent['title'])
                 ? trim($pageContent['title'])
+                : ''
+        );
+    $pageSubtitleResolver = $pagePresentation['subtitleSource'] ?? null;
+    $pageSubtitle = is_callable($pageSubtitleResolver)
+        ? (string) $pageSubtitleResolver()
+        : (
+            is_array($pageContent)
+                ? (
+                    isset($pageContent['subtitle']) && is_string($pageContent['subtitle'])
+                        ? trim($pageContent['subtitle'])
+                        : (
+                            isset($pageContent['sub_title']) && is_string($pageContent['sub_title'])
+                                ? trim($pageContent['sub_title'])
+                                : (
+                                    isset($pageContent['subTitle']) && is_string($pageContent['subTitle'])
+                                        ? trim($pageContent['subTitle'])
+                                        : ''
+                                )
+                        )
+                )
                 : ''
         );
     $backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])

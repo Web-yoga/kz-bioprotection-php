@@ -94,6 +94,7 @@ $viteAssets = $isViteDevMode ? ['css' => [], 'js' => []] : getViteAssets();
 $resolvedPageTitle = isset($pageTitle) && is_string($pageTitle) && trim($pageTitle) !== ''
 	? trim($pageTitle)
 	: ucfirst(str_replace('-', ' ', (string) ($currentSlug ?? '')));
+$resolvedPageSubtitle = isset($pageSubtitle) && is_string($pageSubtitle) ? trim($pageSubtitle) : '';
 $resolvedPageTitleBackgroundImg = isset($backgroundImg) && is_string($backgroundImg) ? trim($backgroundImg) : '';
 ?>
 <!doctype html>
@@ -123,7 +124,7 @@ $resolvedPageTitleBackgroundImg = isset($backgroundImg) && is_string($background
 			<div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
 		</div>
 	</header>
-	<?php renderPartial('page-title', ['title' => $resolvedPageTitle, 'backgroundImg' => $resolvedPageTitleBackgroundImg]); ?>
+	<?php renderPartial('page-title', ['title' => $resolvedPageTitle, 'subtitle' => $resolvedPageSubtitle, 'backgroundImg' => $resolvedPageTitleBackgroundImg]); ?>
 	<div class="content-frame">
 		<div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>
 		<div class="content-frame__main container mx-auto px-4">
