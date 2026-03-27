@@ -35,6 +35,7 @@ function renderSitePage(string $slug, string $language): void
     $pagePresentationBySlug = [
         'home' => [
             'backgroundImg' => '/assets/img/home/home-header.jpg',
+            'endOfPageBackgroundImg' => '/img/home/home-bottom-bg.png',
             'titleSource' => static function () use ($pageHomePayload): string {
                 return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
                     ? trim($pageHomePayload['title'])
@@ -87,6 +88,9 @@ function renderSitePage(string $slug, string $language): void
         );
     $backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])
         ? trim($pagePresentation['backgroundImg'])
+        : '';
+    $endOfPageBackgroundImg = isset($pagePresentation['endOfPageBackgroundImg']) && is_string($pagePresentation['endOfPageBackgroundImg'])
+        ? trim($pagePresentation['endOfPageBackgroundImg'])
         : '';
     $seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
         ? trim($seoContent['title'])

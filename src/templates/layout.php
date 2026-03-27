@@ -96,6 +96,9 @@ $resolvedPageTitle = isset($pageTitle) && is_string($pageTitle) && trim($pageTit
 	: ucfirst(str_replace('-', ' ', (string) ($currentSlug ?? '')));
 $resolvedPageSubtitle = isset($pageSubtitle) && is_string($pageSubtitle) ? trim($pageSubtitle) : '';
 $resolvedPageTitleBackgroundImg = isset($backgroundImg) && is_string($backgroundImg) ? trim($backgroundImg) : '';
+$resolvedEndOfPageBackgroundImg = isset($endOfPageBackgroundImg) && is_string($endOfPageBackgroundImg)
+	? trim($endOfPageBackgroundImg)
+	: '';
 $resolvedSeoTitle = isset($seoTitle) && is_string($seoTitle) && trim($seoTitle) !== ''
 	? trim($seoTitle)
 	: $resolvedPageTitle;
@@ -179,13 +182,23 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 		</div>
 	</header>
 	<?php renderPartial('page-title', ['title' => $resolvedPageTitle, 'subtitle' => $resolvedPageSubtitle, 'backgroundImg' => $resolvedPageTitleBackgroundImg]); ?>
-	<div class="content-frame">
-		<div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>
-		<div class="content-frame__main container mx-auto px-4">
-			<?php require $pageTemplate; ?>
-			<?php renderPartial('footer'); ?>
+	<div class="end-of-page-zone">
+		<?php if ($resolvedEndOfPageBackgroundImg !== ''): ?>
+			<div class="page-bottom-bg" aria-hidden="true">
+				<img
+					class="page-bottom-bg__image"
+					src="<?= htmlspecialchars($resolvedEndOfPageBackgroundImg, ENT_QUOTES, 'UTF-8'); ?>"
+					alt="">
+			</div>
+		<?php endif; ?>
+		<div class="content-frame">
+			<div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>
+			<div class="content-frame__main container mx-auto px-4">
+				<?php require $pageTemplate; ?>
+			</div>
+			<div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
 		</div>
-		<div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
+		<?php renderPartial('footer'); ?>
 	</div>
 	<?php if (!$isViteDevMode): ?>
 		<?php foreach ($viteAssets['js'] as $jsPath): ?>
