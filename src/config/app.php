@@ -29,6 +29,7 @@ function renderSitePage(string $slug, string $language): void
     $dictionary = normalizeDictionaryMap($dictionaryContent);
     $feedbackForm = fetchFeedbackFormContent($language);
     $pageContent = fetchPageContentBySlug($slug, $language);
+    $seoContent = fetchSeoContentBySlug($slug, $language);
     $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
 
     $pagePresentationBySlug = [
@@ -87,6 +88,17 @@ function renderSitePage(string $slug, string $language): void
     $backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])
         ? trim($pagePresentation['backgroundImg'])
         : '';
+    $seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
+        ? trim($seoContent['title'])
+        : '';
+    $seoDescription = is_array($seoContent) && isset($seoContent['description']) && is_string($seoContent['description'])
+        ? trim($seoContent['description'])
+        : '';
+    $seoImage = is_array($seoContent) && isset($seoContent['image']) && is_string($seoContent['image'])
+        ? trim($seoContent['image'])
+        : '';
+    $seoType = 'website';
+    $seoSiteName = 'Bioprotection';
 
     require TEMPLATES_PATH . '/layout.php';
 }

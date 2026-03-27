@@ -96,6 +96,37 @@ $resolvedPageTitle = isset($pageTitle) && is_string($pageTitle) && trim($pageTit
 	: ucfirst(str_replace('-', ' ', (string) ($currentSlug ?? '')));
 $resolvedPageSubtitle = isset($pageSubtitle) && is_string($pageSubtitle) ? trim($pageSubtitle) : '';
 $resolvedPageTitleBackgroundImg = isset($backgroundImg) && is_string($backgroundImg) ? trim($backgroundImg) : '';
+$resolvedSeoTitle = isset($seoTitle) && is_string($seoTitle) && trim($seoTitle) !== ''
+	? trim($seoTitle)
+	: $resolvedPageTitle;
+$resolvedSeoDescription = isset($seoDescription) && is_string($seoDescription)
+	? trim($seoDescription)
+	: '';
+$resolvedSeoType = isset($seoType) && is_string($seoType) && trim($seoType) !== ''
+	? trim($seoType)
+	: 'website';
+$resolvedSeoSiteName = isset($seoSiteName) && is_string($seoSiteName) && trim($seoSiteName) !== ''
+	? trim($seoSiteName)
+	: 'Bioprotection';
+$seoImagePath = isset($seoImage) && is_string($seoImage) ? trim($seoImage) : '';
+$currentScheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$currentHost = isset($_SERVER['HTTP_HOST']) ? trim((string) $_SERVER['HTTP_HOST']) : '';
+$baseSiteUrl = $currentHost !== '' ? $currentScheme . '://' . $currentHost : '';
+$pageRelativeUrl = '/' . trim((string) ($currentLanguage ?? 'en'), '/')
+	. (($currentSlug ?? 'home') === 'home' ? '/' : '/' . trim((string) $currentSlug, '/'));
+$canonicalUrl = $baseSiteUrl !== '' ? $baseSiteUrl . $pageRelativeUrl : $pageRelativeUrl;
+$seoImageUrl = '';
+if ($seoImagePath !== '') {
+	$seoImageUrl = preg_match('#^https?://#i', $seoImagePath) === 1
+		? $seoImagePath
+		: ($baseSiteUrl !== '' ? $baseSiteUrl . '/' . ltrim($seoImagePath, '/') : $seoImagePath);
+}
+$ogLocaleMap = [
+	'ru' => 'ru_RU',
+	'en' => 'en_US',
+	'kz' => 'kk_KZ',
+];
+$resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US';
 ?>
 <!doctype html>
 <html lang="<?= htmlspecialchars($currentLanguage, ENT_QUOTES, 'UTF-8'); ?>">
@@ -103,7 +134,30 @@ $resolvedPageTitleBackgroundImg = isset($backgroundImg) && is_string($background
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?= htmlspecialchars($resolvedPageTitle !== '' ? $resolvedPageTitle : 'PHP Skeleton', ENT_QUOTES, 'UTF-8'); ?></title>
+	<title><?= htmlspecialchars($resolvedSeoTitle !== '' ? $resolvedSeoTitle : 'PHP Skeleton', ENT_QUOTES, 'UTF-8'); ?></title>
+	<?php if ($resolvedSeoDescription !== ''): ?>
+		<meta name="description" content="<?= htmlspecialchars($resolvedSeoDescription, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endif; ?>
+	<link rel="canonical" href="<?= htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
+	<meta property="og:type" content="<?= htmlspecialchars($resolvedSeoType, ENT_QUOTES, 'UTF-8'); ?>">
+	<meta property="og:site_name" content="<?= htmlspecialchars($resolvedSeoSiteName, ENT_QUOTES, 'UTF-8'); ?>">
+	<meta property="og:title" content="<?= htmlspecialchars($resolvedSeoTitle, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php if ($resolvedSeoDescription !== ''): ?>
+		<meta property="og:description" content="<?= htmlspecialchars($resolvedSeoDescription, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endif; ?>
+	<meta property="og:url" content="<?= htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
+	<meta property="og:locale" content="<?= htmlspecialchars($resolvedOgLocale, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php if ($seoImageUrl !== ''): ?>
+		<meta property="og:image" content="<?= htmlspecialchars($seoImageUrl, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endif; ?>
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?= htmlspecialchars($resolvedSeoTitle, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php if ($resolvedSeoDescription !== ''): ?>
+		<meta name="twitter:description" content="<?= htmlspecialchars($resolvedSeoDescription, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endif; ?>
+	<?php if ($seoImageUrl !== ''): ?>
+		<meta name="twitter:image" content="<?= htmlspecialchars($seoImageUrl, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endif; ?>
 	<?php if ($isViteDevMode): ?>
 		<script type="module" src="<?= htmlspecialchars($viteDevServerUrl, ENT_QUOTES, 'UTF-8'); ?>/@vite/client"></script>
 		<script type="module" src="<?= htmlspecialchars($viteDevServerUrl, ENT_QUOTES, 'UTF-8'); ?>/resources/js/app.js"></script>

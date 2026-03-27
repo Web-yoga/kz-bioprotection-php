@@ -82,6 +82,83 @@ function fetchFeedbackFormContent(string $language): ?array
     return fetchContentApiEntity('item', 'feedbackForm', $language);
 }
 
+function normalizeItemsCollection(?array $collectionResponse): array
+{
+    if (!is_array($collectionResponse) || $collectionResponse === []) {
+        return [];
+    }
+
+    if (isset($collectionResponse[0]) && is_array($collectionResponse[0])) {
+        return $collectionResponse;
+    }
+
+    foreach (['entries', 'items', 'data', 'results'] as $itemsKey) {
+        if (isset($collectionResponse[$itemsKey]) && is_array($collectionResponse[$itemsKey])) {
+            $items = $collectionResponse[$itemsKey];
+            if (isset($items[0]) && is_array($items[0])) {
+                return $items;
+            }
+        }
+    }
+
+    return [];
+}
+
+function normalizeSeoSlug(string $slug): string
+{
+    $normalized = trim($slug);
+    if ($normalized === '' || $normalized === 'home') {
+        return '/';
+    }
+
+    $normalized = '/' . ltrim($normalized, '/');
+    return rtrim($normalized, '/') ?: '/';
+}
+
+function findSeoItemBySlug(array $items, string $slug): ?array
+{
+    $targetSlug = normalizeSeoSlug($slug);
+
+    foreach ($items as $item) {
+        if (!is_array($item)) {
+            continue;
+        }
+
+        if (!isset($item['slug']) || !is_string($item['slug'])) {
+            continue;
+        }
+
+        if (normalizeSeoSlug($item['slug']) === $targetSlug) {
+            return $item;
+        }
+    }
+
+    return null;
+}
+
+function fetchSeoContentBySlug(string $slug, string $language): ?array
+{
+    $requestedLanguage = trim($language) !== '' ? trim($language) : 'en';
+    $seoCollection = fetchContentApiEntity('items', 'seo', $requestedLanguage);
+    $seoItems = normalizeItemsCollection($seoCollection);
+    $seoItem = findSeoItemBySlug($seoItems, $slug);
+
+    if (is_array($seoItem)) {
+        return $seoItem;
+    }
+
+    if ($requestedLanguage !== 'en') {
+        $fallbackCollection = fetchContentApiEntity('items', 'seo', 'en');
+        $fallbackItems = normalizeItemsCollection($fallbackCollection);
+        $fallbackItem = findSeoItemBySlug($fallbackItems, $slug);
+        if (is_array($fallbackItem)) {
+            return $fallbackItem;
+        }
+    }
+
+    return null;
+}
+
 function normalizeDictionaryMap(?array $dictionaryContent): array
 {
     if (!is_array($dictionaryContent) || $dictionaryContent === []) {
