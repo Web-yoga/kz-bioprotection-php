@@ -12,12 +12,14 @@ alwaysApply: true
 - Try to reuse existing code whenever possible and avoid creating duplicate pieces of code.
 - Try to use rem for font sizes and dimensions, not specified px values. If I'm writing in pixels, convert them to rem.
 - Use the global section/block spacing token `--section-spacing`, where `3.75rem` (60px) is the default vertical spacing for large screens.
+- Use the shared `.section-title` class for section headers across templates. It must stay bold (`font-weight: 700`) and use `1.6667rem` on large screens (40px equivalent at 24px root size).
 
 ### text
 
 - Make all comments in the code in English.
 - Text instructions for development planning should be compiled in Russian.
 - This is a multilingual site with @nuxtjs/i18n. The project must support three languages: ru - Russian, en - English and kz - Kazakh. For text displayed to users, use the locales/ folder with files for en.json, ru.json, and kz.json, and use $t('key') for access in components.
+- If the user writes a dictionary key in parentheses like `(keyBenefits)`, insert it exactly as `$dictionary['keyBenefits']` in templates, without `isset`, `is_array`, fallback values, or any other checks unless the user explicitly asks for them.
 
 ### constants
 
