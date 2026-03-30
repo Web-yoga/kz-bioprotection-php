@@ -258,7 +258,15 @@ h6,
 		align-items: flex-start;
 	}
 
+	.site-footer__menu {
+		margin-bottom: var(--section-spacing);
+	}
+
 	.site-footer__contacts {
+		text-align: left;
+	}
+
+	.site-footer__contacts :where(p, div, span, a, br) {
 		text-align: left;
 	}
 }
@@ -790,6 +798,38 @@ h6,
 
 .news-list__text :where(p + p) {
 	margin-top: 1em;
+}
+
+.our-customers__grid {
+	margin-top: 1.5rem;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.our-customers {
+	margin-bottom: var(--section-spacing);
+}
+
+.our-customers__item {
+	display: flex;
+	justify-content: center;
+}
+
+.our-customers__image-wrap {
+	width: 100%;
+	max-width: 13.4375rem;
+	aspect-ratio: 1 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.our-customers__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 .news-item__card {
@@ -1391,6 +1431,11 @@ h6,
 	.home-solutions__lead,
 	.home-solutions__cta {
 		font-size: 1.3333rem;
+	}
+
+	.our-customers__grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--section-spacing);
 	}
 
 	.news-list__title {

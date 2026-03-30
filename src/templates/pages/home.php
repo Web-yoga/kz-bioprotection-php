@@ -12,13 +12,6 @@ $soilBtnDescription = trim((string) ($pageHomePayload['soilBtnDescription'] ?? '
 $soilBtnText = trim((string) ($pageHomePayload['soilBtnText'] ?? ''));
 $wastewaterBtnDescription = trim((string) ($pageHomePayload['wastewaterBtnDescription'] ?? ''));
 $wastewaterBtnText = trim((string) ($pageHomePayload['wastewaterBtnText'] ?? ''));
-$pageHomeJson = json_encode(
-	$pageHomePayload,
-	JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-);
-if ($pageHomeJson === false) {
-	$pageHomeJson = '{}';
-}
 ?>
 <?php if ($topText !== ''): ?>
 	<section class="home-top-text">
@@ -88,13 +81,36 @@ if ($pageHomeJson === false) {
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
 <?php
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$ourCustomers = fetchOurCustomersCollection((string) ($currentLanguage ?? 'en'));
 ?>
 <section id="news" class="news-events" style="margin-top: var(--section-spacing);">
 	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
 	<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
 </section>
-<section class="home-pagehome-data" aria-label="pageHome raw data">
-	<pre class="home-pagehome-data__pre"><?= htmlspecialchars($pageHomeJson, ENT_QUOTES, 'UTF-8'); ?></pre>
-</section>
-<?php
-require TEMPLATES_PATH . '/partials/slider.php';
+<?php if ($ourCustomers !== []): ?>
+	<section class="our-customers" style="margin-top: var(--section-spacing);">
+		<h2 class="section-title"><?= $dictionary['ourCustomers']; ?></h2>
+		<div class="our-customers__grid">
+			<?php foreach ($ourCustomers as $customer): ?>
+				<?php
+				$customer = (array) $customer;
+				$customerImagePath = trim((string) ($customer['image']['path'] ?? ''));
+				$customerImageUrl = $customerImagePath !== '' ? UPLOADS_BASE_URL . $customerImagePath : '';
+				if ($customerImageUrl === '') {
+					continue;
+				}
+				$customerTitle = trim((string) ($customer['title'] ?? ''));
+				?>
+				<div class="our-customers__item">
+					<div class="our-customers__image-wrap">
+						<img
+							class="our-customers__image"
+							src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+							alt="<?= htmlspecialchars($customerTitle, ENT_QUOTES, 'UTF-8'); ?>"
+							decoding="async" />
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</section>
+<?php endif; ?>

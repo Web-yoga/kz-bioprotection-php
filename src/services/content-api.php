@@ -122,6 +122,12 @@ function fetchArticlesCollection(string $language): array
 	return normalizeItemsCollection($articlesRaw);
 }
 
+function fetchOurCustomersCollection(string $language): array
+{
+	$customersRaw = fetchContentApiEntity('items', 'ourCustomers', $language);
+	return normalizeItemsCollection($customersRaw);
+}
+
 function findArticleBySlug(array $articlesCollection, string $slug): ?array
 {
 	$target = normalizePathSlug($slug);
