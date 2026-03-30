@@ -86,6 +86,13 @@ if ($pageHomeJson === false) {
 	</div>
 </section>
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
+<?php
+$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+?>
+<section id="news" class="news-events" style="margin-top: var(--section-spacing);">
+	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
+	<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+</section>
 <section class="home-pagehome-data" aria-label="pageHome raw data">
 	<pre class="home-pagehome-data__pre"><?= htmlspecialchars($pageHomeJson, ENT_QUOTES, 'UTF-8'); ?></pre>
 </section>

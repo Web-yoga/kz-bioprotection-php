@@ -16,11 +16,11 @@ $languageLabels = [
 ];
 
 $buildLanguageUrl = static function (string $targetLanguage, string $currentSlug): string {
-    if ($currentSlug === 'home') {
-        return '/' . $targetLanguage . '/';
-    }
+    $basePath = $currentSlug === 'home'
+        ? '/' . $targetLanguage . '/'
+        : '/' . $targetLanguage . '/' . $currentSlug;
 
-    return '/' . $targetLanguage . '/' . $currentSlug;
+    return $basePath . '?locale=' . rawurlencode($targetLanguage);
 };
 
 $homeUrl = '/' . $lang . '/';

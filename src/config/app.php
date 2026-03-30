@@ -22,13 +22,14 @@ function renderSitePage(string $slug, string $language): void
         return;
     }
 
-    $pageTemplate = PAGES_PATH . '/' . $routes[$slug] . '.php';
+    $pageTemplateName = $routes[$slug];
     $currentLanguage = $language;
     $currentSlug = $slug;
     $dictionaryContent = fetchDictionaryContent($language);
     $dictionary = normalizeDictionaryMap($dictionaryContent);
     $feedbackForm = fetchFeedbackFormContent($language);
     $footerContent = fetchFooterContent($language);
+    $pageTemplate = PAGES_PATH . '/' . $pageTemplateName . '.php';
     $pageContent = fetchPageContentBySlug($slug, $language);
     $seoContent = fetchSeoContentBySlug($slug, $language);
     $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
@@ -65,7 +66,11 @@ function renderSitePage(string $slug, string $language): void
         : (
             is_array($pageContent) && isset($pageContent['title']) && is_string($pageContent['title'])
                 ? trim($pageContent['title'])
-                : ''
+                : (
+                    is_array($pageContent) && isset($pageContent['name']) && is_string($pageContent['name'])
+                        ? trim($pageContent['name'])
+                        : ''
+                )
         );
     $pageSubtitleResolver = $pagePresentation['subtitleSource'] ?? null;
     $pageSubtitle = is_callable($pageSubtitleResolver)
@@ -126,6 +131,8 @@ function resolveRouteFromRequestUri(string $requestUri): ?array
     global $routes;
 
     $path = trim(parse_url($requestUri, PHP_URL_PATH) ?? '', '/');
+    $query = parse_url($requestUri, PHP_URL_QUERY) ?? '';
+    parse_str($query, $queryParams);
 
     if ($path === '') {
         return null;
@@ -139,6 +146,12 @@ function resolveRouteFromRequestUri(string $requestUri): ?array
     }
 
     $language = $segments[0];
+    $queryLanguage = isset($queryParams['locale']) && is_string($queryParams['locale'])
+        ? trim($queryParams['locale'])
+        : '';
+    if ($queryLanguage !== '' && in_array($queryLanguage, $supportedLanguages, true)) {
+        $language = $queryLanguage;
+    }
 
     if (!in_array($language, $supportedLanguages, true)) {
         return null;

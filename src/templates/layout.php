@@ -225,7 +225,7 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 	</div>
 	<?php if (!$isViteDevMode): ?>
 		<?php foreach ($viteAssets['js'] as $jsPath): ?>
-			<script src="<?= htmlspecialchars($jsPath, ENT_QUOTES, 'UTF-8'); ?>" defer></script>
+			<script type="module" src="<?= htmlspecialchars($jsPath, ENT_QUOTES, 'UTF-8'); ?>"></script>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </body>

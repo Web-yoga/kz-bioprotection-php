@@ -4,6 +4,9 @@
     "solutions": "Solutions",
     "contact": "Contact",
     "news_events": "News & Events"
+  },
+  "news": {
+    "list": "News list"
   }
 }
 
