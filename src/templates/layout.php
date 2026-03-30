@@ -221,7 +221,7 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 			</div>
 			<div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
 		</div>
-		<?php renderPartial('footer'); ?>
+		<?php renderPartial('footer', ['footerContent' => $footerContent]); ?>
 	</div>
 	<?php if (!$isViteDevMode): ?>
 		<?php foreach ($viteAssets['js'] as $jsPath): ?>

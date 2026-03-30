@@ -82,6 +82,11 @@ function fetchFeedbackFormContent(string $language): ?array
     return fetchContentApiEntity('item', 'feedbackForm', $language);
 }
 
+function fetchFooterContent(string $language): ?array
+{
+    return fetchContentApiEntity('item', 'footer', $language);
+}
+
 function normalizeItemsCollection(?array $collectionResponse): array
 {
     if (!is_array($collectionResponse) || $collectionResponse === []) {

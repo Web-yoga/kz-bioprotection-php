@@ -28,6 +28,7 @@ function renderSitePage(string $slug, string $language): void
     $dictionaryContent = fetchDictionaryContent($language);
     $dictionary = normalizeDictionaryMap($dictionaryContent);
     $feedbackForm = fetchFeedbackFormContent($language);
+    $footerContent = fetchFooterContent($language);
     $pageContent = fetchPageContentBySlug($slug, $language);
     $seoContent = fetchSeoContentBySlug($slug, $language);
     $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
