@@ -63,6 +63,29 @@ function getViteAssets(string $entry = 'resources/js/app.js'): array
 	];
 }
 
+/**
+ * Resolved JS URL for a Vite build entry, or empty string if missing from manifest (no fallback to main bundle).
+ */
+function getViteEntryJsUrl(string $entry): string
+{
+	$manifestPath = PUBLIC_PATH . '/assets/.vite/manifest.json';
+	if (!is_file($manifestPath)) {
+		return '';
+	}
+
+	$manifestRaw = file_get_contents($manifestPath);
+	if ($manifestRaw === false) {
+		return '';
+	}
+
+	$manifest = json_decode($manifestRaw, true);
+	if (!is_array($manifest) || !isset($manifest[$entry]['file'])) {
+		return '';
+	}
+
+	return '/assets/' . ltrim((string) $manifest[$entry]['file'], '/');
+}
+
 function getViteDevServerUrl(): ?string
 {
 	$viteUrl = getenv('VITE_DEV_SERVER_URL');

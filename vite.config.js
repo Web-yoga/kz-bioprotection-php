@@ -11,6 +11,10 @@ module.exports = defineConfig({
     rollupOptions: {
       input: {
         app: path.resolve(__dirname, "resources/js/app.js"),
+        "contact-form-textareas": path.resolve(
+          __dirname,
+          "resources/js/contact-form-textareas.js",
+        ),
       },
       output: {
         /* Content hash in filenames so cache invalidates after each build; paths come from manifest.json */

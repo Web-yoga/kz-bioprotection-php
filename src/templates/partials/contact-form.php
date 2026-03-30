@@ -93,11 +93,11 @@ $contactBtnText = isset($feedbackFormPayload['contactBtnText']) && is_string($fe
 									<label class="contact-form-section__label" for="<?= htmlspecialchars($inputId, ENT_QUOTES, 'UTF-8'); ?>">
 										<?= htmlspecialchars($fieldLabel, ENT_QUOTES, 'UTF-8'); ?>
 									</label>
-									<input
-										class="contact-form-section__field"
-										type="text"
+									<textarea
+										class="contact-form-section__field contact-form-section__field--grow"
 										id="<?= htmlspecialchars($inputId, ENT_QUOTES, 'UTF-8'); ?>"
-										name="<?= htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8'); ?>" />
+										name="<?= htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8'); ?>"
+										rows="1"></textarea>
 								</div>
 							<?php endif; ?>
 						<?php endforeach; ?>
@@ -110,3 +110,14 @@ $contactBtnText = isset($feedbackFormPayload['contactBtnText']) && is_string($fe
 		</div>
 	</form>
 </section>
+<?php
+$contactFormTextareasEntry = 'resources/js/contact-form-textareas.js';
+if (!empty($isViteDevMode) && isset($viteDevServerUrl) && is_string($viteDevServerUrl) && $viteDevServerUrl !== '') {
+	$contactFormTextareasSrc = rtrim($viteDevServerUrl, '/') . '/' . $contactFormTextareasEntry;
+} else {
+	$contactFormTextareasSrc = getViteEntryJsUrl($contactFormTextareasEntry);
+}
+?>
+<?php if ($contactFormTextareasSrc !== ''): ?>
+	<script type="module" src="<?= htmlspecialchars($contactFormTextareasSrc, ENT_QUOTES, 'UTF-8'); ?>"></script>
+<?php endif; ?>
