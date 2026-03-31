@@ -2,8 +2,10 @@ const { defineConfig } = require("vite");
 const tailwindcss = require("@tailwindcss/vite").default;
 const path = require("path");
 
-module.exports = defineConfig({
+module.exports = defineConfig(({ command }) => ({
   plugins: [tailwindcss()],
+  base: command === "build" ? "/assets/" : "/",
+  publicDir: false,
   build: {
     manifest: true,
     outDir: "public/assets",
@@ -24,9 +26,9 @@ module.exports = defineConfig({
           if (assetInfo.name && assetInfo.name.endsWith(".css")) {
             return "css/[name]-[hash].min.css";
           }
-          return "assets/[name]-[hash][extname]";
+          return "[name]-[hash][extname]";
         },
       },
     },
   },
-});
+}));
