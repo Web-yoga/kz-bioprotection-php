@@ -18,7 +18,7 @@ $buildLanguageUrl = static function (string $targetLanguage, string $currentSlug
 		? '/' . $targetLanguage . '/'
 		: '/' . $targetLanguage . '/' . $currentSlug;
 
-	return $basePath . '?locale=' . rawurlencode($targetLanguage);
+	return $basePath;
 };
 
 $homeUrl = '/' . $lang . '/';

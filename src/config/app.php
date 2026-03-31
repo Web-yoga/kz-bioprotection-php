@@ -40,7 +40,7 @@ function renderSitePage(string $slug, string $language): void
 
     $pagePresentationBySlug = [
         'home' => [
-            'backgroundImg' => '/assets/img/home/home-header.jpg',
+            'backgroundImg' => '/img/home/home-header.jpg',
             'endOfPageBackgroundImg' => '/img/home/home-bottom-bg.png',
             'titleSource' => static function () use ($pageHomePayload): string {
                 return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
@@ -60,6 +60,14 @@ function renderSitePage(string $slug, string $language): void
 
                 return '';
             },
+        ],
+        'oil-cleaning' => [
+            'backgroundImg' => '/img/oil-cleaning/oil-header.jpg',
+            'middleOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-middle.png',
+            'endOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-bottom.png',
+        ],
+        'wastewater-treatment' => [
+            'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',
         ],
     ];
 
@@ -101,6 +109,9 @@ function renderSitePage(string $slug, string $language): void
         : '';
     $endOfPageBackgroundImg = isset($pagePresentation['endOfPageBackgroundImg']) && is_string($pagePresentation['endOfPageBackgroundImg'])
         ? trim($pagePresentation['endOfPageBackgroundImg'])
+        : '';
+    $middleOfPageBackgroundImg = isset($pagePresentation['middleOfPageBackgroundImg']) && is_string($pagePresentation['middleOfPageBackgroundImg'])
+        ? trim($pagePresentation['middleOfPageBackgroundImg'])
         : '';
     $seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
         ? trim($seoContent['title'])

@@ -1,6 +1,8 @@
 import "../css/app.css";
 import "swiper/css";
+import "swiper/css/pagination";
 import { Swiper } from "swiper";
+import { Pagination } from "swiper/modules";
 import { animate } from "animejs";
 
 window.Swiper = Swiper;
@@ -84,3 +86,55 @@ if (dropdownItems.length > 0) {
 		closeAllDropdowns();
 	});
 }
+
+const beforeAfterBlocks = Array.from(document.querySelectorAll("[data-before-after]"));
+
+beforeAfterBlocks.forEach((block) => {
+	const range = block.querySelector(".oil-before-after__range");
+	if (!(range instanceof HTMLInputElement)) {
+		return;
+	}
+
+	const syncPosition = () => {
+		const nextPosition = Number.parseFloat(range.value);
+		if (Number.isNaN(nextPosition)) {
+			return;
+		}
+
+		const boundedPosition = Math.min(100, Math.max(0, nextPosition));
+		block.style.setProperty("--before-after-position", String(boundedPosition));
+	};
+
+	range.addEventListener("input", syncPosition);
+	range.addEventListener("change", syncPosition);
+	range.addEventListener("focus", () => {
+		block.classList.add("is-focused");
+	});
+	range.addEventListener("blur", () => {
+		block.classList.remove("is-focused");
+	});
+
+	syncPosition();
+});
+
+const oilCertificationsSliders = Array.from(
+	document.querySelectorAll("[data-oil-certifications-slider]"),
+);
+
+oilCertificationsSliders.forEach((sliderElement) => {
+	const paginationElement = sliderElement.querySelector(
+		"[data-oil-certifications-pagination]",
+	);
+
+	new Swiper(sliderElement, {
+		modules: [Pagination],
+		slidesPerView: "auto",
+		spaceBetween: 12,
+		speed: 450,
+		grabCursor: true,
+		pagination: {
+			el: paginationElement,
+			clickable: true,
+		},
+	});
+});

@@ -140,6 +140,43 @@ h6,
 	);
 }
 
+.page-middle-bg {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	height: 31.25rem;
+	transform: translateY(-50%);
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 1;
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 25%,
+		rgba(0, 0, 0, 1) 75%,
+		transparent 100%
+	);
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 1) 25%,
+		rgba(0, 0, 0, 1) 75%,
+		transparent 100%
+	);
+}
+
+.page-middle-bg__image {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center center;
+}
+
 .page-bottom-bg__image {
 	position: absolute;
 	left: 0;
@@ -727,6 +764,336 @@ h6,
 	font-size: 1rem;
 	line-height: 1.4;
 	color: #22323f;
+}
+
+.key-benefits--oil-cleaning .key-benefits__media-bg {
+	background-image: url('/img/oil-cleaning/oil-key-benefits.jpg');
+}
+
+.key-benefits__item--oil-cleaning {
+	align-items: center;
+}
+
+.key-benefits__icon--oil-cleaning {
+	flex-shrink: 0;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.oil-content-section {
+	margin-top: var(--section-spacing);
+}
+
+.oil-content-section__body {
+	margin-top: 1.5rem;
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.oil-before-after {
+	--before-after-position: 50;
+	position: relative;
+	margin-top: 1.5rem;
+	width: 100%;
+	height: 18rem;
+	border-radius: var(--home-solutions-radius);
+	overflow: hidden;
+	background-color: #dbeafe;
+	user-select: none;
+	touch-action: pan-y;
+}
+
+.oil-before-after__image,
+.oil-before-after__after-layer {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.oil-before-after__image {
+	display: block;
+	object-fit: cover;
+}
+
+.oil-before-after__after-layer {
+	clip-path: inset(0 calc(100% - (var(--before-after-position) * 1%)) 0 0);
+}
+
+.oil-before-after__divider {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(var(--before-after-position) * 1%);
+	width: 0.125rem;
+	transform: translateX(-50%);
+	background-color: rgba(255, 255, 255, 0.95);
+	box-shadow:
+		0 0 0.5rem rgba(0, 0, 0, 0.25),
+		0 0 0 0.0625rem rgba(34, 50, 63, 0.2);
+	z-index: 2;
+	pointer-events: none;
+}
+
+.oil-before-after__handle {
+	position: absolute;
+	top: 50%;
+	left: calc(var(--before-after-position) * 1%);
+	width: 3rem;
+	height: 3rem;
+	transform: translate(-50%, -50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.95);
+	box-shadow:
+		0 0.25rem 0.875rem rgba(0, 0, 0, 0.2),
+		0 0 0 0.0625rem rgba(34, 50, 63, 0.2);
+	z-index: 3;
+	pointer-events: none;
+}
+
+.oil-before-after__handle-line {
+	display: block;
+	width: 0.125rem;
+	height: 1rem;
+	border-radius: 999px;
+	background-color: #22323f;
+}
+
+.oil-before-after__range {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	opacity: 0;
+	cursor: ew-resize;
+	z-index: 4;
+}
+
+.oil-before-after.is-focused .oil-before-after__divider,
+.oil-before-after.is-focused .oil-before-after__handle {
+	box-shadow:
+		0 0 0 0.1875rem rgba(37, 99, 235, 0.25),
+		0 0.25rem 0.875rem rgba(0, 0, 0, 0.2);
+}
+
+.oil-certifications__slider {
+	margin-top: 0;
+}
+
+.oil-certifications .section-title + .oil-certifications__slider {
+	margin-top: 1.5rem;
+}
+
+.oil-certifications__slider .swiper-slide {
+	/* 154px at 16px root size to keep 262:355 ratio */
+	width: 9.5938rem;
+}
+
+.oil-certifications__slide {
+	border-radius: 0;
+	overflow: hidden;
+	height: 13rem;
+}
+
+.oil-certifications__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.oil-certifications__pagination {
+	margin-top: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.oil-certifications__pagination .swiper-pagination-bullet {
+	margin: 0 !important;
+	width: 0.5rem;
+	height: 0.5rem;
+	background-color: rgba(149, 193, 31, 1);
+	opacity: 0.35;
+	transition: opacity 0.2s ease;
+}
+
+.oil-certifications__pagination .swiper-pagination-bullet-active {
+	opacity: 1;
+}
+
+.oil-case-study__grid {
+	margin-top: 1.5rem;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+@media (max-width: 767px) {
+	.oil-case-study__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.oil-case-study__item {
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+
+.oil-case-study__image {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+}
+
+.oil-how-gallery {
+	margin-top: 1.5rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.oil-how-gallery__item {
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+
+.oil-how-gallery__img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 9 / 7;
+	object-fit: cover;
+}
+
+.oil-stages__image-wrap {
+	margin-top: 1.5rem;
+	display: none;
+}
+
+.oil-stages__image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.oil-stages__mobile-list {
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.oil-stage-card {
+	border-top: 1px solid #000000;
+	padding-top: 1.1875rem;
+	padding-bottom: 1.1875rem;
+	display: grid;
+	grid-template-columns: 2.75rem minmax(0, 1fr);
+	column-gap: 0.75rem;
+	align-items: stretch;
+}
+
+.oil-stage-card__number {
+	font-size: 2.25rem;
+	line-height: 1;
+	font-weight: 700;
+	color: #22323f;
+	display: flex;
+	align-items: flex-start;
+}
+
+.oil-stage-card__content {
+	font-size: 1.0625rem;
+	line-height: 1.45;
+	color: #22323f;
+}
+
+.oil-stage-card__title {
+	margin: 0 0 0.5rem;
+	font-size: 1.0625rem;
+	line-height: 1.35;
+	font-weight: 700;
+}
+
+.oil-stage-card__text {
+	font-size: 1.0625rem;
+	line-height: 1.45;
+}
+
+.oil-stage-card__text :where(p):first-child {
+	margin-top: 0;
+}
+
+.oil-stage-card__text :where(p):last-child {
+	margin-bottom: 0;
+}
+
+.key-benefits__text :where(ul),
+.oil-content-section__body :where(ul),
+.oil-stage-card__text :where(ul) {
+	margin: 0.5rem 0;
+	padding-left: 1.25rem;
+	list-style: disc;
+}
+
+.key-benefits__text :where(li),
+.oil-content-section__body :where(li),
+.oil-stage-card__text :where(li) {
+	margin: 0.25rem 0;
+}
+
+.key-benefits__text :where(li)::marker,
+.oil-content-section__body :where(li)::marker,
+.oil-stage-card__text :where(li)::marker {
+	color: #22323f;
+}
+
+.oil-diagram__image-wrap {
+	margin-top: 1.5rem;
+}
+
+.oil-diagram__image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+@media (min-width: 768px) {
+	.key-benefits--oil-cleaning .key-benefits__layout {
+		flex-direction: row;
+		align-items: stretch;
+		gap: var(--section-spacing);
+	}
+
+	.key-benefits--oil-cleaning .key-benefits__media {
+		width: 33.333333%;
+		aspect-ratio: auto;
+		min-height: 12rem;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.key-benefits--oil-cleaning .key-benefits__media-bg {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+
+	.oil-stages__image-wrap {
+		display: block;
+	}
+
+	.oil-stages__mobile-list {
+		display: none;
+	}
 }
 
 .home-solutions__grid {
@@ -1545,6 +1912,42 @@ h6,
 		height: 0.875rem;
 	}
 
+	/* 88px at 24px root */
+	.key-benefits__icon--oil-cleaning {
+		width: 3.6667rem;
+		height: 3.6667rem;
+	}
+
+	/* 360x280 at 24px root */
+	.oil-how-gallery {
+		justify-content: space-between;
+	}
+
+	.oil-how-gallery__item {
+		width: 15rem;
+		height: 11.6667rem;
+	}
+
+	/* 500px at 24px root size */
+	.oil-before-after {
+		height: 20.8333rem;
+	}
+
+	/* 355px at 24px root size */
+	.oil-certifications__slide {
+		height: 14.7917rem;
+	}
+
+	/* Keep 262px slide width when html font-size is 24px */
+	.oil-certifications__slider .swiper-slide {
+		width: 10.9167rem;
+	}
+
+	.oil-how-gallery__img {
+		height: 11.6667rem;
+		aspect-ratio: auto;
+	}
+
 	.home-solutions__grid {
 		gap: var(--section-spacing);
 		margin-top: 1.5rem;
@@ -1715,6 +2118,12 @@ h6,
 	.contact-form-section__desktop-strip {
 		/* 40px above bottom at 24px root */
 		bottom: 1.25rem;
+	}
+}
+
+@media (min-width: 1440px) {
+	.key-benefits--oil-cleaning .key-benefits__media {
+		width: 50%;
 	}
 }
 

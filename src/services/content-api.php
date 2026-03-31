@@ -93,6 +93,8 @@ function fetchPageContentBySlug(string $slug, string $language): ?array
 {
 	$pageSingletonMap = [
 		'home' => 'pageHome',
+		'oil-cleaning' => 'pageOil',
+		'wastewater-treatment' => 'pageWastewaterTreatment',
 	];
 
 	if (!isset($pageSingletonMap[$slug])) {
