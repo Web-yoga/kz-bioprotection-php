@@ -125,6 +125,19 @@ h6,
 	overflow: hidden;
 	pointer-events: none;
 	z-index: 1;
+	/* Fade out image top edge to avoid a hard clipping line. */
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 0.9) 28%,
+		rgba(0, 0, 0, 1) 100%
+	);
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		rgba(0, 0, 0, 0.9) 28%,
+		rgba(0, 0, 0, 1) 100%
+	);
 }
 
 .page-bottom-bg__image {
@@ -143,22 +156,6 @@ h6,
 	isolation: isolate;
 }
 
-.end-of-page-zone::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	height: 31.25rem;
-	pointer-events: none;
-	z-index: 0;
-	background: linear-gradient(
-		to top,
-		rgba(25, 44, 77, 0.35) 0,
-		rgba(25, 44, 77, 0) 100%
-	);
-}
-
 .end-of-page-zone .content-frame > * {
 	position: relative;
 	z-index: 2;
@@ -171,6 +168,30 @@ h6,
 .end-of-page-zone .site-footer {
 	position: relative;
 	z-index: 2;
+	overflow: visible;
+}
+
+.end-of-page-zone .site-footer::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 100%;
+	height: 18.75rem;
+	pointer-events: none;
+	z-index: 0;
+	background: linear-gradient(
+		to top,
+		rgba(25, 44, 77, 0.42) 0%,
+		rgba(25, 44, 77, 0.22) 40%,
+		rgba(25, 44, 77, 0.08) 72%,
+		rgba(25, 44, 77, 0) 100%
+	);
+}
+
+.end-of-page-zone .site-footer > * {
+	position: relative;
+	z-index: 1;
 }
 
 .end-of-page-bg {
@@ -1456,6 +1477,12 @@ h6,
 @media (min-width: 1024px) {
 	html {
 		font-size: 24px;
+	}
+
+	/* 20px at 24px root */
+	.site-top-menu__link,
+	.site-top-menu__trigger {
+		font-size: 0.8333rem;
 	}
 
 	:root {
