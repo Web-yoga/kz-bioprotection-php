@@ -199,7 +199,7 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 		<div class="content-frame">
 			<div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>
 			<div class="content-frame__main container mx-auto px-4">
-				<?php renderPartial('header', ['currentLanguage' => $currentLanguage, 'currentSlug' => $currentSlug]); ?>
+				<?php renderPartial('header', ['currentLanguage' => $currentLanguage, 'currentSlug' => $currentSlug, 'dictionary' => $dictionary]); ?>
 			</div>
 			<div class="content-frame__bleed content-frame__bleed--right" aria-hidden="true"></div>
 		</div>

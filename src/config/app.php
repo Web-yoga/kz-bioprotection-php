@@ -7,6 +7,10 @@ define('PUBLIC_PATH', BASE_PATH . '/public');
 define('SRC_PATH', BASE_PATH . '/src');
 define('TEMPLATES_PATH', SRC_PATH . '/templates');
 define('PAGES_PATH', TEMPLATES_PATH . '/pages');
+define('STORAGE_PATH', BASE_PATH . '/storage');
+
+require_once SRC_PATH . '/plugins/error-logger.php';
+setupGlobalPhpErrorLogger(STORAGE_PATH . '/logs/php-errors.log');
 
 $supportedLanguages = require SRC_PATH . '/config/languages.php';
 $routes = require SRC_PATH . '/config/routes.php';

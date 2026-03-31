@@ -16,7 +16,7 @@ $contactBtnText = isset($feedbackFormPayload['contactBtnText']) && is_string($fe
 	? trim($feedbackFormPayload['contactBtnText'])
 	: '';
 ?>
-<section class="contact-form-section">
+<section id="contact" class="contact-form-section">
 	<h2 class="section-title"><?= $dictionary['requestQuote']; ?></h2>
 	<form
 		class="contact-form-section__form"

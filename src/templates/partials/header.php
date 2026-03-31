@@ -17,6 +17,6 @@ $homeUrl = '/' . $lang . '/';
 	<div class="site-header__decor" aria-hidden="true"></div>
 
 	<div class="site-header__top-menu">
-		<?php renderPartial('top-menu', ['currentLanguage' => $currentLanguage ?? 'en', 'currentSlug' => $currentSlug ?? 'home']); ?>
+		<?php renderPartial('top-menu', ['currentLanguage' => $currentLanguage ?? 'en', 'currentSlug' => $currentSlug ?? 'home', 'dictionary' => $dictionary]); ?>
 	</div>
 </div>

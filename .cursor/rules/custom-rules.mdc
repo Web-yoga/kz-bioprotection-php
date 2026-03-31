@@ -18,7 +18,8 @@ alwaysApply: true
 
 - Make all comments in the code in English.
 - Text instructions for development planning should be compiled in Russian.
-- This is a multilingual site with @nuxtjs/i18n. The project must support three languages: ru - Russian, en - English and kz - Kazakh. For text displayed to users, use the locales/ folder with files for en.json, ru.json, and kz.json, and use $t('key') for access in components.
+- This is a multilingual site. The project must support three languages: ru - Russian, en - English and kz - Kazakh.
+- Local translation files must be used only for displaying errors. All other user-facing text should come from API dictionary content.
 - If the user writes a dictionary key in parentheses like `(keyBenefits)`, insert it exactly as `$dictionary['keyBenefits']` in templates, without `isset`, `is_array`, fallback values, or any other checks unless the user explicitly asks for them.
 
 ### constants
