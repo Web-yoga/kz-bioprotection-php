@@ -12,6 +12,9 @@ $soilBtnDescription = trim((string) ($pageHomePayload['soilBtnDescription'] ?? '
 $soilBtnText = trim((string) ($pageHomePayload['soilBtnText'] ?? ''));
 $wastewaterBtnDescription = trim((string) ($pageHomePayload['wastewaterBtnDescription'] ?? ''));
 $wastewaterBtnText = trim((string) ($pageHomePayload['wastewaterBtnText'] ?? ''));
+$ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePayload['ourCustomers'])
+	? $pageHomePayload['ourCustomers']
+	: [];
 ?>
 <?php if ($topText !== ''): ?>
 	<section class="home-top-text">
@@ -81,7 +84,6 @@ $wastewaterBtnText = trim((string) ($pageHomePayload['wastewaterBtnText'] ?? '')
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
 <?php
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
-$ourCustomers = fetchOurCustomersCollection((string) ($currentLanguage ?? 'en'));
 ?>
 <section id="news" class="news-events" style="margin-top: var(--section-spacing);">
 	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
@@ -90,8 +92,9 @@ $ourCustomers = fetchOurCustomersCollection((string) ($currentLanguage ?? 'en'))
 <?php if ($ourCustomers !== []): ?>
 	<section class="our-customers" style="margin-top: var(--section-spacing);">
 		<h2 class="section-title"><?= $dictionary['ourCustomers']; ?></h2>
-		<div class="our-customers__grid">
-			<?php foreach ($ourCustomers as $customer): ?>
+		<div class="our-customers__slider swiper" data-our-customers-slider>
+			<div class="swiper-wrapper">
+				<?php foreach ($ourCustomers as $customer): ?>
 				<?php
 				$customer = (array) $customer;
 				$customerImagePath = trim((string) ($customer['image']['path'] ?? ''));
@@ -99,18 +102,24 @@ $ourCustomers = fetchOurCustomersCollection((string) ($currentLanguage ?? 'en'))
 				if ($customerImageUrl === '') {
 					continue;
 				}
-				$customerTitle = trim((string) ($customer['title'] ?? ''));
+				$customerName = trim((string) ($customer['name'] ?? ''));
 				?>
-				<div class="our-customers__item">
-					<div class="our-customers__image-wrap">
-						<img
-							class="our-customers__image"
-							src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
-							alt="<?= htmlspecialchars($customerTitle, ENT_QUOTES, 'UTF-8'); ?>"
-							decoding="async" />
+					<div class="swiper-slide">
+						<article class="our-customers__item">
+							<div class="our-customers__image-wrap">
+								<img
+									class="our-customers__image"
+									src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+									alt="<?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?>"
+									decoding="async" />
+							</div>
+							<?php if ($customerName !== ''): ?>
+								<p class="our-customers__name"><?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?></p>
+							<?php endif; ?>
+						</article>
 					</div>
-				</div>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
+			</div>
 		</div>
 	</section>
 <?php endif; ?>

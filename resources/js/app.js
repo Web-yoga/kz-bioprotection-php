@@ -138,3 +138,16 @@ oilCertificationsSliders.forEach((sliderElement) => {
 		},
 	});
 });
+
+const ourCustomersSliders = Array.from(
+	document.querySelectorAll("[data-our-customers-slider]"),
+);
+
+ourCustomersSliders.forEach((sliderElement) => {
+	new Swiper(sliderElement, {
+		slidesPerView: "auto",
+		spaceBetween: 12,
+		speed: 450,
+		grabCursor: true,
+	});
+});
