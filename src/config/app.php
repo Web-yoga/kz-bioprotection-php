@@ -68,6 +68,8 @@ function renderSitePage(string $slug, string $language): void
         ],
         'wastewater-treatment' => [
             'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',
+            'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
+            'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
         ],
     ];
 

@@ -204,7 +204,7 @@ h6,
 
 .end-of-page-zone .site-footer {
 	position: relative;
-	z-index: 2;
+	z-index: 1;
 	overflow: visible;
 }
 
@@ -286,7 +286,7 @@ h6,
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 0.5rem;
+	gap: 1rem;
 }
 
 .site-footer__menu-item {
@@ -770,11 +770,28 @@ h6,
 	background-image: url('/img/oil-cleaning/oil-key-benefits.jpg');
 }
 
+.key-benefits--wastewater-treatment .key-benefits__media-bg {
+	background-image: url('/img/wastewater-treatment/wastewater-key.jpg');
+}
+
 .key-benefits__item--oil-cleaning {
 	align-items: center;
 }
 
+.key-benefits__item--wastewater-treatment {
+	align-items: center;
+}
+
 .key-benefits__icon--oil-cleaning {
+	flex-shrink: 0;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.key-benefits__icon--wastewater-treatment {
 	flex-shrink: 0;
 	width: 2.75rem;
 	height: 2.75rem;
@@ -930,6 +947,90 @@ h6,
 	opacity: 1;
 }
 
+.wastewater-case-study__slider {
+	margin-top: 0;
+}
+
+.wastewater-case-study .section-title + .wastewater-case-study__slider {
+	margin-top: 1.5rem;
+}
+
+.wastewater-case-study__slider .swiper-slide {
+	width: 16rem;
+}
+
+.wastewater-case-study__slide {
+	border-radius: 0.75rem;
+	overflow: hidden;
+	height: 12rem;
+	box-shadow: 0 0.25rem 0.75rem 0 rgba(0, 0, 0, 0.12);
+}
+
+.wastewater-case-study__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wastewater-case-study__pagination {
+	margin-top: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.wastewater-case-study__pagination .swiper-pagination-bullet {
+	margin: 0 !important;
+	width: 0.5rem;
+	height: 0.5rem;
+	background-color: rgba(149, 193, 31, 1);
+	opacity: 0.35;
+	transition: opacity 0.2s ease;
+}
+
+.wastewater-case-study__pagination .swiper-pagination-bullet-active {
+	opacity: 1;
+}
+
+.wastewater-case-study__text-list {
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.wastewater-case-study__text {
+	border-top: 1px solid #000000;
+	padding-top: 1rem;
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.wastewater-case-study__text :where(p):first-child {
+	margin-top: 0;
+}
+
+.wastewater-case-study__text :where(p):last-child {
+	margin-bottom: 0;
+}
+
+.wastewater-case-study__text :where(ul) {
+	margin: 0.75rem 0;
+	padding-left: 1.25rem;
+	list-style: disc;
+}
+
+.wastewater-case-study__text :where(li) {
+	margin: 0.375rem 0;
+}
+
+.wastewater-case-study__text :where(li)::marker {
+	color: #22323f;
+}
+
 .oil-case-study__grid {
 	margin-top: 1.5rem;
 	display: grid;
@@ -990,6 +1091,60 @@ h6,
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+}
+
+.wastewater-deployment {
+	margin-top: var(--section-spacing);
+}
+
+.wastewater-deployment__list {
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.wastewater-parameters {
+	margin-top: var(--section-spacing);
+}
+
+.wastewater-parameters__table {
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.wastewater-parameters__row {
+	width: 100%;
+	height: 2.875rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	align-items: center;
+	column-gap: 1rem;
+	padding: 0 1rem;
+	background: rgba(245, 250, 255, 1);
+	border-radius: 0;
+	box-shadow: 0 0.125rem 0.25rem 0 rgba(34, 50, 63, 0.2);
+}
+
+.wastewater-parameters__row--head {
+	background: rgba(231, 242, 254, 1);
+}
+
+.wastewater-parameters__cell {
+	font-size: 1rem;
+	line-height: 1.4;
+	color: #22323f;
+}
+
+.wastewater-parameters__cell--parameter {
+	text-align: left;
+}
+
+.wastewater-parameters__cell--value {
+	text-align: right;
+	justify-self: end;
 }
 
 .oil-stage-card {
@@ -1074,6 +1229,12 @@ h6,
 		gap: var(--section-spacing);
 	}
 
+	.key-benefits--wastewater-treatment .key-benefits__layout {
+		flex-direction: row;
+		align-items: stretch;
+		gap: var(--section-spacing);
+	}
+
 	.key-benefits--oil-cleaning .key-benefits__media {
 		width: 33.333333%;
 		aspect-ratio: auto;
@@ -1082,7 +1243,20 @@ h6,
 		flex-direction: column;
 	}
 
+	.key-benefits--wastewater-treatment .key-benefits__media {
+		width: 33.333333%;
+		aspect-ratio: auto;
+		min-height: 12rem;
+		display: flex;
+		flex-direction: column;
+	}
+
 	.key-benefits--oil-cleaning .key-benefits__media-bg {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+
+	.key-benefits--wastewater-treatment .key-benefits__media-bg {
 		flex: 1 1 auto;
 		min-height: 0;
 	}
@@ -1802,6 +1976,10 @@ h6,
 		--home-solutions-radius: 1rem;
 	}
 
+	.page-title.rounded-16 {
+		border-radius: 0 !important;
+	}
+
 	.contact-form-section__hero-sm-frame,
 	.contact-form-section__form-panel,
 	.contact-form-section__field,
@@ -1918,6 +2096,11 @@ h6,
 		height: 3.6667rem;
 	}
 
+	.key-benefits__icon--wastewater-treatment {
+		width: 3.6667rem;
+		height: 3.6667rem;
+	}
+
 	/* 360x280 at 24px root */
 	.oil-how-gallery {
 		justify-content: space-between;
@@ -1941,6 +2124,16 @@ h6,
 	/* Keep 262px slide width when html font-size is 24px */
 	.oil-certifications__slider .swiper-slide {
 		width: 10.9167rem;
+	}
+
+	/* 344px at 24px root size */
+	.wastewater-case-study__slide {
+		height: 14.3333rem;
+	}
+
+	/* 458px at 24px root size */
+	.wastewater-case-study__slider .swiper-slide {
+		width: 19.0833rem;
 	}
 
 	.oil-how-gallery__img {
@@ -2123,6 +2316,10 @@ h6,
 
 @media (min-width: 1440px) {
 	.key-benefits--oil-cleaning .key-benefits__media {
+		width: 50%;
+	}
+
+	.key-benefits--wastewater-treatment .key-benefits__media {
 		width: 50%;
 	}
 }

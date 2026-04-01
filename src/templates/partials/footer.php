@@ -2,15 +2,29 @@
 
 declare(strict_types=1);
 
-$bottomMenu = [];
-if (
-	isset($footerContent)
-	&& is_array($footerContent)
-	&& isset($footerContent['bottomMenu'])
-	&& is_array($footerContent['bottomMenu'])
-) {
-	$bottomMenu = $footerContent['bottomMenu'];
-}
+$lang = isset($currentLanguage) ? (string) $currentLanguage : 'en';
+$homeLabel = isset($dictionary['home']) && is_string($dictionary['home']) ? $dictionary['home'] : 'Home';
+$soilWaterCleanupLabel = isset($dictionary['menuSoilWaterCleanup']) && is_string($dictionary['menuSoilWaterCleanup'])
+	? $dictionary['menuSoilWaterCleanup']
+	: 'Soil and Water Cleanup';
+$wastewaterTreatmentLabel = isset($dictionary['menuWastewaterTreatment']) && is_string($dictionary['menuWastewaterTreatment'])
+	? $dictionary['menuWastewaterTreatment']
+	: 'Wastewater Treatment';
+
+$bottomMenu = [
+	[
+		'link' => '/' . $lang . '/',
+		'name' => $homeLabel,
+	],
+	[
+		'link' => '/' . $lang . '/oil-cleaning',
+		'name' => $soilWaterCleanupLabel,
+	],
+	[
+		'link' => '/' . $lang . '/wastewater-treatment',
+		'name' => $wastewaterTreatmentLabel,
+	],
+];
 
 $contactsHtml = '';
 if (isset($footerContent) && is_array($footerContent) && isset($footerContent['contacts']) && is_string($footerContent['contacts'])) {
