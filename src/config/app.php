@@ -15,6 +15,7 @@ setupGlobalPhpErrorLogger(STORAGE_PATH . '/logs/php-errors.log');
 $supportedLanguages = require SRC_PATH . '/config/languages.php';
 $routes = require SRC_PATH . '/config/routes.php';
 require_once SRC_PATH . '/services/content-api.php';
+require_once SRC_PATH . '/services/feedback-requests.php';
 
 function renderSitePage(string $slug, string $language): void
 {
@@ -142,6 +143,22 @@ function renderNotFound(): void
     echo '404';
 }
 
+function isJsonRequest(): bool
+{
+    $requestedWith = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && is_string($_SERVER['HTTP_X_REQUESTED_WITH'])
+        ? strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH']))
+        : '';
+    if ($requestedWith === 'xmlhttprequest') {
+        return true;
+    }
+
+    $acceptHeader = isset($_SERVER['HTTP_ACCEPT']) && is_string($_SERVER['HTTP_ACCEPT'])
+        ? strtolower($_SERVER['HTTP_ACCEPT'])
+        : '';
+
+    return str_contains($acceptHeader, 'application/json');
+}
+
 function resolveRouteFromRequestUri(string $requestUri): ?array
 {
     global $supportedLanguages;
@@ -199,6 +216,21 @@ function handleSiteRequest(): void
 
         renderNotFound();
         return;
+    }
+
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        $requestSaved = processFeedbackRequestFormSubmission($route['language']);
+        if (isJsonRequest()) {
+            header('Content-Type: application/json; charset=UTF-8');
+            http_response_code($requestSaved ? 200 : 422);
+            echo json_encode(['success' => $requestSaved], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            exit;
+        }
+
+        $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+        $redirectQuery = $requestSaved ? 'request_status=success' : 'request_status=error';
+        header('Location: ' . $requestPath . '?' . $redirectQuery . '#contact', true, 303);
+        exit;
     }
 
     renderSitePage($route['slug'], $route['language']);

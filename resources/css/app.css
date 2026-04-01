@@ -1661,6 +1661,83 @@ h6,
 	margin-top: 1.5rem;
 }
 
+.contact-form-section__status {
+	margin: 1rem 0 0;
+	padding: 0.75rem 1rem;
+	border-radius: 0.75rem;
+	font-size: 0.875rem;
+	line-height: 1.35;
+	font-weight: 600;
+}
+
+.contact-form-section__status--success {
+	color: #166534;
+	background: #dcfce7;
+}
+
+.contact-form-section__status--error {
+	color: #991b1b;
+	background: #fee2e2;
+}
+
+.contact-form-section__honeypot {
+	position: absolute !important;
+	left: -9999rem !important;
+	width: 0.0625rem;
+	height: 0.0625rem;
+	overflow: hidden;
+}
+
+.contact-form-modal[hidden] {
+	display: none;
+}
+
+.contact-form-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 60;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+
+.contact-form-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.56);
+}
+
+.contact-form-modal__dialog {
+	position: relative;
+	z-index: 1;
+	width: min(28rem, 100%);
+	background: #ffffff;
+	border-radius: 0.875rem;
+	padding: 2rem 1.25rem 1.5rem;
+	box-shadow: 0 0.75rem 2rem rgba(15, 23, 42, 0.22);
+}
+
+.contact-form-modal__close {
+	position: absolute;
+	top: 0.625rem;
+	right: 0.75rem;
+	border: none;
+	background: transparent;
+	font-size: 1.75rem;
+	line-height: 1;
+	color: #475569;
+	cursor: pointer;
+}
+
+.contact-form-modal__title {
+	margin: 0;
+	color: #0f172a;
+	font-size: 1rem;
+	line-height: 1.4;
+	font-weight: 700;
+}
+
 .contact-form-section__hero-sm {
 	width: 100%;
 }

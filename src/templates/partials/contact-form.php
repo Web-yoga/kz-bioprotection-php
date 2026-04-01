@@ -15,14 +15,56 @@ $technicalBtnText = isset($feedbackFormPayload['technicalBtnText']) && is_string
 $contactBtnText = isset($feedbackFormPayload['contactBtnText']) && is_string($feedbackFormPayload['contactBtnText'])
 	? trim($feedbackFormPayload['contactBtnText'])
 	: '';
+$currentLocale = isset($currentLanguage) && is_string($currentLanguage) ? trim($currentLanguage) : 'en';
+$contactFormRenderedAt = (string) time();
+$requestStatus = isset($_GET['request_status']) && is_string($_GET['request_status']) ? trim($_GET['request_status']) : '';
+$contactFormStatusMessage = '';
+$contactFormStatusClass = '';
+$contactFormSuccessMessage = isset($dictionary['requestFormSuccess']) && is_string($dictionary['requestFormSuccess'])
+	? trim($dictionary['requestFormSuccess'])
+	: '';
+$contactFormErrorMessage = isset($dictionary['requestFormError']) && is_string($dictionary['requestFormError'])
+	? trim($dictionary['requestFormError'])
+	: '';
+$contactFormSendingMessage = isset($dictionary['requestFormSending']) && is_string($dictionary['requestFormSending'])
+	? trim($dictionary['requestFormSending'])
+	: '';
+
+if ($requestStatus === 'success') {
+	$contactFormStatusMessage = $contactFormSuccessMessage;
+	$contactFormStatusClass = 'contact-form-section__status--success';
+} elseif ($requestStatus === 'error') {
+	$contactFormStatusMessage = $contactFormErrorMessage;
+	$contactFormStatusClass = 'contact-form-section__status--error';
+}
 ?>
 <section id="contact" class="contact-form-section">
 	<h2 class="section-title"><?= $dictionary['requestQuote']; ?></h2>
+	<?php if ($contactFormStatusMessage !== '' && $contactFormStatusClass !== ''): ?>
+		<p class="contact-form-section__status <?= htmlspecialchars($contactFormStatusClass, ENT_QUOTES, 'UTF-8'); ?>" role="status" aria-live="polite">
+			<?= htmlspecialchars($contactFormStatusMessage, ENT_QUOTES, 'UTF-8'); ?>
+		</p>
+	<?php endif; ?>
 	<form
 		class="contact-form-section__form"
 		method="post"
 		action="#"
+		data-success-message="<?= htmlspecialchars($contactFormSuccessMessage, ENT_QUOTES, 'UTF-8'); ?>"
+		data-error-message="<?= htmlspecialchars($contactFormErrorMessage, ENT_QUOTES, 'UTF-8'); ?>"
+		data-sending-message="<?= htmlspecialchars($contactFormSendingMessage, ENT_QUOTES, 'UTF-8'); ?>"
 		enctype="multipart/form-data">
+		<input type="hidden" name="locale" value="<?= htmlspecialchars($currentLocale, ENT_QUOTES, 'UTF-8'); ?>" />
+		<input type="hidden" name="submitted_at" value="<?= htmlspecialchars($contactFormRenderedAt, ENT_QUOTES, 'UTF-8'); ?>" />
+		<div class="contact-form-section__honeypot" aria-hidden="true">
+			<label for="contact-form-website"><?= htmlspecialchars('Website', ENT_QUOTES, 'UTF-8'); ?></label>
+			<input
+				type="text"
+				id="contact-form-website"
+				name="website"
+				value=""
+				tabindex="-1"
+				autocomplete="off" />
+		</div>
 		<div class="contact-form-section__hero-sm">
 			<div class="contact-form-section__hero-sm-frame img-shadow">
 				<div class="contact-form-section__hero-sm-square">
@@ -109,6 +151,17 @@ $contactBtnText = isset($feedbackFormPayload['contactBtnText']) && is_string($fe
 			</div>
 		</div>
 	</form>
+	<div class="contact-form-modal" hidden data-contact-form-modal>
+		<div class="contact-form-modal__backdrop" data-contact-form-modal-close></div>
+		<div class="contact-form-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="contact-form-modal-title">
+			<button type="button" class="contact-form-modal__close" aria-label="Close" data-contact-form-modal-close>
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h3 id="contact-form-modal-title" class="contact-form-modal__title">
+				<?= htmlspecialchars($contactFormSuccessMessage, ENT_QUOTES, 'UTF-8'); ?>
+			</h3>
+		</div>
+	</div>
 </section>
 <?php
 $contactFormTextareasEntry = 'resources/js/contact-form-textareas.js';
