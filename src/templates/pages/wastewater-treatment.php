@@ -172,7 +172,6 @@ $caseStudyText = array_values(array_filter(
 			<div class="wastewater-case-study__text-list">
 				<?php foreach ($caseStudyText as $caseStudyTextItem): ?>
 					<div class="wastewater-case-study__text"><?= $caseStudyTextItem; ?></div>
-				</div>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
