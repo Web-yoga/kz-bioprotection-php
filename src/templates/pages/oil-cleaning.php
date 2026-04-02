@@ -57,11 +57,11 @@ $caseStudy = array_values(array_filter(
 </section>
 <section class="oil-content-section">
 	<h2 class="section-title"><?= $dictionary['aboutTheTechnology']; ?></h2>
-	<div class="oil-content-section__body"><?= $aboutTheTechnology; ?></div>
+	<div class="oil-content-section__body oil-content-section__body--justified"><?= $aboutTheTechnology; ?></div>
 </section>
 <section class="oil-content-section">
 	<h2 class="section-title"><?= $dictionary['howDoesItWork']; ?></h2>
-	<div class="oil-content-section__body"><?= $howDoesItWork; ?></div>
+	<div class="oil-content-section__body oil-content-section__body--justified"><?= $howDoesItWork; ?></div>
 	<div class="oil-how-gallery">
 		<div class="oil-how-gallery__item img-shadow">
 			<img

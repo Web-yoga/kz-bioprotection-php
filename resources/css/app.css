@@ -681,6 +681,7 @@ h6,
 	color: #22323f;
 	font-size: 1rem;
 	line-height: 1.5;
+	text-align: justify;
 }
 
 .home-pagehome-data {
@@ -809,6 +810,10 @@ h6,
 	color: #22323f;
 	font-size: 1rem;
 	line-height: 1.5;
+}
+
+.oil-content-section__body--justified {
+	text-align: justify;
 }
 
 .oil-before-after {
