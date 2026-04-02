@@ -53,6 +53,13 @@ function showContactFormStatus(form, type, message) {
 		type === "success" ? STATUS_SUCCESS_CLASS : STATUS_ERROR_CLASS,
 	);
 	statusEl.textContent = message;
+
+	// Make sure the user sees the message even if it appears above the fold.
+	try {
+		statusEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+	} catch {
+		// ignore
+	}
 }
 
 function hideContactFormStatus(form) {
@@ -139,14 +146,23 @@ function updateFileInputLabel(form, fileInput) {
 async function submitContactFormWithAjax(form) {
 	const submitButton = form.querySelector(CONTACT_FORM_SUBMIT_SELECTOR);
 	const defaultSubmitText = submitButton ? submitButton.textContent ?? "" : "";
-	const sendingMessage = form.dataset.sendingMessage ?? "";
 	const successMessage = form.dataset.successMessage ?? "";
 	const errorMessage = form.dataset.errorMessage ?? "";
 
 	if (submitButton) {
 		submitButton.disabled = true;
-		if (sendingMessage) {
-			submitButton.textContent = sendingMessage;
+		submitButton.classList.add("is-loading");
+		submitButton.setAttribute("aria-busy", "true");
+
+		// Add spinner without changing button text.
+		let spinnerEl = submitButton.querySelector("[data-contact-form-spinner]");
+		if (!spinnerEl) {
+			spinnerEl = document.createElement("span");
+			spinnerEl.setAttribute("data-contact-form-spinner", "");
+			spinnerEl.className = "contact-form-section__submit-spinner";
+			// Keep accessible name from the button text; spinner is decorative.
+			spinnerEl.setAttribute("aria-hidden", "true");
+			submitButton.prepend(spinnerEl);
 		}
 	}
 
@@ -193,6 +209,9 @@ async function submitContactFormWithAjax(form) {
 	} finally {
 		if (submitButton) {
 			submitButton.disabled = false;
+			submitButton.classList.remove("is-loading");
+			submitButton.removeAttribute("aria-busy");
+			// Restore original text (safe if something else modified it earlier).
 			submitButton.textContent = defaultSubmitText;
 		}
 	}
@@ -203,6 +222,9 @@ function initContactForm() {
 	if (!form) {
 		return;
 	}
+
+	// Create status element upfront so errors are always visible.
+	getOrCreateStatusElement(form);
 
 	const textareas = form.querySelectorAll(CONTACT_FORM_TEXTAREA_SELECTOR);
 	textareas.forEach((textarea) => {

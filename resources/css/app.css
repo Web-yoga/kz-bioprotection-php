@@ -1673,11 +1673,11 @@ h6,
 }
 
 .contact-form-section .section-title {
-	margin-bottom: 0;
+	margin-bottom: 1.5rem;
 }
 
 .contact-form-section .section-title + .contact-form-section__form {
-	margin-top: 1.5rem;
+	margin-top: 0;
 }
 
 .contact-form-section__status {
@@ -1810,7 +1810,9 @@ h6,
 	box-sizing: border-box;
 	width: 100%;
 	padding: 0.5rem 1rem;
-	pointer-events: none;
+	/* Allow selecting/clicking the injected HTML from the CMS */
+	pointer-events: auto;
+	user-select: text;
 }
 
 .contact-form-section__hero-caption {
@@ -1961,9 +1963,50 @@ h6,
 	cursor: pointer;
 }
 
+.contact-form-section__submit-spinner {
+	display: none;
+	width: 1.125rem;
+	height: 1.125rem;
+	border-radius: 9999px;
+	border: 2px solid rgba(15, 23, 42, 0.2);
+	border-top-color: currentColor;
+	animation: contact-form-spinner-spin 0.8s linear infinite;
+	margin-right: 0.75rem;
+	flex: 0 0 auto;
+}
+
+.contact-form-section__submit.is-loading,
+.contact-form-section__submit:disabled {
+	cursor: progress;
+	background-color: #e5e7eb;
+	color: #6b7280;
+	opacity: 1;
+	box-shadow: none;
+}
+
+.contact-form-section__submit.is-loading:hover {
+	opacity: 1;
+}
+
+.contact-form-section__submit.is-loading .contact-form-section__submit-spinner {
+	display: inline-block;
+}
+
+.contact-form-section__submit.is-loading:focus-visible,
+.contact-form-section__submit:disabled:focus-visible {
+	outline: 2px solid rgba(107, 114, 128, 0.45);
+	outline-offset: 2px;
+}
+
 .contact-form-section__submit:focus-visible {
 	outline: 2px solid rgba(37, 99, 235, 0.45);
 	outline-offset: 2px;
+}
+
+@keyframes contact-form-spinner-spin {
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @media (min-width: 640px) {
@@ -2020,14 +2063,19 @@ h6,
 		position: relative;
 		z-index: 1;
 		box-sizing: border-box;
-		width: 100%;
+		/* Keep the CMS HTML block on the left half only (no overlap with form). */
+		width: 50%;
+		max-width: 50%;
 		padding: 0.5rem 1.25rem 0.5rem 1.25rem;
-		pointer-events: none;
+		/* Allow selecting/clicking the injected HTML from the CMS */
+		pointer-events: auto;
+		user-select: text;
 	}
 
 	.contact-form-section__desktop-caption {
-		width: 49%;
-		max-width: 49%;
+		/* Stretch caption to the entire strip-content width (left half). */
+		width: 100%;
+		max-width: 100%;
 		box-sizing: border-box;
 		margin: 0;
 		color: #ffffff;
@@ -2047,14 +2095,17 @@ h6,
 		position: relative;
 		z-index: 2;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		/* We already occupy only the right half; keep a single column inside. */
+		grid-template-columns: minmax(0, 1fr);
 		align-items: stretch;
 		min-height: 22rem;
 		box-sizing: border-box;
+		width: 50%;
+		margin-left: auto; /* stick to the right side */
 	}
 
 	.contact-form-section__form-column {
-		grid-column: 2;
+		grid-column: 1;
 		position: relative;
 		z-index: 3;
 		box-sizing: border-box;
@@ -2412,6 +2463,13 @@ h6,
 	.contact-form-section__desktop-strip {
 		/* 40px above bottom at 24px root */
 		bottom: 1.25rem;
+	}
+}
+
+/* Contact form: set top HTML text to 18px on `sm`+`md` only (640-1023). */
+@media (min-width: 640px) and (max-width: 1023px) {
+	.contact-form-section__desktop-caption {
+		font-size: 1.125rem; /* 18px at 16px root */
 	}
 }
 
