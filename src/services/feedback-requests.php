@@ -398,6 +398,10 @@ function processFeedbackRequestFormSubmission(string $fallbackLanguage): bool
 		'contact' => normalizeFeedbackRequestTextField('contact', 3000),
 		'technical' => '',
 	];
+	if ($payload['contact'] === '') {
+		logFeedbackRequestEvent('blocked_missing_contact', ['ip' => getFeedbackRequesterIp()]);
+		return false;
+	}
 
 	$storedTechnicalFile = storeFeedbackRequestTechnicalFile();
 	$technicalFileUrl = is_array($storedTechnicalFile) && isset($storedTechnicalFile['url']) && is_string($storedTechnicalFile['url'])

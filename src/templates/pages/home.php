@@ -84,11 +84,16 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
 <?php
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$newsItems = is_array($articlesJson) ? $articlesJson : [];
+$hasNewsItems = $newsItems !== [];
 ?>
-<section id="news" class="news-events" style="margin-top: var(--section-spacing);">
-	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-	<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
-</section>
+<div id="news"></div>
+<?php if ($hasNewsItems): ?>
+	<section class="news-events" style="margin-top: var(--section-spacing);">
+		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
+		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+	</section>
+<?php endif; ?>
 <?php if ($ourCustomers !== []): ?>
 	<section class="our-customers" style="margin-top: var(--section-spacing);">
 		<h2 class="section-title"><?= $dictionary['ourCustomers']; ?></h2>

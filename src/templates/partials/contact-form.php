@@ -29,6 +29,12 @@ $contactFormErrorMessage = isset($dictionary['requestFormError']) && is_string($
 $contactFormSendingMessage = isset($dictionary['requestFormSending']) && is_string($dictionary['requestFormSending'])
 	? trim($dictionary['requestFormSending'])
 	: '';
+$contactRequiredMessageByLocale = [
+	'ru' => 'Поле contact не заполнено.',
+	'en' => 'The contact field is required.',
+	'kz' => 'Contact өрісін толтыру қажет.',
+];
+$contactRequiredMessage = $contactRequiredMessageByLocale[$currentLocale] ?? $contactRequiredMessageByLocale['en'];
 
 if ($requestStatus === 'success') {
 	$contactFormStatusMessage = $contactFormSuccessMessage;
@@ -52,6 +58,7 @@ if ($requestStatus === 'success') {
 		data-success-message="<?= htmlspecialchars($contactFormSuccessMessage, ENT_QUOTES, 'UTF-8'); ?>"
 		data-error-message="<?= htmlspecialchars($contactFormErrorMessage, ENT_QUOTES, 'UTF-8'); ?>"
 		data-sending-message="<?= htmlspecialchars($contactFormSendingMessage, ENT_QUOTES, 'UTF-8'); ?>"
+		data-required-contact-message="<?= htmlspecialchars($contactRequiredMessage, ENT_QUOTES, 'UTF-8'); ?>"
 		enctype="multipart/form-data">
 		<input type="hidden" name="locale" value="<?= htmlspecialchars($currentLocale, ENT_QUOTES, 'UTF-8'); ?>" />
 		<input type="hidden" name="submitted_at" value="<?= htmlspecialchars($contactFormRenderedAt, ENT_QUOTES, 'UTF-8'); ?>" />
@@ -139,6 +146,7 @@ if ($requestStatus === 'success') {
 										class="contact-form-section__field contact-form-section__field--grow"
 										id="<?= htmlspecialchars($inputId, ENT_QUOTES, 'UTF-8'); ?>"
 										name="<?= htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8'); ?>"
+										<?= $fieldId === 'contact' ? 'required aria-required="true"' : ''; ?>
 										rows="1"></textarea>
 								</div>
 							<?php endif; ?>

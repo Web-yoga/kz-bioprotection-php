@@ -191,8 +191,13 @@ $caseStudy = array_values(array_filter(
 <?php
 require TEMPLATES_PATH . '/partials/contact-form.php';
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$newsItems = is_array($articlesJson) ? $articlesJson : [];
+$hasNewsItems = $newsItems !== [];
 ?>
-<section id="news" class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
-	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-	<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
-</section>
+<div id="news"></div>
+<?php if ($hasNewsItems): ?>
+	<section class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
+		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
+		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+	</section>
+<?php endif; ?>

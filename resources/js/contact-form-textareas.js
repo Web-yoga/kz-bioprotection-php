@@ -148,6 +148,14 @@ async function submitContactFormWithAjax(form) {
 	const defaultSubmitText = submitButton ? submitButton.textContent ?? "" : "";
 	const successMessage = form.dataset.successMessage ?? "";
 	const errorMessage = form.dataset.errorMessage ?? "";
+	const requiredContactMessage =
+		form.dataset.requiredContactMessage ?? "The contact field is required.";
+	const contactField = form.querySelector('textarea[name="contact"]');
+	if (contactField && !String(contactField.value ?? "").trim()) {
+		showContactFormStatus(form, "error", requiredContactMessage);
+		contactField.focus();
+		return;
+	}
 
 	if (submitButton) {
 		submitButton.disabled = true;

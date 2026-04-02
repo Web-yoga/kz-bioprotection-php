@@ -148,32 +148,31 @@ $caseStudyText = array_values(array_filter(
 		</div>
 	</section>
 <?php endif; ?>
-<?php if ($caseStudy !== [] || $caseStudyText !== []): ?>
+<?php if ($caseStudy !== []): ?>
 	<section class="oil-content-section wastewater-case-study">
 		<h2 class="section-title"><?= $dictionary['caseStudy']; ?></h2>
-		<?php if ($caseStudy !== []): ?>
-			<div class="wastewater-case-study__slider swiper" data-oil-certifications-slider>
-				<div class="swiper-wrapper">
-					<?php foreach ($caseStudy as $caseStudyItem): ?>
-						<?php $caseStudyImageUrl = UPLOADS_BASE_URL . ltrim((string) $caseStudyItem['path'], '/'); ?>
-						<div class="swiper-slide">
-							<div class="wastewater-case-study__slide">
-								<img
-									class="wastewater-case-study__image"
-									src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
-									alt=""
-									decoding="async" />
-							</div>
+		<div class="wastewater-case-study__slider swiper" data-oil-certifications-slider>
+			<div class="swiper-wrapper">
+				<?php foreach ($caseStudy as $caseStudyItem): ?>
+					<?php $caseStudyImageUrl = UPLOADS_BASE_URL . ltrim((string) $caseStudyItem['path'], '/'); ?>
+					<div class="swiper-slide">
+						<div class="wastewater-case-study__slide">
+							<img
+								class="wastewater-case-study__image"
+								src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+								alt=""
+								decoding="async" />
 						</div>
-					<?php endforeach; ?>
-				</div>
-				<div class="wastewater-case-study__pagination" data-oil-certifications-pagination></div>
+					</div>
+				<?php endforeach; ?>
 			</div>
-		<?php endif; ?>
+			<div class="wastewater-case-study__pagination" data-oil-certifications-pagination></div>
+		</div>
 		<?php if ($caseStudyText !== []): ?>
 			<div class="wastewater-case-study__text-list">
 				<?php foreach ($caseStudyText as $caseStudyTextItem): ?>
 					<div class="wastewater-case-study__text"><?= $caseStudyTextItem; ?></div>
+				</div>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
@@ -182,9 +181,14 @@ $caseStudyText = array_values(array_filter(
 <?php
 require TEMPLATES_PATH . '/partials/contact-form.php';
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$newsItems = is_array($articlesJson) ? $articlesJson : [];
+$hasNewsItems = $newsItems !== [];
 ?>
-<section id="news" class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
-	<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-	<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
-</section>
+<div id="news"></div>
+<?php if ($hasNewsItems): ?>
+	<section class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
+		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
+		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+	</section>
+<?php endif; ?>
 <?php
