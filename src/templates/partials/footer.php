@@ -34,7 +34,7 @@ if (isset($footerContent) && is_array($footerContent) && isset($footerContent['c
 ?>
 <footer class="site-footer">
 	<div class="site-footer__inner container mx-auto px-4">
-		<nav class="site-footer__menu" aria-label="Footer menu">
+		<nav class="site-footer__menu w-full max-w-full md:max-w-1/3" aria-label="Footer menu">
 			<ul class="site-footer__menu-list">
 				<?php foreach ($bottomMenu as $item): ?>
 					<?php
