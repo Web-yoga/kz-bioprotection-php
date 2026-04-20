@@ -59,7 +59,7 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 				/>
 			</div>
 			<div class="home-solutions__copy">
-				<h3 class="home-solutions__lead"><?= htmlspecialchars($soilBtnDescription, ENT_QUOTES, 'UTF-8'); ?></h3>
+				<h3 class="home-solutions__lead"><?= escapeHtmlAllowBr($soilBtnDescription); ?></h3>
 				<a class="home-solutions__cta" href="<?= htmlspecialchars($oilCleaningUrl, ENT_QUOTES, 'UTF-8'); ?>"><?= htmlspecialchars($soilBtnText, ENT_QUOTES, 'UTF-8'); ?></a>
 			</div>
 		</div>
@@ -75,7 +75,7 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 				/>
 			</div>
 			<div class="home-solutions__copy">
-				<h3 class="home-solutions__lead"><?= htmlspecialchars($wastewaterBtnDescription, ENT_QUOTES, 'UTF-8'); ?></h3>
+				<h3 class="home-solutions__lead"><?= escapeHtmlAllowBr($wastewaterBtnDescription); ?></h3>
 				<a class="home-solutions__cta" href="<?= htmlspecialchars($wastewaterTreatmentUrl, ENT_QUOTES, 'UTF-8'); ?>"><?= htmlspecialchars($wastewaterBtnText, ENT_QUOTES, 'UTF-8'); ?></a>
 			</div>
 		</div>

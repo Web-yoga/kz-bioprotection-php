@@ -16,6 +16,7 @@ $supportedLanguages = require SRC_PATH . '/config/languages.php';
 $routes = require SRC_PATH . '/config/routes.php';
 require_once SRC_PATH . '/services/content-api.php';
 require_once SRC_PATH . '/services/feedback-requests.php';
+require_once SRC_PATH . '/utils/html.php';
 
 function renderSitePage(string $slug, string $language): void
 {

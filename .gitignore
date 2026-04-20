@@ -18,6 +18,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.log
+storage/logs/
+storage/rate-limits/
+public/uploads/requests/
 
 # Coverage
 coverage/
