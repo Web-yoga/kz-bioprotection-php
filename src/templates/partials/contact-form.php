@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$dictionary = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
+
 $feedbackFormPayload = isset($feedbackForm) && is_array($feedbackForm) ? $feedbackForm : [];
 $contactFormFields = isset($feedbackFormPayload['contactFormFields']) && is_array($feedbackFormPayload['contactFormFields'])
 	? $feedbackFormPayload['contactFormFields']

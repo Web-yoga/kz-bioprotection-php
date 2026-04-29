@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$dictionary = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
+
 $pageWastewaterPayload = isset($pageContent) && is_array($pageContent) ? $pageContent : [];
 $topText = isset($pageWastewaterPayload['topText']) ? trim((string) $pageWastewaterPayload['topText']) : '';
 $benefits = $pageWastewaterPayload['benefits'] ?? [];
@@ -179,7 +181,7 @@ $caseStudyText = array_values(array_filter(
 <?php endif; ?>
 <?php
 require TEMPLATES_PATH . '/partials/contact-form.php';
-$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$articlesJson = fetchArticlesCollectionApi((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
 $hasNewsItems = $newsItems !== [];
 ?>

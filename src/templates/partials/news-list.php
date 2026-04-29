@@ -26,7 +26,7 @@ $newsCardLinkLabel = 'Open news';
 			$itemText = trim((string) ($announcement['text'] ?? ''));
 			$modalImagePath = trim((string) (($item['images'][0]['image']['path'] ?? '')));
 			$modalImage = $modalImagePath !== '' ? UPLOADS_BASE_URL . $modalImagePath : $itemImage;
-			$modalTitle = trim((string) ($item['tite'] ?? $item['title'] ?? ''));
+			$modalTitle = trim((string) ($item['title'] ?? ''));
 			$modalContent = (string) ($item['content'] ?? '');
 			?>
 			<article class="news-list__card">
@@ -127,15 +127,17 @@ $newsCardLinkLabel = 'Open news';
 
 		const normalizeSlug = (slug) =>
 			String(slug || '')
-				.trim()
-				.toLowerCase()
-				.replace(/^\/+|\/+$/g, '');
+			.trim()
+			.toLowerCase()
+			.replace(/^\/+|\/+$/g, '');
 		const buildUploadUrl = (path) =>
 			`${uploadsBase}/${String(path || '').trim().replace(/^\/+/, '')}`;
 
 		const loadNewsBySlug = async (slug) => {
 			const requestUrl = `${apiBase}/items/articles?locale=${encodeURIComponent(currentLanguage)}`;
-			const response = await fetch(requestUrl, { credentials: 'omit' });
+			const response = await fetch(requestUrl, {
+				credentials: 'omit'
+			});
 			const payload = await response.json();
 			const articles = normalizeArticles(payload);
 			const targetSlug = normalizeSlug(slug);
@@ -144,12 +146,10 @@ $newsCardLinkLabel = 'Open news';
 			const announcementImagePath = announcement?.image?.path || '';
 			const modalImagePath = item?.images?.[0]?.image?.path || '';
 			return {
-				image: modalImagePath
-					? buildUploadUrl(modalImagePath)
-					: announcementImagePath
-						? buildUploadUrl(announcementImagePath)
-						: '',
-				title: String(item.tite || item.title || '').trim(),
+				image: modalImagePath ?
+					buildUploadUrl(modalImagePath) : announcementImagePath ?
+					buildUploadUrl(announcementImagePath) : '',
+				title: String(item.title || '').trim(),
 				content: String(item.content || ''),
 			};
 		};

@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+#api
+api/
+
 # Build outputs
 dist/
 build/

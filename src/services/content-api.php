@@ -89,7 +89,7 @@ function fetchContentApiEntity(string $resourceType, string $resourceName, strin
 	return $requestCache[$url];
 }
 
-function fetchPageContentBySlug(string $slug, string $language): ?array
+function fetchPageContentBySlugApi(string $slug, string $language): ?array
 {
 	$pageSingletonMap = [
 		'home' => 'pageHome',
@@ -104,7 +104,7 @@ function fetchPageContentBySlug(string $slug, string $language): ?array
 	return fetchContentApiEntity('item', $pageSingletonMap[$slug], $language);
 }
 
-function fetchArticlesRaw(string $language): ?array
+function fetchArticlesRawApi(string $language): ?array
 {
 	return fetchContentApiEntity('items', 'articles', $language);
 }
@@ -118,13 +118,13 @@ function normalizePathSlug(string $slug): string
 	return $normalized;
 }
 
-function fetchArticlesCollection(string $language): array
+function fetchArticlesCollectionApi(string $language): array
 {
-	$articlesRaw = fetchArticlesRaw($language);
+	$articlesRaw = fetchArticlesRawApi($language);
 	return normalizeItemsCollection($articlesRaw);
 }
 
-function fetchOurCustomersCollection(string $language): array
+function fetchOurCustomersCollectionApi(string $language): array
 {
 	$customersRaw = fetchContentApiEntity('items', 'ourCustomers', $language);
 	return normalizeItemsCollection($customersRaw);
@@ -155,23 +155,23 @@ function findArticleBySlug(array $articlesCollection, string $slug): ?array
 	return null;
 }
 
-function fetchArticleBySlug(string $slug, string $language): ?array
+function fetchArticleBySlugApi(string $slug, string $language): ?array
 {
-	$articles = fetchArticlesCollection($language);
+	$articles = fetchArticlesCollectionApi($language);
 	return findArticleBySlug($articles, $slug);
 }
 
-function fetchDictionaryContent(string $language): ?array
+function fetchDictionaryContentFromApi(string $language): ?array
 {
 	return fetchContentApiEntity('item', 'dictionary', $language);
 }
 
-function fetchFeedbackFormContent(string $language): ?array
+function fetchFeedbackFormContentApi(string $language): ?array
 {
 	return fetchContentApiEntity('item', 'feedbackForm', $language);
 }
 
-function fetchFooterContent(string $language): ?array
+function fetchFooterContentApi(string $language): ?array
 {
 	return fetchContentApiEntity('item', 'footer', $language);
 }
@@ -230,7 +230,7 @@ function findSeoItemBySlug(array $items, string $slug): ?array
 	return null;
 }
 
-function fetchSeoContentBySlug(string $slug, string $language): ?array
+function fetchSeoContentBySlugApi(string $slug, string $language): ?array
 {
 	$requestedLanguage = trim($language) !== '' ? trim($language) : 'en';
 	$seoCollection = fetchContentApiEntity('items', 'seo', $requestedLanguage);

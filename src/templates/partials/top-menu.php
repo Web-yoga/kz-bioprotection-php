@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 global $supportedLanguages;
+$dictionary = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
 
 $lang = isset($currentLanguage) ? (string) $currentLanguage : 'en';
 $slug = isset($currentSlug) ? (string) $currentSlug : 'home';

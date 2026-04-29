@@ -1374,14 +1374,14 @@ h6,
 .news-list__grid {
 	display: flex;
 	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	align-items: stretch;
 	gap: 0.75rem;
 }
 
 .news-list__card {
-	flex: 1 1 0;
-	min-width: 0;
+	flex: 0 1 calc((100% - 0.75rem) / 2);
+	min-width: calc((100% - 0.75rem) / 2);
 	box-sizing: border-box;
 	padding: 0;
 	border-radius: var(--home-solutions-radius);
@@ -2159,14 +2159,15 @@ h6,
 	}
 
 	.news-list__grid {
-		flex-direction: column;
+		flex-direction: row;
+		flex-wrap: wrap;
 		align-items: stretch;
-		gap: var(--section-spacing);
+		gap: 0.75rem;
 	}
 
 	.news-list__card {
-		flex: 0 1 auto;
-		width: 100%;
+		flex: 0 1 calc((100% - 0.75rem) / 2);
+		width: calc((100% - 0.75rem) / 2);
 		min-height: 0;
 	}
 }

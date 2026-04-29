@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$dictionary = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
+
 $pageHomePayload = isset($pageContent) && is_array($pageContent) ? $pageContent : [];
 $topText = isset($pageHomePayload['topText']) ? trim((string) $pageHomePayload['topText']) : '';
 $benefits = $pageHomePayload['benefits'] ?? [];
@@ -83,7 +85,7 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 </section>
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
 <?php
-$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$articlesJson = fetchArticlesCollectionApi((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
 $hasNewsItems = $newsItems !== [];
 ?>

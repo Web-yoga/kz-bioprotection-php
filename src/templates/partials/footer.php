@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$dictionary = isset($dictionary) && is_array($dictionary) ? $dictionary : [];
+
 $lang = isset($currentLanguage) ? (string) $currentLanguage : 'en';
 $homeLabel = isset($dictionary['home']) && is_string($dictionary['home']) ? $dictionary['home'] : 'Home';
 $soilWaterCleanupLabel = isset($dictionary['menuSoilWaterCleanup']) && is_string($dictionary['menuSoilWaterCleanup'])

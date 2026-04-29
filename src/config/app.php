@@ -15,6 +15,7 @@ setupGlobalPhpErrorLogger(STORAGE_PATH . '/logs/php-errors.log');
 $supportedLanguages = require SRC_PATH . '/config/languages.php';
 $routes = require SRC_PATH . '/config/routes.php';
 require_once SRC_PATH . '/services/content-api.php';
+require_once SRC_PATH . '/services/content-sqlite.php';
 require_once SRC_PATH . '/services/feedback-requests.php';
 require_once SRC_PATH . '/utils/html.php';
 
@@ -33,11 +34,11 @@ function renderSitePage(string $slug, string $language): void
     $currentSlug = $slug;
     $dictionaryContent = fetchDictionaryContent($language);
     $dictionary = normalizeDictionaryMap($dictionaryContent);
-    $feedbackForm = fetchFeedbackFormContent($language);
-    $footerContent = fetchFooterContent($language);
+    $feedbackForm = fetchFeedbackFormContentApi($language);
+    $footerContent = fetchFooterContentApi($language);
     $pageTemplate = PAGES_PATH . '/' . $pageTemplateName . '.php';
-    $pageContent = fetchPageContentBySlug($slug, $language);
-    $seoContent = fetchSeoContentBySlug($slug, $language);
+    $pageContent = fetchPageContentBySlugApi($slug, $language);
+    $seoContent = fetchSeoContentBySlugApi($slug, $language);
     $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
 
     $pagePresentationBySlug = [
