@@ -192,7 +192,7 @@ $caseStudy = array_values(array_filter(
 <?php endif; ?>
 <?php
 require TEMPLATES_PATH . '/partials/contact-form.php';
-$articlesJson = fetchArticlesCollectionApi((string) ($currentLanguage ?? 'en'));
+$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
 $hasNewsItems = $newsItems !== [];
 ?>

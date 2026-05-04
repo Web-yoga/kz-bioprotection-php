@@ -85,7 +85,7 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 </section>
 <?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
 <?php
-$articlesJson = fetchArticlesCollectionApi((string) ($currentLanguage ?? 'en'));
+$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
 $hasNewsItems = $newsItems !== [];
 ?>

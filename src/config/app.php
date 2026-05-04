@@ -34,11 +34,11 @@ function renderSitePage(string $slug, string $language): void
     $currentSlug = $slug;
     $dictionaryContent = fetchDictionaryContent($language);
     $dictionary = normalizeDictionaryMap($dictionaryContent);
-    $feedbackForm = fetchFeedbackFormContentApi($language);
-    $footerContent = fetchFooterContentApi($language);
+    $feedbackForm = fetchFeedbackFormContent($language);
+    $footerContent = fetchFooterContent($language);
     $pageTemplate = PAGES_PATH . '/' . $pageTemplateName . '.php';
-    $pageContent = fetchPageContentBySlugApi($slug, $language);
-    $seoContent = fetchSeoContentBySlugApi($slug, $language);
+    $pageContent = fetchPageContentBySlug($slug, $language);
+    $seoContent = fetchSeoContentBySlug($slug, $language);
     $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
 
     $pagePresentationBySlug = [

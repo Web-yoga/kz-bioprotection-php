@@ -25,3 +25,7 @@ alwaysApply: true
 ### constants
 
 - All major global constants should be stored in a file constants/index.js
+
+### sqlite
+
+- When creating functions for SQLite in src\services\content-sqlite.php, create similar functions for API in src\services\content-api.php for reworking the site for Nuxt js in the future. API functions should not be used in the project now.

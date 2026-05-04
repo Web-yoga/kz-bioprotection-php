@@ -1,0 +1,58 @@
+Соответствие функций HTTP Content API (src/services/content-api.php) и чтения из SQLite (src/services/content-sqlite.php)
+================================================================================
+
+Общее
+-----
+- PHP-сайт использует только слой SQLite. Функции с суффиксом Api в content-api.php оставлены для будущего клиента (например, Nuxt), который будет ходить на тот же REST API.
+- Все обращения к файлу content.sqlite идут через одну функцию queryCockpitContentSqlite(): проверка пути к БД, наличия драйвера PDO sqlite, валидация SQL/параметров, prepare/execute, логирование, перехват исключений.
+- Остальные функции content-sqlite.php задают SQL и параметры и обрабатывают JSON-документы Cockpit после выборки.
+
+Таблица соответствия (API → SQLite)
+-----------------------------------
+
+1) fetchContentApiEntity('item', <singletonModel>, $language)
+   → fetchSingletonDocumentByModel('<singletonModel>', $language)
+   Источник данных: таблица singletons, условие json_extract(document, '$._model') = :model.
+   Локализация: mergeCockpitLocaleFields() — поля с суффиксами _en / _ru / _kk (kz → kk).
+
+2) fetchContentApiEntity('item', 'dictionary', $language)
+   → fetchDictionaryContent($language)
+   Тот же источник (singletons, модель dictionary), но словарь приводится к плоской карте через extractLocalizedDictionary() (как раньше), а не через mergeCockpitLocaleFields.
+
+3) fetchContentApiEntity('items', 'articles', $language)
+   → fetchArticlesRaw($language) и fetchArticlesCollection($language)
+   Источник: таблица collections_articles, все строки, колонка document.
+   Локализация: mergeCockpitLocaleFields для каждой записи.
+   fetchArticlesCollection дополнительно прогоняет результат через normalizeItemsCollection() из content-api.php (тот же контракт, что у API).
+
+4) fetchContentApiEntity('items', 'seo', $language)
+   → внутри fetchSeoContentBySlug() — выборка из collections_seo с той же локализацией.
+   Fallback по языку (если для текущей локали запись не найдена — повторная выборка с en) выполняется только внутри SQLite-слоя, без HTTP.
+
+5) fetchContentApiEntity('items', 'ourCustomers', $language)
+   → fetchOurCustomersCollection($language)
+   В текущей базе отдельной таблицы коллекции ourCustomers нет; блок «наши клиенты» на главной берётся из singleton pageHome. Функция возвращает пустой массив. После появления таблицы в allowlist (константа COCKPIT_SQLITE_ALLOWED_COLLECTION_TABLES) и данных запрос можно включить без смены контракта функции.
+
+6) fetchPageContentBySlugApi($slug, $language)
+   → fetchPageContentBySlug($slug, $language)
+   Маппинг slug → имя singleton: home → pageHome, oil-cleaning → pageOil, wastewater-treatment → pageWastewaterTreatment; далее fetchSingletonDocumentByModel.
+
+7) fetchFeedbackFormContentApi($language)
+   → fetchFeedbackFormContent($language)
+   Singleton feedbackForm.
+
+8) fetchFooterContentApi($language)
+   → fetchFooterContent($language)
+   Singleton footer.
+
+9) fetchArticleBySlugApi($slug, $language)
+   → fetchArticleBySlug($slug, $language)
+   Сбор коллекции статей из SQLite и findArticleBySlug() из content-api.php.
+
+10) fetchSeoContentBySlugApi($slug, $language)
+    → fetchSeoContentBySlug($slug, $language)
+    Коллекция collections_seo, normalizeItemsCollection, findSeoItemBySlug; при необходимости вторая выборка с локалью en.
+
+Вспомогательные функции, остающиеся в content-api.php
+----------------------------------------------------
+resolveContentApiLanguage(), normalizeItemsCollection(), findArticleBySlug(), findSeoItemBySlug(), normalizeDictionaryMap(), normalizePathSlug(), normalizeSeoSlug(), buildContentApiUrl(), fetchContentApiEntity() — используются сайтом там, где указано выше; URL-константы CONTENT_API_BASE_URL и UPLOADS_BASE_URL по-прежнему нужны шаблонам (например, клиентский JS в news-list.php).
