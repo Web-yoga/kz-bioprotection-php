@@ -163,6 +163,27 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+		(function () {
+			var root = document.documentElement;
+			var markSupport = function (isSupported) {
+				root.classList.add(isSupported ? 'webp-support' : 'no-webp-support');
+			};
+
+			try {
+				var canvas = document.createElement('canvas');
+				if (!canvas.getContext || !canvas.getContext('2d')) {
+					markSupport(false);
+					return;
+				}
+
+				var data = canvas.toDataURL('image/webp');
+				markSupport(data.indexOf('data:image/webp') === 0);
+			} catch (error) {
+				markSupport(false);
+			}
+		})();
+	</script>
 	<title><?= htmlspecialchars($resolvedSeoTitle !== '' ? $resolvedSeoTitle : 'PHP Skeleton', ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php if ($resolvedSeoDescription !== ''): ?>
 		<meta name="description" content="<?= htmlspecialchars($resolvedSeoDescription, ENT_QUOTES, 'UTF-8'); ?>">
