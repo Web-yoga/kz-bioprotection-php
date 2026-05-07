@@ -78,6 +78,9 @@ $newsCardLinkLabel = 'Open news';
 		</div>
 	</div>
 </div>
+<?php
+ob_start();
+?>
 <script>
 	(() => {
 		const listRoot = document.querySelector('.news-list');
@@ -195,3 +198,6 @@ $newsCardLinkLabel = 'Open news';
 		});
 	})();
 </script>
+<?php
+enqueueFooterScript((string) ob_get_clean());
+?>

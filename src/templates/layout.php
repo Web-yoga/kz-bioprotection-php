@@ -8,6 +8,20 @@ function renderPartial(string $name, array $data = []): void
 	require TEMPLATES_PATH . '/partials/' . $name . '.php';
 }
 
+function enqueueFooterScript(string $scriptTagHtml): void
+{
+	$scriptTagHtml = trim($scriptTagHtml);
+	if ($scriptTagHtml === '') {
+		return;
+	}
+
+	if (!isset($GLOBALS['footerScriptsQueue']) || !is_array($GLOBALS['footerScriptsQueue'])) {
+		$GLOBALS['footerScriptsQueue'] = [];
+	}
+
+	$GLOBALS['footerScriptsQueue'][] = $scriptTagHtml;
+}
+
 function getViteAssets(string $entry = 'resources/js/app.js'): array
 {
 	$manifestPath = PUBLIC_PATH . '/assets/.vite/manifest.json';
@@ -86,34 +100,8 @@ function getViteEntryJsUrl(string $entry): string
 	return '/assets/' . ltrim((string) $manifest[$entry]['file'], '/');
 }
 
-function getViteDevServerUrl(): ?string
-{
-	$viteUrl = getenv('VITE_DEV_SERVER_URL');
-	if ($viteUrl === false || trim($viteUrl) === '') {
-		$viteUrl = 'http://localhost:5173';
-	}
-
-	$parts = parse_url($viteUrl);
-	if (!is_array($parts) || empty($parts['host'])) {
-		return null;
-	}
-
-	$host = (string) $parts['host'];
-	$scheme = isset($parts['scheme']) ? (string) $parts['scheme'] : 'http';
-	$port = isset($parts['port']) ? (int) $parts['port'] : ($scheme === 'https' ? 443 : 5173);
-
-	$connection = @fsockopen($host, $port, $errno, $errstr, 0.2);
-	if (!is_resource($connection)) {
-		return null;
-	}
-
-	fclose($connection);
-	return rtrim((string) $viteUrl, '/');
-}
-
-$viteDevServerUrl = getViteDevServerUrl();
-$isViteDevMode = $viteDevServerUrl !== null;
-$viteAssets = $isViteDevMode ? ['css' => [], 'js' => []] : getViteAssets();
+$viteAssets = getViteAssets();
+$footerScriptsQueue = [];
 $resolvedPageTitle = isset($pageTitle) && is_string($pageTitle) && trim($pageTitle) !== ''
 	? trim($pageTitle)
 	: ucfirst(str_replace('-', ' ', (string) ($currentSlug ?? '')));
@@ -208,14 +196,9 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 	<?php if ($seoImageUrl !== ''): ?>
 		<meta name="twitter:image" content="<?= htmlspecialchars($seoImageUrl, ENT_QUOTES, 'UTF-8'); ?>">
 	<?php endif; ?>
-	<?php if ($isViteDevMode): ?>
-		<script type="module" src="<?= htmlspecialchars($viteDevServerUrl, ENT_QUOTES, 'UTF-8'); ?>/@vite/client"></script>
-		<script type="module" src="<?= htmlspecialchars($viteDevServerUrl, ENT_QUOTES, 'UTF-8'); ?>/resources/js/app.js"></script>
-	<?php else: ?>
-		<?php foreach ($viteAssets['css'] as $cssPath): ?>
-			<link rel="stylesheet" href="<?= htmlspecialchars($cssPath, ENT_QUOTES, 'UTF-8'); ?>">
-		<?php endforeach; ?>
-	<?php endif; ?>
+	<?php foreach ($viteAssets['css'] as $cssPath): ?>
+		<link rel="stylesheet" href="<?= htmlspecialchars($cssPath, ENT_QUOTES, 'UTF-8'); ?>">
+	<?php endforeach; ?>
 </head>
 
 <body>
@@ -255,11 +238,14 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 		</div>
 		<?php renderPartial('footer', ['footerContent' => $footerContent, 'currentLanguage' => $currentLanguage, 'dictionary' => $dictionary]); ?>
 	</div>
-	<?php if (!$isViteDevMode): ?>
-		<?php foreach ($viteAssets['js'] as $jsPath): ?>
-			<script type="module" src="<?= htmlspecialchars($jsPath, ENT_QUOTES, 'UTF-8'); ?>"></script>
+	<?php if (isset($GLOBALS['footerScriptsQueue']) && is_array($GLOBALS['footerScriptsQueue'])): ?>
+		<?php foreach ($GLOBALS['footerScriptsQueue'] as $footerScriptTag): ?>
+			<?= $footerScriptTag . "\n"; ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
+	<?php foreach ($viteAssets['js'] as $jsPath): ?>
+		<script type="module" src="<?= htmlspecialchars($jsPath, ENT_QUOTES, 'UTF-8'); ?>"></script>
+	<?php endforeach; ?>
 </body>
 
 </html>

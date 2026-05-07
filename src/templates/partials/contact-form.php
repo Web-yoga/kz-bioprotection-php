@@ -175,12 +175,14 @@ if ($requestStatus === 'success') {
 </section>
 <?php
 $contactFormTextareasEntry = 'resources/js/contact-form-textareas.js';
-if (!empty($isViteDevMode) && isset($viteDevServerUrl) && is_string($viteDevServerUrl) && $viteDevServerUrl !== '') {
-	$contactFormTextareasSrc = rtrim($viteDevServerUrl, '/') . '/' . $contactFormTextareasEntry;
-} else {
-	$contactFormTextareasSrc = getViteEntryJsUrl($contactFormTextareasEntry);
-}
+$contactFormTextareasSrc = getViteEntryJsUrl($contactFormTextareasEntry);
 ?>
 <?php if ($contactFormTextareasSrc !== ''): ?>
-	<script type="module" src="<?= htmlspecialchars($contactFormTextareasSrc, ENT_QUOTES, 'UTF-8'); ?>"></script>
+	<?php
+	enqueueFooterScript(
+		'<script type="module" src="'
+		. htmlspecialchars($contactFormTextareasSrc, ENT_QUOTES, 'UTF-8')
+		. '"></script>'
+	);
+	?>
 <?php endif; ?>
