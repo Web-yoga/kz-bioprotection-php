@@ -601,6 +601,14 @@ h6,
 	align-items: center;
 }
 
+.no-webp-support .page-title--with-bg {
+	background-image: var(--page-title-bg-mobile-jpg);
+}
+
+.webp-support .page-title--with-bg {
+	background-image: var(--page-title-bg-mobile-webp);
+}
+
 .page-title-background-gradient {
 	--page-title-center-width: 1140px;
 	position: relative;
@@ -2200,6 +2208,14 @@ h6,
 
 	.page-title {
 		min-height: 458px;
+	}
+
+	.no-webp-support .page-title--with-bg {
+		background-image: var(--page-title-bg-desktop-jpg);
+	}
+
+	.webp-support .page-title--with-bg {
+		background-image: var(--page-title-bg-desktop-webp);
 	}
 
 	.page-title__text {
