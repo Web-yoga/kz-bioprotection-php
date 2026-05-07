@@ -14,6 +14,7 @@ public/assets/css/*-*.min.css
 public/assets/js/*-*.min.js
 public/assets/js/*-*.js
 public/assets/assets/*-*
+public/uploads/
 
 # Logs
 npm-debug.log*
