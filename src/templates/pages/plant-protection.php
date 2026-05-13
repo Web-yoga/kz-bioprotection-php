@@ -18,7 +18,7 @@ $topPictures = isset($pagePlantProtectionPayload['topPictures']) && is_array($pa
 	? $pagePlantProtectionPayload['topPictures']
 	: [];
 
-$hasRenderableTopPictures = false;
+$plantProtectionTopPictureUrls = [];
 foreach ($topPictures as $row) {
 	if (!is_array($row)) {
 		continue;
@@ -29,11 +29,14 @@ foreach ($topPictures as $row) {
 	} elseif (isset($row['image']) && is_array($row['image']) && isset($row['image']['path']) && is_string($row['image']['path'])) {
 		$path = trim($row['image']['path']);
 	}
-	if ($path !== '') {
-		$hasRenderableTopPictures = true;
-		break;
+	if ($path === '') {
+		continue;
 	}
+	$plantProtectionTopPictureUrls[] = UPLOADS_BASE_URL . ltrim($path, '/');
 }
+
+$hasRenderableTopPictures = $plantProtectionTopPictureUrls !== [];
+$diagramGrowthPictureUrls = array_slice($plantProtectionTopPictureUrls, 0, 4);
 
 $hasFollowContent = $topBoldTextHtml !== '' || $topPictureTextHtml !== '' || $hasRenderableTopPictures;
 $hasAboutSection = $aboutUsHtml !== '';
@@ -53,5 +56,8 @@ $hasAboutSection = $aboutUsHtml !== '';
 			<div><?= $topPictureTextHtml; ?></div>
 		<?php endif; ?>
 		<?php require TEMPLATES_PATH . '/partials/plant-protection/plant-protection-top-pictures.php'; ?>
+		<?php if ($diagramGrowthPictureUrls !== []): ?>
+			<?php require TEMPLATES_PATH . '/partials/plant-protection/plant-protection-growth-diagram.php'; ?>
+		<?php endif; ?>
 	</div>
 <?php endif; ?>

@@ -14,6 +14,10 @@ alwaysApply: true
 - Use the global section/block spacing token `--section-spacing`, where `3.75rem` (60px) is the default vertical spacing for large screens.
 - Use the shared `.section-title` class for section headers across templates. It must stay bold (`font-weight: 700`) and use `1.6667rem` on large screens (40px equivalent at 24px root size).
 
+### Diagrams (global CSS)
+
+- Reuse `--diagram-line-width`, `--diagram-line-color`, `--diagram-node-size`, and `--diagram-track-bg` from `:root` in `resources/css/app.css` for timeline / schematic rows. Use `.diagram-dot` for filled nodes and `.diagram-growth__*` patterns for multi-step image + strip layouts unless a different structure is required.
+
 ### text
 
 - Make all comments in the code in English.

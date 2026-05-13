@@ -71,6 +71,11 @@ h6,
 	--cta-elevated-shadow: var(--image-shadow);
 	/* 50px at 16px root — solutions cards, image lower corners, CTA */
 	--home-solutions-radius: 3.125rem;
+	/* Diagrams: connector strip + nodes (2px / 15px at 16px root) */
+	--diagram-line-width: 0.125rem;
+	--diagram-line-color: #000000;
+	--diagram-node-size: 0.9375rem;
+	--diagram-track-bg: #ffffff;
 }
 
 .img-shadow {
@@ -847,11 +852,13 @@ h6,
 	margin-top: var(--section-spacing);
 }
 
-.plant-protection-follow > * + .plant-protection-top-pictures {
+.plant-protection-follow > * + .plant-protection-top-pictures,
+.plant-protection-follow > * + .plant-protection-growth-diagram {
 	margin-top: 1.5rem;
 }
 
-.plant-protection-follow > .plant-protection-top-pictures:first-child {
+.plant-protection-follow > .plant-protection-top-pictures:first-child,
+.plant-protection-follow > .plant-protection-growth-diagram:first-child {
 	margin-top: 0;
 }
 
@@ -885,6 +892,96 @@ h6,
 	width: 100%;
 	height: auto;
 	vertical-align: middle;
+}
+
+/* Plant protection: first-row growth diagram (images + 50/50 line segments + dots) */
+.plant-protection-growth-diagram {
+	box-sizing: border-box;
+	padding: 1.5rem;
+	background-color: var(--color-surface-tint-light);
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+}
+
+.diagram-growth {
+	--diagram-n: 1;
+	display: grid;
+	grid-template-columns: repeat(var(--diagram-n), minmax(0, 1fr));
+	column-gap: 0.5rem;
+	row-gap: 0;
+	align-items: start;
+}
+
+.diagram-growth__step {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.25rem;
+}
+
+.diagram-growth__figure {
+	display: flex;
+	width: 100%;
+	min-height: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.diagram-growth__figure img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+}
+
+.diagram-growth__timeline {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	justify-content: center;
+	min-height: calc(var(--diagram-node-size) + 0.5rem);
+}
+
+.diagram-growth__seg {
+	flex: 1 1 50%;
+	min-width: 0;
+	align-self: center;
+	height: var(--diagram-line-width);
+	background-color: var(--diagram-line-color);
+}
+
+.diagram-growth__seg--blank {
+	background-color: var(--diagram-track-bg);
+}
+
+.diagram-growth__dot {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	transform: translate(-50%, -50%);
+}
+
+.diagram-dot {
+	display: block;
+	box-sizing: border-box;
+	width: var(--diagram-node-size);
+	height: var(--diagram-node-size);
+	flex-shrink: 0;
+	border-radius: 50%;
+	background-color: var(--diagram-line-color);
+}
+
+@media (max-width: 767px) {
+	.diagram-growth {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 1.25rem;
+	}
 }
 
 .oil-before-after {
