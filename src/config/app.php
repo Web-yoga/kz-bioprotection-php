@@ -74,6 +74,9 @@ function renderSitePage(string $slug, string $language): void
             'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
             'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
         ],
+        'plant-protection' => [
+            'backgroundImg' => '/img/home/home-header.jpg',
+        ],
     ];
 
     $pagePresentation = $pagePresentationBySlug[$slug] ?? [];

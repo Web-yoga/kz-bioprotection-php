@@ -6,4 +6,5 @@ return [
     'home' => 'home',
     'oil-cleaning' => 'oil-cleaning',
     'wastewater-treatment' => 'wastewater-treatment',
+    'plant-protection' => 'plant-protection',
 ];

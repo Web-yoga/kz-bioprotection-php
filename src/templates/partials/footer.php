@@ -12,6 +12,9 @@ $soilWaterCleanupLabel = isset($dictionary['menuSoilWaterCleanup']) && is_string
 $wastewaterTreatmentLabel = isset($dictionary['menuWastewaterTreatment']) && is_string($dictionary['menuWastewaterTreatment'])
 	? $dictionary['menuWastewaterTreatment']
 	: 'Wastewater Treatment';
+$plantProtectionLabel = isset($dictionary['menuPlantProtection']) && is_string($dictionary['menuPlantProtection'])
+	? $dictionary['menuPlantProtection']
+	: 'Plant Protection';
 
 $bottomMenu = [
 	[
@@ -25,6 +28,10 @@ $bottomMenu = [
 	[
 		'link' => '/' . $lang . '/wastewater-treatment',
 		'name' => $wastewaterTreatmentLabel,
+	],
+	[
+		'link' => '/' . $lang . '/plant-protection',
+		'name' => $plantProtectionLabel,
 	],
 ];
 

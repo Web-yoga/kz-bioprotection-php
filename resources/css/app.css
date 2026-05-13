@@ -58,7 +58,10 @@ h6,
  */
 :root {
 	--content-frame-edge-gradient: 390px;
-	--content-frame-bleed-solid: #e7f2fe;
+	/* Site-wide light / mid blue surfaces */
+	--color-surface-tint-light: #f5faff;
+	--color-surface-tint: #e7f2fe;
+	--content-frame-bleed-solid: var(--color-surface-tint);
 	--content-frame-bleed-solid-strong: #cfe5fd;
 	--content-frame-bleed-inner: rgba(255, 255, 255, 0);
 	--section-spacing: 2.5rem;
@@ -113,6 +116,10 @@ h6,
 
 /* Global vertical rhythm for blocks/sections in main content */
 .content-frame__main > * + * {
+	margin-top: var(--section-spacing);
+}
+
+.content-frame__main > .plant-protection-follow:first-child {
 	margin-top: var(--section-spacing);
 }
 
@@ -825,6 +832,59 @@ h6,
 
 .oil-content-section__body--justified {
 	text-align: justify;
+}
+
+/* Plant protection: intro lead (subtitle-like) */
+.plant-protection-follow__lead {
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.3;
+	font-weight: 700;
+	text-align: left;
+}
+
+.plant-protection-follow > * + * {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-follow > * + .plant-protection-top-pictures {
+	margin-top: 1.5rem;
+}
+
+.plant-protection-follow > .plant-protection-top-pictures:first-child {
+	margin-top: 0;
+}
+
+.plant-protection-top-pictures {
+	box-sizing: border-box;
+	padding: 1.5rem;
+	background-color: var(--color-surface-tint-light);
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+}
+
+.plant-protection-top-pictures__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.plant-protection-top-pictures__item {
+	margin: 0;
+	padding: 0;
+	border-radius: 0.75rem;
+	overflow: hidden;
+	background-color: var(--color-surface-tint);
+}
+
+.plant-protection-top-pictures__img {
+	display: block;
+	width: 100%;
+	height: auto;
+	vertical-align: middle;
 }
 
 .oil-before-after {
@@ -2237,6 +2297,15 @@ h6,
 	/* 32px at 24px root */
 	.home-top-text__content {
 		font-size: 1.3333rem;
+	}
+
+	.plant-protection-follow__lead {
+		font-size: 1.1rem;
+	}
+
+	.plant-protection-top-pictures__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
 	}
 
 	.key-benefits__layout {
