@@ -386,10 +386,10 @@ h6,
 }
 
 .site-header__logo-img {
-	width: 13.9375rem; /* 223px at 16px root */
-	height: 6.875rem; /* 110px at 16px root */
-	max-width: 100%;
-	max-height: 100%;
+	width: 223px;
+	height: 110px;
+	max-width: 223px;
+	max-height: 110px;
 	object-fit: contain;
 	display: block;
 }
