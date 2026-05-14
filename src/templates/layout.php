@@ -240,7 +240,7 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 	<?php foreach ($viteAssets['css'] as $cssPath): ?>
 		<link rel="stylesheet" href="<?= htmlspecialchars($cssPath, ENT_QUOTES, 'UTF-8'); ?>">
 	<?php endforeach; ?>
-	<?php if (isset($currentSlug) && $currentSlug === 'plant-protection'): ?>
+	<?php if (isset($currentSlug) && $currentSlug === 'biological-plant-protection'): ?>
 		<?php foreach (getViteCssEntryUrls('resources/css/plant-protection-page.css') as $plantProtectionCssPath): ?>
 			<link rel="stylesheet" href="<?= htmlspecialchars($plantProtectionCssPath, ENT_QUOTES, 'UTF-8'); ?>">
 		<?php endforeach; ?>

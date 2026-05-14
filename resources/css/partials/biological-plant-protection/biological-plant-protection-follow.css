@@ -1,9 +1,9 @@
-/* Vertical rhythm when plant-protection follow block is first in main column */
+/* Vertical rhythm when biological plant protection follow block is first in main column */
 .content-frame__main > .plant-protection-follow:first-child {
 	margin-top: var(--section-spacing);
 }
 
-/* Plant protection: intro lead (subtitle-like) */
+/* Biological plant protection: intro lead (subtitle-like) */
 .plant-protection-follow__lead {
 	color: #22323f;
 	font-size: 1rem;

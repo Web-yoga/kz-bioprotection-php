@@ -30,7 +30,7 @@ $bottomMenu = [
 		'name' => $wastewaterTreatmentLabel,
 	],
 	[
-		'link' => '/' . $lang . '/plant-protection',
+		'link' => '/' . $lang . '/biological-plant-protection',
 		'name' => $plantProtectionLabel,
 	],
 ];

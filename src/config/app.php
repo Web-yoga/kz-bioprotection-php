@@ -74,7 +74,7 @@ function renderSitePage(string $slug, string $language): void
             'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
             'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
         ],
-        'plant-protection' => [
+        'biological-plant-protection' => [
             'backgroundImg' => '/img/home/home-header.jpg',
         ],
     ];
@@ -210,6 +210,19 @@ function resolveRouteFromRequestUri(string $requestUri): ?array
 
 function handleSiteRequest(): void
 {
+    global $supportedLanguages;
+
+    $legacyPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '', '/');
+    $legacySegments = array_values(array_filter(explode('/', $legacyPath), static fn ($segment) => $segment !== ''));
+    if (
+        count($legacySegments) === 2
+        && $legacySegments[1] === 'plant-protection'
+        && in_array($legacySegments[0], $supportedLanguages, true)
+    ) {
+        header('Location: /' . $legacySegments[0] . '/biological-plant-protection', true, 301);
+        exit;
+    }
+
     $route = resolveRouteFromRequestUri($_SERVER['REQUEST_URI'] ?? '/');
 
     if ($route === null) {

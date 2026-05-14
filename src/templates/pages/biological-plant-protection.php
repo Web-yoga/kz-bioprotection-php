@@ -34,6 +34,6 @@ $hasAboutSection = $aboutUsHtml !== '';
 		<?php if ($topPictureTextHtml !== ''): ?>
 			<div><?= $topPictureTextHtml; ?></div>
 		<?php endif; ?>
-		<?php require TEMPLATES_PATH . '/partials/plant-protection/plant-protection-top-pictures.php'; ?>
+		<?php require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-top-pictures.php'; ?>
 	</div>
 <?php endif; ?>

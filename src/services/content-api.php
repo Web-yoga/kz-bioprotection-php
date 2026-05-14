@@ -95,7 +95,7 @@ function fetchPageContentBySlugApi(string $slug, string $language): ?array
 		'home' => 'pageHome',
 		'oil-cleaning' => 'pageOil',
 		'wastewater-treatment' => 'pageWastewaterTreatment',
-		'plant-protection' => 'pagePlantProtection',
+		'biological-plant-protection' => 'pagePlantProtection',
 	];
 
 	if (!isset($pageSingletonMap[$slug])) {
