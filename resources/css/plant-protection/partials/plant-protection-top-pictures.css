@@ -1,0 +1,101 @@
+/* Plant protection: first-row growth diagram (images + 50/50 line segments + dots) */
+.plant-protection-growth-diagram {
+	box-sizing: border-box;
+	padding: 1.5rem;
+	background-color: var(--color-surface-tint-light);
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+}
+
+.diagram-growth {
+	--diagram-n: 1;
+	display: grid;
+	grid-template-columns: repeat(var(--diagram-n), minmax(0, 1fr));
+	column-gap: 0;
+	row-gap: 0;
+	align-items: start;
+}
+
+.diagram-growth__step {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+}
+
+.diagram-growth__figure {
+	display: flex;
+	width: 100%;
+	min-height: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Fixed slot height; image centered vertically and horizontally */
+.diagram-growth__figure-slot {
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	height: 220px;
+	min-height: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.diagram-growth__figure-slot img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+}
+
+.diagram-growth__timeline {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	justify-content: center;
+	min-height: calc(var(--diagram-node-size) + 0.5rem);
+}
+
+.diagram-growth__seg {
+	flex: 1 1 50%;
+	min-width: 0;
+	align-self: center;
+	height: var(--diagram-line-width);
+	background-color: var(--diagram-line-color);
+}
+
+.diagram-growth__seg--blank {
+	background-color: var(--color-surface-tint-light);
+}
+
+.diagram-growth__dot {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	transform: translate(-50%, -50%);
+}
+
+.diagram-dot {
+	display: block;
+	box-sizing: border-box;
+	width: var(--diagram-node-size);
+	height: var(--diagram-node-size);
+	flex-shrink: 0;
+	border-radius: 50%;
+	background-color: var(--diagram-line-color);
+}
+
+@media (max-width: 767px) {
+	.diagram-growth {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 0;
+	}
+}

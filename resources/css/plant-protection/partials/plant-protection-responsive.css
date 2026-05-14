@@ -1,0 +1,10 @@
+@media (min-width: 1024px) {
+	.plant-protection-follow__lead {
+		font-size: 1.1rem;
+	}
+
+	.plant-protection-top-pictures__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+}

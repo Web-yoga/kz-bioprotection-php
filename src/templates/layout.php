@@ -100,6 +100,47 @@ function getViteEntryJsUrl(string $entry): string
 	return '/assets/' . ltrim((string) $manifest[$entry]['file'], '/');
 }
 
+/**
+ * CSS file URLs for a Vite entry (JS entry with extracted CSS, or CSS-only entry).
+ *
+ * @return list<string>
+ */
+function getViteCssEntryUrls(string $entry): array
+{
+	$manifestPath = PUBLIC_PATH . '/assets/.vite/manifest.json';
+	if (!is_file($manifestPath)) {
+		return [];
+	}
+
+	$manifestRaw = file_get_contents($manifestPath);
+	if ($manifestRaw === false) {
+		return [];
+	}
+
+	$manifest = json_decode($manifestRaw, true);
+	if (!is_array($manifest) || !isset($manifest[$entry]) || !is_array($manifest[$entry])) {
+		return [];
+	}
+
+	$entryData = $manifest[$entry];
+	$urls = [];
+
+	if (!empty($entryData['css']) && is_array($entryData['css'])) {
+		foreach ($entryData['css'] as $cssFile) {
+			$urls[] = '/assets/' . ltrim((string) $cssFile, '/');
+		}
+	}
+
+	if ($urls === [] && !empty($entryData['file']) && is_string($entryData['file'])) {
+		$file = $entryData['file'];
+		if (str_ends_with(strtolower($file), '.css')) {
+			$urls[] = '/assets/' . ltrim($file, '/');
+		}
+	}
+
+	return $urls;
+}
+
 $viteAssets = getViteAssets();
 $footerScriptsQueue = [];
 $resolvedPageTitle = isset($pageTitle) && is_string($pageTitle) && trim($pageTitle) !== ''
@@ -199,6 +240,11 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 	<?php foreach ($viteAssets['css'] as $cssPath): ?>
 		<link rel="stylesheet" href="<?= htmlspecialchars($cssPath, ENT_QUOTES, 'UTF-8'); ?>">
 	<?php endforeach; ?>
+	<?php if (isset($currentSlug) && $currentSlug === 'plant-protection'): ?>
+		<?php foreach (getViteCssEntryUrls('resources/css/plant-protection-page.css') as $plantProtectionCssPath): ?>
+			<link rel="stylesheet" href="<?= htmlspecialchars($plantProtectionCssPath, ENT_QUOTES, 'UTF-8'); ?>">
+		<?php endforeach; ?>
+	<?php endif; ?>
 </head>
 
 <body>

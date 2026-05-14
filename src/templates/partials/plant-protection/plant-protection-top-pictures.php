@@ -2,50 +2,40 @@
 
 declare(strict_types=1);
 
-$topPictureItems = [];
+$plantProtectionTopPictureUrls = [
+	'/img/plant-protection/plant-protection-top-pictures/plant_protection_1.svg',
+	'/img/plant-protection/plant-protection-top-pictures/plant_protection_2.svg',
+	'/img/plant-protection/plant-protection-top-pictures/plant_protection_3.svg',
+	'/img/plant-protection/plant-protection-top-pictures/plant_protection_4.svg',
+];
 
-if (isset($plantProtectionTopPictureUrls) && is_array($plantProtectionTopPictureUrls)) {
-	$topPictureItems = array_values(
-		array_filter(
-			$plantProtectionTopPictureUrls,
-			static fn($url): bool => is_string($url) && trim($url) !== ''
-		)
-	);
-} else {
-	$topPictures = isset($topPictures) && is_array($topPictures) ? $topPictures : [];
-
-	foreach ($topPictures as $row) {
-		if (!is_array($row)) {
-			continue;
-		}
-		$path = '';
-		if (isset($row['path']) && is_string($row['path'])) {
-			$path = trim($row['path']);
-		} elseif (isset($row['image']) && is_array($row['image']) && isset($row['image']['path']) && is_string($row['image']['path'])) {
-			$path = trim($row['image']['path']);
-		}
-		if ($path === '') {
-			continue;
-		}
-		$topPictureItems[] = UPLOADS_BASE_URL . ltrim($path, '/');
-	}
-}
-
-if ($topPictureItems === []) {
-	return;
-}
+$diagramGrowthStepCount = count($plantProtectionTopPictureUrls);
+$diagramGrowthLastIndex = $diagramGrowthStepCount - 1;
+$diagramNAttr = htmlspecialchars((string) $diagramGrowthStepCount, ENT_QUOTES, 'UTF-8');
 ?>
-<div class="plant-protection-top-pictures">
-	<ul class="plant-protection-top-pictures__grid">
-		<?php foreach ($topPictureItems as $imageUrl): ?>
-			<li class="plant-protection-top-pictures__item">
-				<img
-					class="plant-protection-top-pictures__img"
-					src="<?= htmlspecialchars($imageUrl, ENT_QUOTES, 'UTF-8'); ?>"
-					alt=""
-					decoding="async"
-					loading="lazy" />
-			</li>
+<div class="plant-protection-growth-diagram">
+	<div class="diagram-growth" style="--diagram-n: <?= $diagramNAttr; ?>">
+		<?php foreach ($plantProtectionTopPictureUrls as $stepIndex => $imageUrl): ?>
+			<div class="diagram-growth__step">
+				<div class="diagram-growth__figure">
+					<div class="diagram-growth__figure-slot">
+						<img
+							src="<?= htmlspecialchars($imageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+							alt=""
+							decoding="async"
+							loading="lazy" />
+					</div>
+				</div>
+				<div class="diagram-growth__timeline">
+					<span
+						class="diagram-growth__seg diagram-growth__seg--left<?= $stepIndex === 0 ? ' diagram-growth__seg--blank' : ''; ?>"
+						aria-hidden="true"></span>
+					<span
+						class="diagram-growth__seg diagram-growth__seg--right<?= $stepIndex === $diagramGrowthLastIndex ? ' diagram-growth__seg--blank' : ''; ?>"
+						aria-hidden="true"></span>
+					<span class="diagram-dot diagram-growth__dot" aria-hidden="true"></span>
+				</div>
+			</div>
 		<?php endforeach; ?>
-	</ul>
+	</div>
 </div>

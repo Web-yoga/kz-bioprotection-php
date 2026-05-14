@@ -17,6 +17,10 @@ module.exports = defineConfig(({ command }) => ({
           __dirname,
           "resources/js/contact-form-textareas.js",
         ),
+        "plant-protection-page": path.resolve(
+          __dirname,
+          "resources/css/plant-protection-page.css",
+        ),
       },
       output: {
         /* Content hash in filenames so cache invalidates after each build; paths come from manifest.json */

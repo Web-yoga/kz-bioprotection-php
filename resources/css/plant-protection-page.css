@@ -1,0 +1,8 @@
+/*
+ * Styles for the plant-protection page only (loaded from layout when slug matches).
+ * Add a new line for each partial under src/templates/partials/plant-protection/:
+ * @import "./plant-protection/partials/<component-name>.css";
+ */
+@import './plant-protection/partials/plant-protection-follow.css';
+@import './plant-protection/partials/plant-protection-top-pictures.css';
+@import './plant-protection/partials/plant-protection-responsive.css';

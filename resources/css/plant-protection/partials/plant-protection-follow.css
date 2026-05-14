@@ -1,0 +1,27 @@
+/* Vertical rhythm when plant-protection follow block is first in main column */
+.content-frame__main > .plant-protection-follow:first-child {
+	margin-top: var(--section-spacing);
+}
+
+/* Plant protection: intro lead (subtitle-like) */
+.plant-protection-follow__lead {
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.3;
+	font-weight: 700;
+	text-align: left;
+}
+
+.plant-protection-follow > * + * {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-follow > * + .plant-protection-top-pictures,
+.plant-protection-follow > * + .plant-protection-growth-diagram {
+	margin-top: 1.5rem;
+}
+
+.plant-protection-follow > .plant-protection-top-pictures:first-child,
+.plant-protection-follow > .plant-protection-growth-diagram:first-child {
+	margin-top: 0;
+}
