@@ -25,6 +25,7 @@ $buildLanguageUrl = static function (string $targetLanguage, string $currentSlug
 $homeUrl = '/' . $lang . '/';
 $oilCleaningUrl = '/' . $lang . '/oil-cleaning';
 $wastewaterTreatmentUrl = '/' . $lang . '/wastewater-treatment';
+$biologicalPlantProtectionUrl = '/' . $lang . '/biological-plant-protection';
 $currentPageUrl = $slug === 'home'
 	? '/' . $lang . '/'
 	: '/' . $lang . '/' . $slug;
@@ -63,6 +64,11 @@ $newsUrl = $currentPageUrl . '#news';
 				<li class="site-top-menu__dropdown-item">
 					<a class="site-top-menu__dropdown-link" href="<?= htmlspecialchars($wastewaterTreatmentUrl, ENT_QUOTES, 'UTF-8'); ?>">
 						<?= $dictionary['menuWastewaterTreatment']; ?>
+					</a>
+				</li>
+				<li class="site-top-menu__dropdown-item">
+					<a class="site-top-menu__dropdown-link" href="<?= htmlspecialchars($biologicalPlantProtectionUrl, ENT_QUOTES, 'UTF-8'); ?>">
+						<?= $dictionary['menuBiologicalPlantProtection']; ?>
 					</a>
 				</li>
 			</ul>
