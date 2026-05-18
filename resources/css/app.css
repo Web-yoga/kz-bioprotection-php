@@ -61,6 +61,9 @@ h6,
 	/* Site-wide light / mid blue surfaces */
 	--color-surface-tint-light: #f5faff;
 	--color-surface-tint: #e7f2fe;
+	/* Plant protection strategy comparison table row backgrounds */
+	--color-strategy-row-light: #f5faff;
+	--color-strategy-row-dark: #cfe5fd;
 	--content-frame-bleed-solid: var(--color-surface-tint);
 	--content-frame-bleed-solid-strong: #cfe5fd;
 	--content-frame-bleed-inner: rgba(255, 255, 255, 0);

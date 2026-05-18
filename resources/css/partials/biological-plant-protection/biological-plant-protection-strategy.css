@@ -1,0 +1,273 @@
+/* Biological plant protection: narrow labels column + 4-column data area */
+.plant-protection-strategy {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-strategy-table {
+	--strategy-side-column-max-width: 8.4375rem; /* 135px */
+	--strategy-row-head-padding-inline: 0.9375rem; /* 15px */
+	--strategy-cell-padding-inline: 1rem;
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	grid-template-rows: auto auto auto;
+	column-gap: 1.25rem;
+	row-gap: 0;
+	align-items: center;
+}
+
+.plant-protection-strategy-table__labels,
+.plant-protection-strategy-table__data {
+	display: contents;
+}
+
+.plant-protection-strategy-table__corner {
+	grid-column: 1;
+	grid-row: 1;
+	width: 0;
+	min-width: 0;
+	max-width: 0;
+	overflow: hidden;
+}
+
+.plant-protection-strategy-table__row-head {
+	box-sizing: border-box;
+	grid-column: 1;
+	display: flex;
+	width: max-content;
+	max-width: var(--strategy-side-column-max-width);
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding-block: 0.25rem;
+	text-align: center;
+	justify-self: start;
+}
+
+.plant-protection-strategy-table__row-head--0 {
+	grid-row: 2;
+}
+
+.plant-protection-strategy-table__row-head--1 {
+	grid-row: 3;
+}
+
+.plant-protection-strategy-table__row-title {
+	margin: 0;
+	max-width: calc(
+		var(--strategy-side-column-max-width) -
+			var(--strategy-row-head-padding-inline) * 2
+	);
+	color: #22323f;
+	font-size: 0.875rem;
+	line-height: 1.3;
+}
+
+.plant-protection-strategy-table__col-headers {
+	grid-column: 2;
+	grid-row: 1;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	align-items: end;
+	min-width: 0;
+	margin-bottom: 1rem;
+}
+
+.plant-protection-strategy-table__col-head {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.plant-protection-strategy-table__icon-slot {
+	box-sizing: border-box;
+	display: flex;
+	flex: 0 0 6.0625rem;
+	width: 6.0625rem;
+	height: 6.0625rem;
+	min-width: 6.0625rem;
+	min-height: 6.0625rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.plant-protection-strategy-table__icon-badge {
+	box-sizing: border-box;
+	display: flex;
+	width: 6.0625rem;
+	height: 6.0625rem;
+	min-width: 6.0625rem;
+	min-height: 6.0625rem;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.plant-protection-strategy-table__icon-badge img {
+	display: block;
+	width: auto;
+	max-width: 72%;
+	max-height: 72%;
+	height: auto;
+	border-radius: 50%;
+	background-color: #ffffff;
+	box-shadow: var(--image-shadow);
+}
+
+.plant-protection-strategy-table__panel-row {
+	grid-column: 2;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	align-items: stretch;
+	min-width: 0;
+}
+
+.plant-protection-strategy-table__panel-row--light {
+	position: relative;
+	grid-row: 2;
+	background-color: var(--color-strategy-row-light);
+	border-radius: 1rem 1rem 0 0;
+	box-shadow: none;
+}
+
+.plant-protection-strategy-table__connector {
+	position: absolute;
+	left: calc(
+		var(--strategy-cell-padding-inline) + var(--diagram-node-size) / 2
+	);
+	right: var(--strategy-cell-padding-inline);
+	bottom: 0;
+	z-index: 0;
+	height: 0.0833rem; /* 2px at 24px root */
+	transform: translateY(50%);
+	background-color: var(--diagram-line-color);
+	pointer-events: none;
+}
+
+.plant-protection-strategy-table__panel-row--dark {
+	grid-row: 3;
+	background-color: var(--color-strategy-row-dark);
+	border-radius: 0 0 1rem 1rem;
+	box-shadow: var(--image-shadow);
+}
+
+.plant-protection-strategy-table__cell {
+	box-sizing: border-box;
+	display: flex;
+	min-width: 0;
+	align-items: flex-start;
+	padding: 1.25rem var(--strategy-cell-padding-inline);
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+.plant-protection-strategy-table__panel-row--light
+	.plant-protection-strategy-table__cell {
+	position: relative;
+}
+
+.plant-protection-strategy-table__panel-row--light
+	.plant-protection-strategy-table__cell-node {
+	position: absolute;
+	left: var(--strategy-cell-padding-inline);
+	bottom: 0;
+	z-index: 1;
+	transform: translateY(50%);
+}
+
+.plant-protection-strategy-table__cell-col-icon {
+	display: none;
+}
+
+.plant-protection-strategy-table__cell-text {
+	min-width: 0;
+}
+
+@media (max-width: 767px) {
+	.plant-protection-strategy-table {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.plant-protection-strategy-table__corner {
+		display: none;
+	}
+
+	.plant-protection-strategy-table__col-headers {
+		display: none;
+	}
+
+	.plant-protection-strategy-table__row-head {
+		grid-column: auto;
+		grid-row: auto;
+	}
+
+	.plant-protection-strategy-table__row-head--0 {
+		order: 2;
+	}
+
+	.plant-protection-strategy-table__panel-row--light {
+		order: 3;
+		overflow: hidden;
+		border-radius: 1rem;
+		box-shadow: var(--image-shadow);
+	}
+
+	.plant-protection-strategy-table__row-head--1 {
+		order: 4;
+		padding: 0.75rem 0 0.25rem;
+	}
+
+	.plant-protection-strategy-table__panel-row--dark {
+		order: 5;
+		overflow: hidden;
+		border-radius: 1rem;
+		box-shadow: var(--image-shadow);
+	}
+
+	.plant-protection-strategy-table__panel-row {
+		grid-column: auto;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.plant-protection-strategy-table__cell {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		column-gap: 0.75rem;
+		align-items: center;
+		padding: 1rem 0.75rem;
+		border-top: 1px solid rgba(34, 50, 63, 0.12);
+	}
+
+	.plant-protection-strategy-table__cell-node,
+	.plant-protection-strategy-table__connector {
+		display: none;
+	}
+
+	.plant-protection-strategy-table__panel-row
+		.plant-protection-strategy-table__cell:first-child {
+		border-top: 0;
+	}
+
+	.plant-protection-strategy-table__cell-col-icon {
+		display: flex;
+		width: fit-content;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+@media (min-width: 1024px) {
+	.plant-protection-strategy-table {
+		--strategy-cell-padding-inline: 1.25rem;
+	}
+
+	.plant-protection-strategy-table__cell {
+		padding: 1.5rem var(--strategy-cell-padding-inline);
+		/* 20px at 24px root */
+		font-size: 0.8333rem;
+	}
+}

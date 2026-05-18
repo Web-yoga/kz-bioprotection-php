@@ -1,0 +1,62 @@
+/* Biological plant protection: objectives list + illustrative image */
+.plant-protection-objectives {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-objectives .plant-protection-objectives__layout {
+	margin-top: 1.5rem;
+}
+
+.plant-protection-objectives__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 40%;
+	align-items: stretch;
+	gap: 2rem;
+}
+
+.plant-protection-objectives__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.plant-protection-objectives__item {
+	padding: 0.75rem 0;
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.4;
+	border-bottom: 1px solid rgba(34, 50, 63, 0.18);
+}
+
+.plant-protection-objectives__figure {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 0;
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+	background-color: var(--color-surface-tint-light);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.no-webp-support .plant-protection-objectives__figure--with-bg {
+	background-image: var(--plant-protection-objectives-bg-jpg);
+}
+
+.webp-support .plant-protection-objectives__figure--with-bg {
+	background-image: var(--plant-protection-objectives-bg-webp);
+}
+
+@media (max-width: 767px) {
+	.plant-protection-objectives__layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--section-spacing);
+	}
+
+	.plant-protection-objectives__figure {
+		aspect-ratio: 1;
+		max-width: 28.5625rem;
+		margin-inline: auto;
+	}
+}
