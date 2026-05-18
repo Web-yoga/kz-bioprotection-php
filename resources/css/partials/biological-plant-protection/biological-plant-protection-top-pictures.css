@@ -94,8 +94,49 @@
 }
 
 @media (max-width: 767px) {
+	.plant-protection-growth-diagram {
+		width: 100%;
+		max-width: 18.75rem;
+		margin-inline: auto;
+	}
+
 	.diagram-growth {
 		grid-template-columns: minmax(0, 1fr);
 		row-gap: 0;
+	}
+
+	/* One row per step: figure beside vertical spine (lines + dot) */
+	.diagram-growth__step {
+		flex-direction: row;
+		align-items: stretch;
+		justify-content: flex-start;
+		gap: 1rem;
+	}
+
+	.diagram-growth__figure {
+		flex: 1 1 0;
+		width: auto;
+		min-width: 0;
+	}
+
+	.diagram-growth__timeline {
+		flex: 0 0 auto;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		width: auto;
+		min-width: var(--diagram-node-size);
+		min-height: 0;
+		align-self: stretch;
+		align-items: center;
+	}
+
+	.diagram-growth__seg {
+		flex: 1 1 50%;
+		width: var(--diagram-line-width);
+		max-width: var(--diagram-line-width);
+		height: auto;
+		min-height: 0;
+		min-width: 0;
+		align-self: center;
 	}
 }
