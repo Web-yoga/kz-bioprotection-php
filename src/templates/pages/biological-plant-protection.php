@@ -78,3 +78,10 @@ $hasAboutSection = $aboutUsHtml !== '';
 	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-strategy.php';
 	?>
 </section>
+<section class="plant-protection-beneficial-microflora">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['beneficialMicrofloraPathogensScheme']['title']; ?></h2>
+	<?php
+	$plantProtectionBeneficialMicroflora = $pagePlantProtectionPayload['beneficialMicrofloraPathogensScheme'];
+	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-beneficial-microflora.php';
+	?>
+</section>
