@@ -85,3 +85,45 @@ $hasAboutSection = $aboutUsHtml !== '';
 	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-beneficial-microflora.php';
 	?>
 </section>
+<?php
+$parasiticFungiVsPestsCards = $pagePlantProtectionPayload['parasiticFungiVsPestsCards'];
+$parasiticFungiVsPestsCardItems = [
+	[
+		'image' => '/img/plant-protection/parasitic-fungi-pests/infection.svg',
+		'title' => $parasiticFungiVsPestsCards['infectionTitle'],
+		'text' => $parasiticFungiVsPestsCards['infectionText'],
+	],
+	[
+		'image' => '/img/plant-protection/parasitic-fungi-pests/parasitism.svg',
+		'title' => $parasiticFungiVsPestsCards['parasitismTitle'],
+		'text' => $parasiticFungiVsPestsCards['parasitismText'],
+	],
+	[
+		'image' => '/img/plant-protection/parasitic-fungi-pests/saprophytic_phase.svg',
+		'title' => $parasiticFungiVsPestsCards['saprophyticPhaseTitle'],
+		'text' => $parasiticFungiVsPestsCards['saprophyticPhaseText'],
+	],
+];
+?>
+<section class="plant-protection-parasitic-fungi">
+	<h2 class="section-title"><?= $parasiticFungiVsPestsCards['title']; ?></h2>
+	<div class="parasitic-fungi-cards">
+		<?php foreach ($parasiticFungiVsPestsCardItems as $parasiticFungiCard): ?>
+			<article class="parasitic-fungi-cards__card">
+				<div class="parasitic-fungi-cards__visual">
+					<img
+						class="parasitic-fungi-cards__img"
+						src="<?= htmlspecialchars($parasiticFungiCard['image'], ENT_QUOTES, 'UTF-8'); ?>"
+						alt=""
+						width="220"
+						height="221"
+						decoding="async" />
+				</div>
+				<div class="parasitic-fungi-cards__body">
+					<h3 class="parasitic-fungi-cards__title"><?= $parasiticFungiCard['title']; ?>:</h3>
+					<div class="parasitic-fungi-cards__text"><?= $parasiticFungiCard['text']; ?></div>
+				</div>
+			</article>
+		<?php endforeach; ?>
+	</div>
+</section>

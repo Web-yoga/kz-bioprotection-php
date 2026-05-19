@@ -1,0 +1,105 @@
+/* Parasitic fungi vs pests: three info cards */
+.plant-protection-parasitic-fungi {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-parasitic-fungi .parasitic-fungi-cards {
+	margin-top: 1.5rem;
+}
+
+.parasitic-fungi-cards {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.25rem;
+	align-items: stretch;
+}
+
+.parasitic-fungi-cards__card {
+	box-sizing: border-box;
+	display: grid;
+	grid-template-rows: minmax(11.25rem, 1fr) minmax(0, 1fr);
+	min-height: 22.5rem;
+	overflow: hidden;
+	border-radius: 1rem;
+	background-color: #ffffff;
+	box-shadow: var(--image-shadow);
+}
+
+.parasitic-fungi-cards__visual {
+	display: flex;
+	min-height: 0;
+	align-items: center;
+	justify-content: center;
+	padding: 1.25rem 1rem;
+	background-color: var(--color-surface-tint);
+}
+
+.parasitic-fungi-cards__img {
+	display: block;
+	width: auto;
+	max-width: min(100%, 13.75rem);
+	height: auto;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.parasitic-fungi-cards__body {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.parasitic-fungi-cards__title {
+	margin: 0;
+	color: #22323f;
+	font-size: 1.25rem;
+	line-height: 1.15;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.parasitic-fungi-cards__text {
+	margin: 0;
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.4;
+	font-weight: 400;
+}
+
+.parasitic-fungi-cards__text :where(p):first-child {
+	margin-top: 0;
+}
+
+.parasitic-fungi-cards__text :where(p):last-child {
+	margin-bottom: 0;
+}
+
+.parasitic-fungi-cards__text :where(p + p) {
+	margin-top: 1em;
+}
+
+@media (min-width: 1024px) {
+	.parasitic-fungi-cards {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.5rem;
+	}
+
+	.parasitic-fungi-cards__card {
+		min-height: 24.5rem;
+	}
+
+	.parasitic-fungi-cards__body {
+		padding: 1.5rem 1.25rem 1.75rem;
+	}
+
+	.parasitic-fungi-cards__title {
+		/* 38px at 24px root */
+		font-size: 1.5833rem;
+	}
+
+	.parasitic-fungi-cards__text {
+		font-size: 0.8333rem;
+	}
+}
