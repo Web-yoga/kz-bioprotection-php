@@ -1,0 +1,72 @@
+/* Biological plant protection: reusable key benefits list + image */
+.plant-protection-key-benefits-section {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-key-benefits-section .plant-protection-key-benefits__layout {
+	margin-top: 1.5rem;
+}
+
+.plant-protection-key-benefits__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+	align-items: stretch;
+	gap: 2rem;
+}
+
+.plant-protection-key-benefits__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.plant-protection-key-benefits__item {
+	padding: 0.75rem 0;
+	color: #22323f;
+	font-size: 1rem;
+	line-height: 1.4;
+	border-bottom: 1px solid rgba(34, 50, 63, 0.18);
+}
+
+.plant-protection-key-benefits__line {
+	margin: 0;
+}
+
+.plant-protection-key-benefits__title {
+	font-weight: 700;
+}
+
+.plant-protection-key-benefits__figure {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 0;
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+	background-color: var(--color-surface-tint-light);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.no-webp-support .plant-protection-key-benefits__figure--with-bg {
+	background-image: var(--plant-protection-key-benefits-bg-jpg);
+}
+
+.webp-support .plant-protection-key-benefits__figure--with-bg {
+	background-image: var(--plant-protection-key-benefits-bg-webp);
+}
+
+@media (max-width: 767px) {
+	.plant-protection-key-benefits__layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--section-spacing);
+	}
+
+	.plant-protection-key-benefits__figure {
+		order: -1;
+		aspect-ratio: 16 / 9;
+		width: 100%;
+		max-width: none;
+		margin-inline: 0;
+	}
+}

@@ -127,3 +127,21 @@ $parasiticFungiVsPestsCardItems = [
 		<?php endforeach; ?>
 	</div>
 </section>
+<section class="plant-protection-key-benefits-section">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['keyBenefitsOfBiofungicidesTitle']; ?></h2>
+	<?php
+	$keyBenefitsItems = $pagePlantProtectionPayload['keyBenefitsOfBiofungicides'];
+	$keyBenefitsUseDash = true;
+	$keyBenefitsImageBase = '/img/plant-protection/key_biofungicides';
+	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-key-benefits.php';
+	?>
+</section>
+<section class="plant-protection-key-benefits-section">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['keyBenefitsOfBioinsecticidesTitle']; ?></h2>
+	<?php
+	$keyBenefitsItems = $pagePlantProtectionPayload['keyBenefitsOfBioinsecticides'];
+	$keyBenefitsUseDash = false;
+	$keyBenefitsImageBase = '/img/plant-protection/key_bioinsecticides';
+	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-key-benefits.php';
+	?>
+</section>

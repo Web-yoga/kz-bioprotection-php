@@ -1,6 +1,7 @@
 @media (min-width: 1024px) {
 	.oil-content-section__body,
-	.plant-protection-objectives__item {
+	.plant-protection-objectives__item,
+	.plant-protection-key-benefits__item {
 		/* 20px at 24px root */
 		font-size: 0.8333rem;
 	}
