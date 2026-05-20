@@ -2,4 +2,4 @@
 
 declare(strict_types=1);
 
-return ['ru', 'en', 'kz'];
+return ['en', 'kz', 'ru'];

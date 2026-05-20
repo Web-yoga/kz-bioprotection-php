@@ -77,6 +77,8 @@ function renderSitePage(string $slug, string $language): void
         ],
         'biological-plant-protection' => [
             'backgroundImg' => '/img/home/home-header.jpg',
+            'middleOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-middle.png',
+            'endOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-bottom.png',
         ],
     ];
 
