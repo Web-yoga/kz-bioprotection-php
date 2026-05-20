@@ -1,0 +1,16 @@
+.plant-protection-abt-dacha-banner {
+	margin-top: var(--section-spacing);
+}
+
+.plant-protection-abt-dacha-banner__link {
+	display: block;
+	margin-top: 1.5rem;
+	text-decoration: none;
+}
+
+.plant-protection-abt-dacha-banner__picture,
+.plant-protection-abt-dacha-banner__img {
+	display: block;
+	width: 100%;
+	height: auto;
+}

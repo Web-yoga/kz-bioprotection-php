@@ -40,6 +40,12 @@ $hasAboutSection = $aboutUsHtml !== '';
 
 $productPortfolio = $pagePlantProtectionPayload['productPortfolio'];
 $productPortfolioHref = uploadsPublicUrlFromPathField($productPortfolio);
+
+$abtDachaBannerDesktopJpg = '/img/plant-protection/banner_app.jpg';
+$abtDachaBannerDesktopWebp = '/img/plant-protection/banner_app.webp';
+$abtDachaBannerMobileJpg = '/img/plant-protection/banner_app_mobile.jpg';
+$abtDachaBannerMobileWebp = '/img/plant-protection/banner_app_mobile.webp';
+$abtDachaPlayStoreUrl = 'https://play.google.com/store/apps/details?id=com.hyehaeng.bioprotectionmobile';
 ?>
 <?php if ($hasAboutSection): ?>
 	<section class="oil-content-section">
@@ -171,4 +177,36 @@ $parasiticFungiVsPestsCardItems = [
 	$data = $pagePlantProtectionPayload['bioinsecticidesProducts'];
 	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-products-list.php';
 	?>
+</section>
+<section class="oil-content-section mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeTitle']; ?></h2>
+	<div class="oil-content-section__body"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeText']; ?></div>
+</section>
+<section class="plant-protection-abt-dacha-banner">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['abtDachaTitle']; ?></h2>
+	<a
+		class="plant-protection-abt-dacha-banner__link"
+		href="<?= htmlspecialchars($abtDachaPlayStoreUrl, ENT_QUOTES, 'UTF-8'); ?>"
+		target="_blank"
+		rel="noopener noreferrer">
+		<picture class="plant-protection-abt-dacha-banner__picture">
+			<source
+				media="(max-width: 767px)"
+				srcset="<?= htmlspecialchars($abtDachaBannerMobileWebp, ENT_QUOTES, 'UTF-8'); ?>"
+				type="image/webp">
+			<source
+				media="(max-width: 767px)"
+				srcset="<?= htmlspecialchars($abtDachaBannerMobileJpg, ENT_QUOTES, 'UTF-8'); ?>">
+			<source
+				srcset="<?= htmlspecialchars($abtDachaBannerDesktopWebp, ENT_QUOTES, 'UTF-8'); ?>"
+				type="image/webp">
+			<img
+				class="plant-protection-abt-dacha-banner__img"
+				src="<?= htmlspecialchars($abtDachaBannerDesktopJpg, ENT_QUOTES, 'UTF-8'); ?>"
+				alt=""
+				width="1140"
+				height="185"
+				decoding="async" />
+		</picture>
+	</a>
 </section>
