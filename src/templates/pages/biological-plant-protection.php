@@ -41,6 +41,14 @@ $hasAboutSection = $aboutUsHtml !== '';
 $productPortfolio = $pagePlantProtectionPayload['productPortfolio'];
 $productPortfolioHref = uploadsPublicUrlFromPathField($productPortfolio);
 
+$organomineralFertilizersAminoAcidsFiles = $pagePlantProtectionPayload['organomineralFertilizersAminoAcidsFiles'];
+$organomineralFertilizersHref = uploadsPublicUrlFromPathField($organomineralFertilizersAminoAcidsFiles['organomineralFertilizersFile'] ?? null);
+$aminoAcidsHref = uploadsPublicUrlFromPathField($organomineralFertilizersAminoAcidsFiles['aminoAcidsFile'] ?? null);
+$hasOrganomineralFertilizersPdfButton = $organomineralFertilizersHref !== '';
+$hasAminoAcidsPdfButton = $aminoAcidsHref !== '';
+$hasOrganomineralAminoAcidsPdfButtons = $hasOrganomineralFertilizersPdfButton || $hasAminoAcidsPdfButton;
+$plantProtectionPdfButtonClass = 'inline-flex max-w-full cursor-pointer items-center justify-center rounded-full bg-white px-8 py-3 text-center text-[1rem] font-bold leading-snug text-[#22323f] no-underline shadow-[var(--cta-elevated-shadow)] transition-opacity hover:opacity-90';
+
 $abtDachaBannerDesktopJpg = '/img/plant-protection/banner_app.jpg';
 $abtDachaBannerDesktopWebp = '/img/plant-protection/banner_app.webp';
 $abtDachaBannerMobileJpg = '/img/plant-protection/banner_app_mobile.jpg';
@@ -158,7 +166,7 @@ $parasiticFungiVsPestsCardItems = [
 	<h2 class="section-title"><?= $dictionary['productPortfolio']; ?></h2>
 	<div class="mt-6">
 		<a
-			class="inline-flex max-w-full cursor-pointer items-center justify-center rounded-full bg-white px-8 py-3 text-center text-[1rem] font-bold leading-snug text-[#22323f] no-underline shadow-[var(--cta-elevated-shadow)] transition-opacity hover:opacity-90"
+			class="<?= $plantProtectionPdfButtonClass; ?>"
 			href="<?= htmlspecialchars($productPortfolioHref, ENT_QUOTES, 'UTF-8'); ?>"
 			target="_blank"
 			rel="noopener noreferrer"><?= $dictionary['downloadPDFCatalog']; ?></a>
@@ -213,6 +221,33 @@ $parasiticFungiVsPestsCardItems = [
 <?php
 $contactFormTitle = $dictionary['requestConsultation'];
 require TEMPLATES_PATH . '/partials/contact-form.php';
+?>
+<section class="plant-protection-organomineral-amino-acids mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['organomineralFertilizersAminoAcidsTitle']; ?></h2>
+	<?php if ($hasOrganomineralAminoAcidsPdfButtons): ?>
+		<div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+			<div class="flex justify-center sm:justify-start">
+				<?php if ($hasOrganomineralFertilizersPdfButton): ?>
+					<a
+						class="<?= $plantProtectionPdfButtonClass; ?>"
+						href="<?= htmlspecialchars($organomineralFertilizersHref, ENT_QUOTES, 'UTF-8'); ?>"
+						target="_blank"
+						rel="noopener noreferrer"><?= $organomineralFertilizersAminoAcidsFiles['organomineralFertilizersTitle']; ?></a>
+				<?php endif; ?>
+			</div>
+			<div class="flex justify-center sm:justify-end">
+				<?php if ($hasAminoAcidsPdfButton): ?>
+					<a
+						class="<?= $plantProtectionPdfButtonClass; ?>"
+						href="<?= htmlspecialchars($aminoAcidsHref, ENT_QUOTES, 'UTF-8'); ?>"
+						target="_blank"
+						rel="noopener noreferrer"><?= $organomineralFertilizersAminoAcidsFiles['aminoAcidsTitle']; ?></a>
+				<?php endif; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+</section>
+<?php
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
 $hasNewsItems = $newsItems !== [];
