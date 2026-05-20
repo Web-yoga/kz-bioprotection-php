@@ -158,3 +158,17 @@ $parasiticFungiVsPestsCardItems = [
 			rel="noopener noreferrer"><?= $dictionary['downloadPDFCatalog']; ?></a>
 	</div>
 </section>
+<section class="plant-protection-biofungicides-bactericides-products mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['biofungicidesBactericidesTitle']; ?></h2>
+	<?php
+	$data = $pagePlantProtectionPayload['biofungicidesBactericidesProducts'];
+	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-products-list.php';
+	?>
+</section>
+<section class="plant-protection-bioinsecticides-products mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['bioinsecticidesTitle']; ?></h2>
+	<?php
+	$data = $pagePlantProtectionPayload['bioinsecticidesProducts'];
+	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-products-list.php';
+	?>
+</section>

@@ -1,0 +1,118 @@
+/* Reusable product cards: no card chrome; image block has radius + shadow */
+.plant-protection-biofungicides-bactericides-products .biological-plant-protection-products-list,
+.plant-protection-bioinsecticides-products .biological-plant-protection-products-list {
+	margin-top: 1.5rem;
+}
+
+.biological-plant-protection-products-list {
+	--bpp-desktop-cols: 1;
+	box-sizing: border-box;
+	display: grid;
+	gap: 0.625rem;
+	/* Below Tailwind sm: one card per row */
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 640px) {
+	/* Tailwind sm — two cards per row */
+	.biological-plant-protection-products-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.biological-plant-protection-products-list__card {
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	max-width: 22.5rem;
+	flex-direction: column;
+	justify-self: center;
+	border: none;
+	box-shadow: none;
+	background: transparent;
+}
+
+.biological-plant-protection-products-list__media {
+	box-sizing: border-box;
+	width: 100%;
+	height: 12.1667rem;
+	flex-shrink: 0;
+	border-radius: 1rem;
+	box-shadow: var(--image-shadow);
+	background-color: var(--color-surface-tint);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.biological-plant-protection-products-list__media--empty {
+	background-image: none;
+}
+
+.biological-plant-protection-products-list__title {
+	margin: 0.8333rem 0 0;
+	padding: 0;
+	color: #22323f;
+	/* 30px at 24px root */
+	font-size: 1.25rem;
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+.biological-plant-protection-products-list__copy {
+	margin: 0.8333rem 0 0;
+	padding: 0;
+	color: #22323f;
+	/* Same base as former WYSIWYG block: 30px at 24px root */
+	font-size: 1.25rem;
+	line-height: 1.35;
+	font-weight: 400;
+}
+
+.biological-plant-protection-products-list__subtitle {
+	margin: 0;
+	padding: 0;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.biological-plant-protection-products-list__italics {
+	margin: 0;
+	padding: 0;
+	font-style: italic;
+	font-weight: 400;
+}
+
+.biological-plant-protection-products-list__description {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+}
+
+/* 15px gap above description when it follows subtitle and/or italics */
+.biological-plant-protection-products-list__copy > .biological-plant-protection-products-list__description:not(:first-child) {
+	margin-top: 0.625rem;
+}
+
+/* Tablet and up: column count follows item count (max 4 per row) */
+@media (min-width: 48rem) {
+	.biological-plant-protection-products-list {
+		grid-template-columns: repeat(var(--bpp-desktop-cols, 1), minmax(0, 1fr));
+	}
+
+	.biological-plant-protection-products-list__card {
+		max-width: min(100%, 22.5rem);
+	}
+}
+
+@media (min-width: 1024px) {
+	.biological-plant-protection-products-list {
+		/* 30px at 24px root */
+		gap: 1.25rem;
+	}
+
+	.biological-plant-protection-products-list__copy {
+		/* 20px at 24px root */
+		font-size: 0.8333rem;
+	}
+}
