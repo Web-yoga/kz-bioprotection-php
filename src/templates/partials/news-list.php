@@ -20,12 +20,19 @@ $newsCardLinkLabel = 'Open news';
 			$item = (array) $item;
 			$itemSlug = trim((string) ($item['slug'] ?? ''));
 			$announcement = (array) ($item['announcement'] ?? []);
-			$itemImagePath = trim((string) (($announcement['image']['path'] ?? '')));
-			$itemImage = $itemImagePath !== '' ? UPLOADS_BASE_URL . $itemImagePath : $fallbackImagePath;
+			$itemImage = uploadsPublicUrlFromPathField($announcement['image'] ?? null);
+			if ($itemImage === '') {
+				$itemImage = $fallbackImagePath;
+			}
 			$itemTitle = trim((string) ($item['title'] ?? ''));
 			$itemText = trim((string) ($announcement['text'] ?? ''));
-			$modalImagePath = trim((string) (($item['images'][0]['image']['path'] ?? '')));
-			$modalImage = $modalImagePath !== '' ? UPLOADS_BASE_URL . $modalImagePath : $itemImage;
+			$imagesList = (array) ($item['images'] ?? []);
+			$firstImageSlot = $imagesList[0] ?? null;
+			$modalImageNode = is_array($firstImageSlot) ? ($firstImageSlot['image'] ?? null) : null;
+			$modalImage = uploadsPublicUrlFromPathField($modalImageNode);
+			if ($modalImage === '') {
+				$modalImage = $itemImage;
+			}
 			$modalTitle = trim((string) ($item['title'] ?? ''));
 			$modalContent = (string) ($item['content'] ?? '');
 			?>

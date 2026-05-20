@@ -18,6 +18,7 @@ require_once SRC_PATH . '/services/content-api.php';
 require_once SRC_PATH . '/services/content-sqlite.php';
 require_once SRC_PATH . '/services/feedback-requests.php';
 require_once SRC_PATH . '/utils/html.php';
+require_once SRC_PATH . '/utils/uploads.php';
 
 function renderSitePage(string $slug, string $language): void
 {

@@ -37,6 +37,9 @@ $hasRenderableTopPictures = true;
 
 $hasFollowContent = $topBoldTextHtml !== '' || $topPictureTextHtml !== '' || $hasRenderableTopPictures;
 $hasAboutSection = $aboutUsHtml !== '';
+
+$productPortfolio = $pagePlantProtectionPayload['productPortfolio'];
+$productPortfolioHref = uploadsPublicUrlFromPathField($productPortfolio);
 ?>
 <?php if ($hasAboutSection): ?>
 	<section class="oil-content-section">
@@ -144,4 +147,14 @@ $parasiticFungiVsPestsCardItems = [
 	$keyBenefitsImageBase = '/img/plant-protection/key_bioinsecticides';
 	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-key-benefits.php';
 	?>
+</section>
+<section class="plant-protection-product-portfolio mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $dictionary['productPortfolio']; ?></h2>
+	<div class="mt-6">
+		<a
+			class="inline-flex max-w-full cursor-pointer items-center justify-center rounded-full bg-white px-8 py-3 text-center text-[1rem] font-bold leading-snug text-[#22323f] no-underline shadow-[var(--cta-elevated-shadow)] transition-opacity hover:opacity-90"
+			href="<?= htmlspecialchars($productPortfolioHref, ENT_QUOTES, 'UTF-8'); ?>"
+			target="_blank"
+			rel="noopener noreferrer"><?= $dictionary['downloadPDFCatalog']; ?></a>
+	</div>
 </section>
