@@ -441,7 +441,7 @@ function fetchArticlesRaw(string $language): ?array
 function fetchArticlesCollection(string $language): array
 {
 	$articlesRaw = fetchArticlesRaw($language);
-	return normalizeItemsCollection($articlesRaw);
+	return sortArticlesCollectionByCreatedDesc(normalizeItemsCollection($articlesRaw));
 }
 
 function fetchOurCustomersCollection(string $_language): array

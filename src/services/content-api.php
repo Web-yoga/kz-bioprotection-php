@@ -122,7 +122,7 @@ function normalizePathSlug(string $slug): string
 function fetchArticlesCollectionApi(string $language): array
 {
 	$articlesRaw = fetchArticlesRawApi($language);
-	return normalizeItemsCollection($articlesRaw);
+	return sortArticlesCollectionByCreatedDesc(normalizeItemsCollection($articlesRaw));
 }
 
 function fetchOurCustomersCollectionApi(string $language): array
@@ -197,6 +197,39 @@ function normalizeItemsCollection(?array $collectionResponse): array
 	}
 
 	return [];
+}
+
+/**
+ * @param array<int, array<mixed>> $articles
+ * @return array<int, array<mixed>>
+ */
+function sortArticlesCollectionByCreatedDesc(array $articles): array
+{
+	if ($articles === []) {
+		return [];
+	}
+
+	usort($articles, static function (array $left, array $right): int {
+		return articleCreatedSortTimestamp($right) <=> articleCreatedSortTimestamp($left);
+	});
+
+	return $articles;
+}
+
+function articleCreatedSortTimestamp(array $article): int
+{
+	if (isset($article['_created']) && is_numeric($article['_created'])) {
+		return (int) $article['_created'];
+	}
+
+	if (isset($article['date']) && is_string($article['date'])) {
+		$timestamp = strtotime($article['date']);
+		if ($timestamp !== false) {
+			return $timestamp;
+		}
+	}
+
+	return 0;
 }
 
 function normalizeSeoSlug(string $slug): string
