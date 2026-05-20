@@ -178,10 +178,6 @@ $parasiticFungiVsPestsCardItems = [
 	require TEMPLATES_PATH . '/partials/biological-plant-protection/biological-plant-protection-products-list.php';
 	?>
 </section>
-<section class="oil-content-section mt-[var(--section-spacing)]">
-	<h2 class="section-title"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeTitle']; ?></h2>
-	<div class="oil-content-section__body"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeText']; ?></div>
-</section>
 <section class="plant-protection-abt-dacha-banner">
 	<h2 class="section-title"><?= $pagePlantProtectionPayload['abtDachaTitle']; ?></h2>
 	<a
@@ -210,3 +206,21 @@ $parasiticFungiVsPestsCardItems = [
 		</picture>
 	</a>
 </section>
+<section class="oil-content-section mt-[var(--section-spacing)]">
+	<h2 class="section-title"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeTitle']; ?></h2>
+	<div class="oil-content-section__body"><?= $pagePlantProtectionPayload['needCustomProtectionSchemeText']; ?></div>
+</section>
+<?php
+$contactFormTitle = $dictionary['requestConsultation'];
+require TEMPLATES_PATH . '/partials/contact-form.php';
+$articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
+$newsItems = is_array($articlesJson) ? $articlesJson : [];
+$hasNewsItems = $newsItems !== [];
+?>
+<div id="news"></div>
+<?php if ($hasNewsItems): ?>
+	<section class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
+		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
+		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+	</section>
+<?php endif; ?>

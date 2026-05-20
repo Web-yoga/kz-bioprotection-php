@@ -180,6 +180,7 @@ $caseStudyText = array_values(array_filter(
 	</section>
 <?php endif; ?>
 <?php
+$contactFormTitle = $dictionary['requestQuote'];
 require TEMPLATES_PATH . '/partials/contact-form.php';
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];

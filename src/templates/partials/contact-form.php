@@ -37,6 +37,9 @@ $contactRequiredMessageByLocale = [
 	'kz' => 'Contact өрісін толтыру қажет.',
 ];
 $contactRequiredMessage = $contactRequiredMessageByLocale[$currentLocale] ?? $contactRequiredMessageByLocale['en'];
+$contactFormTitle = isset($contactFormTitle) && is_string($contactFormTitle) && trim($contactFormTitle) !== ''
+	? trim($contactFormTitle)
+	: $dictionary['requestQuote'];
 
 if ($requestStatus === 'success') {
 	$contactFormStatusMessage = $contactFormSuccessMessage;
@@ -47,7 +50,7 @@ if ($requestStatus === 'success') {
 }
 ?>
 <section id="contact" class="contact-form-section">
-	<h2 class="section-title"><?= $dictionary['requestQuote']; ?></h2>
+	<h2 class="section-title"><?= $contactFormTitle; ?></h2>
 	<?php if ($contactFormStatusMessage !== '' && $contactFormStatusClass !== ''): ?>
 		<p class="contact-form-section__status <?= htmlspecialchars($contactFormStatusClass, ENT_QUOTES, 'UTF-8'); ?>" role="status" aria-live="polite">
 			<?= htmlspecialchars($contactFormStatusMessage, ENT_QUOTES, 'UTF-8'); ?>

@@ -83,7 +83,10 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 		</div>
 	</div>
 </section>
-<?php require TEMPLATES_PATH . '/partials/contact-form.php'; ?>
+<?php
+$contactFormTitle = $dictionary['requestQuote'];
+require TEMPLATES_PATH . '/partials/contact-form.php';
+?>
 <?php
 $articlesJson = fetchArticlesCollection((string) ($currentLanguage ?? 'en'));
 $newsItems = is_array($articlesJson) ? $articlesJson : [];
