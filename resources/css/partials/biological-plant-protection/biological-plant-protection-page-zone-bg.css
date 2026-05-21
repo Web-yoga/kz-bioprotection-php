@@ -1,0 +1,13 @@
+.page-middle-bg.responsive-bg,
+.page-bottom-bg.responsive-bg {
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.page-middle-bg.responsive-bg {
+	background-position: center center;
+}
+
+.page-bottom-bg.responsive-bg {
+	background-position: center bottom;
+}

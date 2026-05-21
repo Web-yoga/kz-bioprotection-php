@@ -154,6 +154,7 @@ $resolvedEndOfPageBackgroundImg = isset($endOfPageBackgroundImg) && is_string($e
 $resolvedMiddleOfPageBackgroundImg = isset($middleOfPageBackgroundImg) && is_string($middleOfPageBackgroundImg)
 	? trim($middleOfPageBackgroundImg)
 	: '';
+$useResponsivePageBackgrounds = !empty($useResponsivePageBackgrounds);
 $resolvedSeoTitle = isset($seoTitle) && is_string($seoTitle) && trim($seoTitle) !== ''
 	? trim($seoTitle)
 	: $resolvedPageTitle;
@@ -260,20 +261,36 @@ $resolvedOgLocale = $ogLocaleMap[(string) ($currentLanguage ?? 'en')] ?? 'en_US'
 	<?php renderPartial('page-title', ['title' => $resolvedPageTitle, 'subtitle' => $resolvedPageSubtitle, 'backgroundImg' => $resolvedPageTitleBackgroundImg]); ?>
 	<div class="end-of-page-zone">
 		<?php if ($resolvedMiddleOfPageBackgroundImg !== ''): ?>
-			<div class="page-middle-bg" aria-hidden="true">
-				<img
-					class="page-middle-bg__image"
-					src="<?= htmlspecialchars($resolvedMiddleOfPageBackgroundImg, ENT_QUOTES, 'UTF-8'); ?>"
-					alt="">
-			</div>
+			<?php if ($useResponsivePageBackgrounds): ?>
+				<?php
+				$backgroundImg = $resolvedMiddleOfPageBackgroundImg;
+				$wrapperClass = 'page-middle-bg';
+				require TEMPLATES_PATH . '/partials/page-zone-responsive-bg.php';
+				?>
+			<?php else: ?>
+				<div class="page-middle-bg" aria-hidden="true">
+					<img
+						class="page-middle-bg__image"
+						src="<?= htmlspecialchars($resolvedMiddleOfPageBackgroundImg, ENT_QUOTES, 'UTF-8'); ?>"
+						alt="">
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php if ($resolvedEndOfPageBackgroundImg !== ''): ?>
-			<div class="page-bottom-bg" aria-hidden="true">
-				<img
-					class="page-bottom-bg__image"
-					src="<?= htmlspecialchars($resolvedEndOfPageBackgroundImg, ENT_QUOTES, 'UTF-8'); ?>"
-					alt="">
-			</div>
+			<?php if ($useResponsivePageBackgrounds): ?>
+				<?php
+				$backgroundImg = $resolvedEndOfPageBackgroundImg;
+				$wrapperClass = 'page-bottom-bg';
+				require TEMPLATES_PATH . '/partials/page-zone-responsive-bg.php';
+				?>
+			<?php else: ?>
+				<div class="page-bottom-bg" aria-hidden="true">
+					<img
+						class="page-bottom-bg__image"
+						src="<?= htmlspecialchars($resolvedEndOfPageBackgroundImg, ENT_QUOTES, 'UTF-8'); ?>"
+						alt="">
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 		<div class="content-frame">
 			<div class="content-frame__bleed content-frame__bleed--left" aria-hidden="true"></div>

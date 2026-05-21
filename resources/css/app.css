@@ -612,12 +612,13 @@ h6,
 	align-items: center;
 }
 
-.no-webp-support .page-title--with-bg {
-	background-image: var(--page-title-bg-mobile-jpg);
+/* Responsive backgrounds: set vars via buildResponsiveBackgroundStyle(), webp class on <html> */
+.no-webp-support .responsive-bg {
+	background-image: var(--responsive-bg-mobile-fallback);
 }
 
-.webp-support .page-title--with-bg {
-	background-image: var(--page-title-bg-mobile-webp);
+.webp-support .responsive-bg {
+	background-image: var(--responsive-bg-mobile-webp);
 }
 
 .page-title-background-gradient {
@@ -2221,12 +2222,12 @@ h6,
 		min-height: 458px;
 	}
 
-	.no-webp-support .page-title--with-bg {
-		background-image: var(--page-title-bg-desktop-jpg);
+	.no-webp-support .responsive-bg {
+		background-image: var(--responsive-bg-desktop-fallback);
 	}
 
-	.webp-support .page-title--with-bg {
-		background-image: var(--page-title-bg-desktop-webp);
+	.webp-support .responsive-bg {
+		background-image: var(--responsive-bg-desktop-webp);
 	}
 
 	.page-title__text {

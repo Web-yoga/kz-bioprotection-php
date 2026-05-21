@@ -19,6 +19,7 @@ require_once SRC_PATH . '/services/content-sqlite.php';
 require_once SRC_PATH . '/services/feedback-requests.php';
 require_once SRC_PATH . '/utils/html.php';
 require_once SRC_PATH . '/utils/uploads.php';
+require_once SRC_PATH . '/utils/responsive-image-path.php';
 
 function renderSitePage(string $slug, string $language): void
 {
@@ -79,6 +80,7 @@ function renderSitePage(string $slug, string $language): void
             'backgroundImg' => '/img/home/home-header.jpg',
             'middleOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-middle.png',
             'endOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-bottom.png',
+            'responsivePageBackgrounds' => true,
         ],
     ];
 
@@ -124,6 +126,7 @@ function renderSitePage(string $slug, string $language): void
     $middleOfPageBackgroundImg = isset($pagePresentation['middleOfPageBackgroundImg']) && is_string($pagePresentation['middleOfPageBackgroundImg'])
         ? trim($pagePresentation['middleOfPageBackgroundImg'])
         : '';
+    $useResponsivePageBackgrounds = !empty($pagePresentation['responsivePageBackgrounds']);
     $seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
         ? trim($seoContent['title'])
         : '';
