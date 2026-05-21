@@ -17,10 +17,10 @@ $pageSubtitlePlainText = trim(str_replace('&nbsp;', ' ', strip_tags($pageSubtitl
 			<div class="page-title__inner container mx-auto px-4">
 				<div class="page-title__content">
 					<?php if ($pageTitlePlainText !== ''): ?>
-						<h1 class="page-title__text"><?= escapeHtmlAllowBr($pageTitle); ?></h1>
+						<h1 class="page-title__text"><?= $pageTitle; ?></h1>
 					<?php endif; ?>
 					<?php if ($pageSubtitlePlainText !== ''): ?>
-						<div class="page-title__subtitle"><?= escapeHtmlAllowBr($pageSubtitle); ?></div>
+						<div class="page-title__subtitle"><?= $pageSubtitle; ?></div>
 					<?php endif; ?>
 				</div>
 			</div>
