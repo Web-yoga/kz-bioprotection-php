@@ -12,15 +12,15 @@ $pageTitlePlainText = trim(str_replace('&nbsp;', ' ', strip_tags($pageTitle)));
 $pageSubtitlePlainText = trim(str_replace('&nbsp;', ' ', strip_tags($pageSubtitle)));
 ?>
 <section class="page-title-background-gradient">
-	<div class="page-title rounded-16<?= $backgroundStyle !== '' ? ' responsive-bg' : ''; ?>"<?= $backgroundStyle !== '' ? ' style="' . $backgroundStyle . '"' : ''; ?>>
+	<div class="page-title rounded-16<?= $backgroundStyle !== '' ? ' responsive-bg' : ''; ?>" <?= $backgroundStyle !== '' ? ' style="' . $backgroundStyle . '"' : ''; ?>>
 		<div class="page-title__overlay">
 			<div class="page-title__inner container mx-auto px-4">
 				<div class="page-title__content">
 					<?php if ($pageTitlePlainText !== ''): ?>
-						<h1 class="page-title__text"><?= $pageTitle; ?></h1>
+						<h1 class="page-title__text"><?= escapeHtmlAllowBr($pageTitle); ?></h1>
 					<?php endif; ?>
 					<?php if ($pageSubtitlePlainText !== ''): ?>
-						<div class="page-title__subtitle"><?= $pageSubtitle; ?></div>
+						<div class="page-title__subtitle"><?= escapeHtmlAllowBr($pageSubtitle); ?></div>
 					<?php endif; ?>
 				</div>
 			</div>

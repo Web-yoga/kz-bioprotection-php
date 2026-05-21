@@ -80,7 +80,7 @@ $newsUrl = $currentPageUrl . '#news';
 		</li>
 		<li class="site-top-menu__item">
 			<a class="site-top-menu__link" href="<?= htmlspecialchars($newsUrl, ENT_QUOTES, 'UTF-8'); ?>">
-				<?= $dictionary['newsEvents']; ?>
+				<?= escapeHtmlAllowBr($dictionary['newsEvents']); ?>
 			</a>
 		</li>
 	</ul>
