@@ -20,37 +20,80 @@ $newsCardLinkLabel = 'Open news';
 			$item = (array) $item;
 			$itemSlug = trim((string) ($item['slug'] ?? ''));
 			$announcement = (array) ($item['announcement'] ?? []);
-			$itemImage = uploadsPublicUrlFromPathField($announcement['image'] ?? null);
-			if ($itemImage === '') {
-				$itemImage = $fallbackImagePath;
-			}
+			$announcementImagePath = uploadsRelativePathFromPathField($announcement['image'] ?? null);
+			$announcementImageResolved = $announcementImagePath !== ''
+				? uploadsResolveGeneratedImageUrls($announcementImagePath)
+				: null;
+			$hasAnnouncementUploadImage = is_array($announcementImageResolved)
+				&& $announcementImageResolved['originalUrl'] !== '';
 			$itemTitle = trim((string) ($item['title'] ?? ''));
 			$itemText = trim((string) ($announcement['text'] ?? ''));
 			$imagesList = (array) ($item['images'] ?? []);
 			$firstImageSlot = $imagesList[0] ?? null;
 			$modalImageNode = is_array($firstImageSlot) ? ($firstImageSlot['image'] ?? null) : null;
-			$modalImage = uploadsPublicUrlFromPathField($modalImageNode);
-			if ($modalImage === '') {
-				$modalImage = $itemImage;
+			$modalImagePath = uploadsRelativePathFromPathField($modalImageNode);
+			if ($modalImagePath === '') {
+				$modalImagePath = $announcementImagePath;
 			}
+			$modalImageResolved = $modalImagePath !== ''
+				? uploadsResolveGeneratedImageUrls($modalImagePath)
+				: null;
+			$modalImage = is_array($modalImageResolved) && $modalImageResolved['imgUrl'] !== ''
+				? $modalImageResolved['imgUrl']
+				: (is_array($modalImageResolved) ? $modalImageResolved['originalUrl'] : '');
+			if ($modalImage === '' && is_array($announcementImageResolved)) {
+				$modalImage = $announcementImageResolved['imgUrl'] !== ''
+					? $announcementImageResolved['imgUrl']
+					: $announcementImageResolved['originalUrl'];
+				$modalImageResolved = $announcementImageResolved;
+			}
+			if ($modalImage === '') {
+				$modalImage = $fallbackImagePath;
+				$modalImageOriginal = $fallbackImagePath;
+				$modalImageFallback = $fallbackImagePath;
+				$modalImageResolved = null;
+			}
+			$modalUsePicture = is_array($modalImageResolved) && $modalImageResolved['usePicture'];
+			$modalImageWebp = is_array($modalImageResolved) ? $modalImageResolved['webpUrl'] : '';
+			$modalImageOriginal = is_array($modalImageResolved) ? $modalImageResolved['originalUrl'] : '';
+			$modalImageFallback = is_array($modalImageResolved) ? $modalImageResolved['imgUrl'] : '';
 			$modalTitle = trim((string) ($item['title'] ?? ''));
 			$modalContent = (string) ($item['content'] ?? '');
+			$modalDataAttrs = ' data-modal-image-path="' . htmlspecialchars($modalImagePath, ENT_QUOTES, 'UTF-8') . '"'
+				. ' data-modal-image="' . htmlspecialchars($modalImage, ENT_QUOTES, 'UTF-8') . '"'
+				. ' data-modal-image-original="' . htmlspecialchars($modalImageOriginal, ENT_QUOTES, 'UTF-8') . '"'
+				. ' data-modal-image-webp="' . htmlspecialchars($modalImageWebp, ENT_QUOTES, 'UTF-8') . '"'
+				. ' data-modal-image-fallback="' . htmlspecialchars($modalImageFallback, ENT_QUOTES, 'UTF-8') . '"'
+				. ' data-modal-use-picture="' . ($modalUsePicture ? '1' : '0') . '"';
 			?>
 			<article class="news-list__card">
 				<button
 					type="button"
 					class="news-list__figure js-news-list-open"
 					data-modal-slug="<?= htmlspecialchars($itemSlug, ENT_QUOTES, 'UTF-8'); ?>"
-					data-modal-image="<?= htmlspecialchars($modalImage, ENT_QUOTES, 'UTF-8'); ?>"
+					<?= $modalDataAttrs; ?>
 					data-modal-title="<?= htmlspecialchars($modalTitle, ENT_QUOTES, 'UTF-8'); ?>"
 					aria-label="<?= htmlspecialchars($newsCardLinkLabel, ENT_QUOTES, 'UTF-8'); ?>">
-					<img
-						class="news-list__img"
-						src="<?= htmlspecialchars($itemImage, ENT_QUOTES, 'UTF-8'); ?>"
-						alt="<?= htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'); ?>"
-						width="800"
-						height="600"
-						decoding="async" />
+					<?php if ($hasAnnouncementUploadImage): ?>
+						<?php
+						$generatedImageResolved = $announcementImageResolved;
+						$alt = $itemTitle;
+						$imgClass = 'news-list__img';
+						$imgWidth = 800;
+						$imgHeight = 600;
+						$imgDecoding = 'async';
+						require TEMPLATES_PATH . '/partials/webp-image-generated.php';
+						unset($generatedImageResolved, $pathField);
+						?>
+					<?php else: ?>
+						<img
+							class="news-list__img"
+							src="<?= htmlspecialchars($fallbackImagePath, ENT_QUOTES, 'UTF-8'); ?>"
+							alt="<?= htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'); ?>"
+							width="800"
+							height="600"
+							decoding="async" />
+					<?php endif; ?>
 				</button>
 				<div class="news-list__copy">
 					<?php if ($itemTitle !== ''): ?>
@@ -58,7 +101,7 @@ $newsCardLinkLabel = 'Open news';
 							type="button"
 							class="news-list__title news-list__title-button js-news-list-open"
 							data-modal-slug="<?= htmlspecialchars($itemSlug, ENT_QUOTES, 'UTF-8'); ?>"
-							data-modal-image="<?= htmlspecialchars($modalImage, ENT_QUOTES, 'UTF-8'); ?>"
+							<?= $modalDataAttrs; ?>
 							data-modal-title="<?= htmlspecialchars($modalTitle, ENT_QUOTES, 'UTF-8'); ?>"
 							aria-label="<?= htmlspecialchars($newsCardLinkLabel, ENT_QUOTES, 'UTF-8'); ?>">
 							<?= htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'); ?>
@@ -79,7 +122,10 @@ $newsCardLinkLabel = 'Open news';
 	<div class="news-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="news-modal-title">
 		<button class="news-modal__close js-news-modal-close" type="button" aria-label="Close">×</button>
 		<div class="news-modal__content">
-			<img class="news-modal__image" src="" alt="" />
+			<picture class="news-modal__picture">
+				<source class="js-news-modal-source" type="image/webp" srcset="">
+				<img class="news-modal__image js-news-modal-img" src="" alt="" />
+			</picture>
 			<h3 class="news-modal__title" id="news-modal-title"></h3>
 			<div class="news-modal__body"></div>
 		</div>
@@ -102,6 +148,7 @@ ob_start();
 		const uploadsBase = (listRoot.dataset.uploadsBase || '').replace(/\/+$/, '');
 		const currentLanguage = listRoot.dataset.currentLanguage || 'en';
 
+		const modalImageSource = modal.querySelector('.js-news-modal-source');
 		const modalImage = modal.querySelector('.news-modal__image');
 		const modalTitle = modal.querySelector('.news-modal__title');
 		const modalBody = modal.querySelector('.news-modal__body');
@@ -111,9 +158,80 @@ ob_start();
 			document.body.style.overflow = '';
 		};
 
+		const resolveGeneratedUploadImageFromPath = (relativePath) => {
+			const path = String(relativePath || '').trim().replace(/^\/+/, '');
+			if (path === '') {
+				return {
+					usePicture: false,
+					webp: '',
+					fallback: '',
+					original: '',
+					image: '',
+				};
+			}
+
+			const segments = path.split('/');
+			const filename = segments.pop() || '';
+			const dotIndex = filename.lastIndexOf('.');
+			const name = dotIndex > 0 ? filename.slice(0, dotIndex) : filename;
+			const directory = segments.join('/');
+			const prefix = directory !== '' ? `${directory}/` : '';
+			const original = `${uploadsBase}/${path}`;
+			const webp = `${uploadsBase}/webp/${prefix}${name}.webp`;
+			const fallback = `${uploadsBase}/webp/${prefix}${name}.jpg`;
+
+			return {
+				usePicture: true,
+				webp,
+				fallback,
+				original,
+				image: fallback,
+			};
+		};
+
+		const readModalImagePayload = (trigger) => {
+			if (!trigger) {
+				return {
+					usePicture: false,
+					webp: '',
+					fallback: '',
+					original: '',
+					image: '',
+				};
+			}
+
+			if (trigger.dataset.modalImageOriginal || trigger.dataset.modalImage) {
+				return {
+					usePicture: trigger.dataset.modalUsePicture === '1',
+					webp: trigger.dataset.modalImageWebp || '',
+					fallback: trigger.dataset.modalImageFallback || trigger.dataset.modalImage || '',
+					original: trigger.dataset.modalImageOriginal || trigger.dataset.modalImage || '',
+					image: trigger.dataset.modalImage || '',
+				};
+			}
+
+			return resolveGeneratedUploadImageFromPath(trigger.dataset.modalImagePath || '');
+		};
+
+		const setModalImage = (payload) => {
+			const usePicture = Boolean(payload.usePicture && payload.webp);
+			if (modalImageSource) {
+				if (usePicture) {
+					modalImageSource.srcset = payload.webp;
+				} else {
+					modalImageSource.removeAttribute('srcset');
+				}
+			}
+			if (modalImage) {
+				modalImage.src = usePicture ?
+					(payload.fallback || payload.original || payload.image || '') :
+					(payload.original || payload.image || '');
+				modalImage.alt = payload.title || '';
+			}
+		};
+
 		const openModal = (payload) => {
-			modalImage.src = payload.image || '';
-			modalImage.alt = payload.title || '';
+			setModalImage(payload);
 			modalTitle.textContent = payload.title || '';
 			modalBody.innerHTML = payload.content || '';
 			modal.hidden = false;
@@ -140,9 +258,6 @@ ob_start();
 			.trim()
 			.toLowerCase()
 			.replace(/^\/+|\/+$/g, '');
-		const buildUploadUrl = (path) =>
-			`${uploadsBase}/${String(path || '').trim().replace(/^\/+/, '')}`;
-
 		const loadNewsBySlug = async (slug) => {
 			const requestUrl = `${apiBase}/items/articles?locale=${encodeURIComponent(currentLanguage)}`;
 			const response = await fetch(requestUrl, {
@@ -154,11 +269,11 @@ ob_start();
 			const item = articles.find((entry) => normalizeSlug(entry?.slug) === targetSlug) || {};
 			const announcement = item.announcement || {};
 			const announcementImagePath = announcement?.image?.path || '';
-			const modalImagePath = item?.images?.[0]?.image?.path || '';
+			const modalImagePath = item?.images?.[0]?.image?.path || announcementImagePath || '';
+			const resolvedImage = resolveGeneratedUploadImageFromPath(modalImagePath);
+
 			return {
-				image: modalImagePath ?
-					buildUploadUrl(modalImagePath) : announcementImagePath ?
-					buildUploadUrl(announcementImagePath) : '',
+				...resolvedImage,
 				title: String(item.title || '').trim(),
 				content: String(item.content || ''),
 			};
@@ -172,8 +287,9 @@ ob_start();
 				event.preventDefault();
 				const slug = openTrigger.dataset.modalSlug || (figureTrigger ? figureTrigger.dataset.modalSlug || '' : '');
 				const contentNode = card.querySelector('.js-news-list-item-content');
+				const imageTrigger = figureTrigger || openTrigger;
 				let newsData = {
-					image: openTrigger.dataset.modalImage || (figureTrigger ? figureTrigger.dataset.modalImage || '' : ''),
+					...readModalImagePayload(imageTrigger),
 					title: openTrigger.dataset.modalTitle || (figureTrigger ? figureTrigger.dataset.modalTitle || '' : ''),
 					content: contentNode ? contentNode.innerHTML : '',
 				};
@@ -181,7 +297,7 @@ ob_start();
 				if (apiBase !== '' && slug !== '') {
 					try {
 						const remoteData = await loadNewsBySlug(slug);
-						if (remoteData.content !== '' || remoteData.title !== '' || remoteData.image !== '') {
+						if (remoteData.content !== '' || remoteData.title !== '' || remoteData.image !== '' || remoteData.original !== '') {
 							newsData = remoteData;
 						}
 					} catch (error) {
