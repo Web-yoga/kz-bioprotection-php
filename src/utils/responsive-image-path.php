@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 /**
- * Builds a responsive asset path from a base image path, e.g.
- * /img/foo/bar.png → /img/foo/bar-1280.webp
+ * Inline style with CSS variables for .responsive-bg.
+ * Naming format: name.ext / name.webp / name-m.ext / name-m.webp.
+ * Set $useMobileVariant = false to use only non-mobile names on all screens.
  */
-function buildResponsiveImagePath(string $sourcePath, string $sizeSuffix, string $extension): string
+function buildResponsiveBackgroundStyle(string $sourcePath, bool $useMobileVariant = true): string
 {
 	$sourcePath = trim($sourcePath);
 	if ($sourcePath === '') {
@@ -14,46 +15,30 @@ function buildResponsiveImagePath(string $sourcePath, string $sizeSuffix, string
 	}
 
 	$pathInfo = pathinfo($sourcePath);
-	$directory = isset($pathInfo['dirname']) && $pathInfo['dirname'] !== '.' ? (string) $pathInfo['dirname'] : '';
+	$directory = isset($pathInfo['dirname']) && $pathInfo['dirname'] !== '.'
+		? (string) $pathInfo['dirname']
+		: '';
 	$filename = isset($pathInfo['filename']) ? (string) $pathInfo['filename'] : '';
-	if ($filename === '') {
+	$fallbackExtension = isset($pathInfo['extension']) ? strtolower((string) $pathInfo['extension']) : '';
+
+	if ($filename === '' || $fallbackExtension === '') {
 		return '';
 	}
 
-	$normalizedFilename = preg_replace('/-(1280|1920)$/', '', $filename);
+	$normalizedFilename = preg_replace('/-m$/', '', $filename);
 	if (!is_string($normalizedFilename) || $normalizedFilename === '') {
 		return '';
 	}
 
 	$prefix = $directory !== '' ? rtrim($directory, '/') . '/' : '';
-
-	return $prefix . $normalizedFilename . '-' . $sizeSuffix . '.' . $extension;
-}
-
-/**
- * Inline style with CSS variables for .responsive-bg (webp + 1280/1920 breakpoints in app.css).
- */
-function buildResponsiveBackgroundStyle(string $sourcePath): string
-{
-	$sourcePath = trim($sourcePath);
-	if ($sourcePath === '') {
-		return '';
-	}
-
-	$pathInfo = pathinfo($sourcePath);
-	$fallbackExtension = isset($pathInfo['extension']) ? strtolower((string) $pathInfo['extension']) : '';
-	if ($fallbackExtension === '') {
-		return '';
-	}
-
-	$mobileFallback = buildResponsiveImagePath($sourcePath, '1280', $fallbackExtension);
-	$desktopFallback = buildResponsiveImagePath($sourcePath, '1920', $fallbackExtension);
-	$mobileWebp = buildResponsiveImagePath($sourcePath, '1280', 'webp');
-	$desktopWebp = buildResponsiveImagePath($sourcePath, '1920', 'webp');
-
-	if ($mobileFallback === '' || $desktopFallback === '' || $mobileWebp === '' || $desktopWebp === '') {
-		return '';
-	}
+	$desktopFallback = $prefix . $normalizedFilename . '.' . $fallbackExtension;
+	$desktopWebp = $prefix . $normalizedFilename . '.webp';
+	$mobileFallback = $useMobileVariant
+		? $prefix . $normalizedFilename . '-m.' . $fallbackExtension
+		: $desktopFallback;
+	$mobileWebp = $useMobileVariant
+		? $prefix . $normalizedFilename . '-m.webp'
+		: $desktopWebp;
 
 	return '--responsive-bg-mobile-fallback: url(\''
 		. htmlspecialchars($mobileFallback, ENT_QUOTES, 'UTF-8')

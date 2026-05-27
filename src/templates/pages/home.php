@@ -17,6 +17,7 @@ $wastewaterBtnText = trim((string) ($pageHomePayload['wastewaterBtnText'] ?? '')
 $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePayload['ourCustomers'])
 	? $pageHomePayload['ourCustomers']
 	: [];
+$homeKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/home/home-key.jpg');
 ?>
 <?php if ($topText !== ''): ?>
 	<section class="home-top-text">
@@ -27,7 +28,7 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 	<h2 class="section-title"><?= $dictionary['keyBenefits']; ?></h2>
 	<div class="key-benefits__layout">
 		<div class="key-benefits__media img-shadow">
-			<div class="key-benefits__media-bg" aria-hidden="true"></div>
+			<div class="key-benefits__media-bg responsive-bg" style="<?= $homeKeyBenefitsBackgroundStyle; ?>" aria-hidden="true"></div>
 		</div>
 		<ul class="key-benefits__list">
 			<?php foreach ($benefits as $benefitHtml): ?>
@@ -51,14 +52,13 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 	<div class="home-solutions__grid">
 		<div class="home-solutions__card">
 			<div class="home-solutions__figure">
-				<img
-					class="home-solutions__img"
-					src="/img/home/home-soil-btn.jpg"
-					alt=""
-					width="800"
-					height="600"
-					decoding="async"
-				/>
+				<?php
+				$imagePath = '/img/home/home-soil-btn.jpg';
+				$alt = '';
+				$imgClass = 'home-solutions__img';
+				$useMobileVariant = false;
+				require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+				?>
 			</div>
 			<div class="home-solutions__copy">
 				<h3 class="home-solutions__lead"><?= escapeHtmlAllowBr($soilBtnDescription); ?></h3>
@@ -67,14 +67,13 @@ $ourCustomers = isset($pageHomePayload['ourCustomers']) && is_array($pageHomePay
 		</div>
 		<div class="home-solutions__card">
 			<div class="home-solutions__figure">
-				<img
-					class="home-solutions__img"
-					src="/img/home/home-wastewater-btn.jpg"
-					alt=""
-					width="800"
-					height="600"
-					decoding="async"
-				/>
+				<?php
+				$imagePath = '/img/home/home-wastewater-btn.jpg';
+				$alt = '';
+				$imgClass = 'home-solutions__img';
+				$useMobileVariant = false;
+				require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+				?>
 			</div>
 			<div class="home-solutions__copy">
 				<h3 class="home-solutions__lead"><?= escapeHtmlAllowBr($wastewaterBtnDescription); ?></h3>
