@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+@config '../../tailwind.config.js';
+
+/* Scan PHP templates so Tailwind utilities used in *.php are included in the build */
+@source '../../src/templates/**/*.php';
+
 @font-face {
 	font-family: 'Roboto';
 	font-style: normal;

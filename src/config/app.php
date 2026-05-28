@@ -23,240 +23,240 @@ require_once SRC_PATH . '/utils/responsive-image-path.php';
 
 function renderSitePage(string $slug, string $language): void
 {
-    global $routes;
+	global $routes;
 
-    if (!isset($routes[$slug])) {
-        http_response_code(404);
-        echo '404';
-        return;
-    }
+	if (!isset($routes[$slug])) {
+		http_response_code(404);
+		echo '404';
+		return;
+	}
 
-    $pageTemplateName = $routes[$slug];
-    $currentLanguage = $language;
-    $currentSlug = $slug;
-    $dictionaryContent = fetchDictionaryContent($language);
-    $dictionary = normalizeDictionaryMap($dictionaryContent);
-    $feedbackForm = fetchFeedbackFormContent($language);
-    $footerContent = fetchFooterContent($language);
-    $pageTemplate = PAGES_PATH . '/' . $pageTemplateName . '.php';
-    $pageContent = fetchPageContentBySlug($slug, $language);
-    $seoContent = fetchSeoContentBySlug($slug, $language);
-    $pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
+	$pageTemplateName = $routes[$slug];
+	$currentLanguage = $language;
+	$currentSlug = $slug;
+	$dictionaryContent = fetchDictionaryContent($language);
+	$dictionary = normalizeDictionaryMap($dictionaryContent);
+	$feedbackForm = fetchFeedbackFormContent($language);
+	$footerContent = fetchFooterContent($language);
+	$pageTemplate = PAGES_PATH . '/' . $pageTemplateName . '.php';
+	$pageContent = fetchPageContentBySlug($slug, $language);
+	$seoContent = fetchSeoContentBySlug($slug, $language);
+	$pageHomePayload = $slug === 'home' && is_array($pageContent) ? $pageContent : [];
 
-    $pagePresentationBySlug = [
-        'home' => [
-            'backgroundImg' => '/img/home/home-header.jpg',
-            'endOfPageBackgroundImg' => '/img/home/home-bottom-bg.png',
-            'responsivePageBackgrounds' => true,
-            'titleSource' => static function () use ($pageHomePayload): string {
-                return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
-                    ? trim($pageHomePayload['title'])
-                    : '';
-            },
-            'subtitleSource' => static function () use ($pageHomePayload): string {
-                if (!is_array($pageHomePayload)) {
-                    return '';
-                }
+	$pagePresentationBySlug = [
+		'home' => [
+			'backgroundImg' => '/img/home/home-header.jpg',
+			'endOfPageBackgroundImg' => '/img/home/home-bottom-bg.png',
+			'responsivePageBackgrounds' => true,
+			'titleSource' => static function () use ($pageHomePayload): string {
+				return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
+					? trim($pageHomePayload['title'])
+					: '';
+			},
+			'subtitleSource' => static function () use ($pageHomePayload): string {
+				if (!is_array($pageHomePayload)) {
+					return '';
+				}
 
-                foreach (['subtitle', 'sub_title', 'subTitle'] as $subtitleKey) {
-                    if (isset($pageHomePayload[$subtitleKey]) && is_string($pageHomePayload[$subtitleKey])) {
-                        return trim($pageHomePayload[$subtitleKey]);
-                    }
-                }
+				foreach (['subtitle', 'sub_title', 'subTitle'] as $subtitleKey) {
+					if (isset($pageHomePayload[$subtitleKey]) && is_string($pageHomePayload[$subtitleKey])) {
+						return trim($pageHomePayload[$subtitleKey]);
+					}
+				}
 
-                return '';
-            },
-        ],
-        'oil-cleaning' => [
-            'backgroundImg' => '/img/oil-cleaning/oil-header.jpg',
-            'middleOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-middle.png',
-            'endOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-bottom.png',
-        ],
-        'wastewater-treatment' => [
-            'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',
-            'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
-            'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
-        ],
-        'biological-plant-protection' => [
-            'backgroundImg' => '/img/home/home-header.jpg',
-            'middleOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-middle.png',
-            'endOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-bottom.png',
-            'responsivePageBackgrounds' => true,
-        ],
-    ];
+				return '';
+			},
+		],
+		'oil-cleaning' => [
+			'backgroundImg' => '/img/oil-cleaning/oil-header.jpg',
+			'middleOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-middle.png',
+			'endOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-bottom.png',
+		],
+		'wastewater-treatment' => [
+			'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',
+			'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
+			'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
+		],
+		'biological-plant-protection' => [
+			'backgroundImg' => '/img/home/home-header.jpg',
+			'middleOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-middle.png',
+			'endOfPageBackgroundImg' => '/img/plant-protection/plant-protection-bg-bottom.png',
+			'responsivePageBackgrounds' => true,
+		],
+	];
 
-    $pagePresentation = $pagePresentationBySlug[$slug] ?? [];
-    $pageTitleResolver = $pagePresentation['titleSource'] ?? null;
-    $pageTitle = is_callable($pageTitleResolver)
-        ? (string) $pageTitleResolver()
-        : (
-            is_array($pageContent) && isset($pageContent['title']) && is_string($pageContent['title'])
-                ? trim($pageContent['title'])
-                : (
-                    is_array($pageContent) && isset($pageContent['name']) && is_string($pageContent['name'])
-                        ? trim($pageContent['name'])
-                        : ''
-                )
-        );
-    $pageSubtitleResolver = $pagePresentation['subtitleSource'] ?? null;
-    $pageSubtitle = is_callable($pageSubtitleResolver)
-        ? (string) $pageSubtitleResolver()
-        : (
-            is_array($pageContent)
-                ? (
-                    isset($pageContent['subtitle']) && is_string($pageContent['subtitle'])
-                        ? trim($pageContent['subtitle'])
-                        : (
-                            isset($pageContent['sub_title']) && is_string($pageContent['sub_title'])
-                                ? trim($pageContent['sub_title'])
-                                : (
-                                    isset($pageContent['subTitle']) && is_string($pageContent['subTitle'])
-                                        ? trim($pageContent['subTitle'])
-                                        : ''
-                                )
-                        )
-                )
-                : ''
-        );
-    $backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])
-        ? trim($pagePresentation['backgroundImg'])
-        : '';
-    $endOfPageBackgroundImg = isset($pagePresentation['endOfPageBackgroundImg']) && is_string($pagePresentation['endOfPageBackgroundImg'])
-        ? trim($pagePresentation['endOfPageBackgroundImg'])
-        : '';
-    $middleOfPageBackgroundImg = isset($pagePresentation['middleOfPageBackgroundImg']) && is_string($pagePresentation['middleOfPageBackgroundImg'])
-        ? trim($pagePresentation['middleOfPageBackgroundImg'])
-        : '';
-    $useResponsivePageBackgrounds = !empty($pagePresentation['responsivePageBackgrounds']);
-    $seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
-        ? trim($seoContent['title'])
-        : '';
-    $seoDescription = is_array($seoContent) && isset($seoContent['description']) && is_string($seoContent['description'])
-        ? trim($seoContent['description'])
-        : '';
-    $seoImage = is_array($seoContent) && isset($seoContent['image']) && is_string($seoContent['image'])
-        ? trim($seoContent['image'])
-        : '';
-    $seoType = 'website';
-    $seoSiteName = 'Bioprotection';
+	$pagePresentation = $pagePresentationBySlug[$slug] ?? [];
+	$pageTitleResolver = $pagePresentation['titleSource'] ?? null;
+	$pageTitle = is_callable($pageTitleResolver)
+		? (string) $pageTitleResolver()
+		: (
+			is_array($pageContent) && isset($pageContent['title']) && is_string($pageContent['title'])
+			? trim($pageContent['title'])
+			: (
+				is_array($pageContent) && isset($pageContent['name']) && is_string($pageContent['name'])
+				? trim($pageContent['name'])
+				: ''
+			)
+		);
+	$pageSubtitleResolver = $pagePresentation['subtitleSource'] ?? null;
+	$pageSubtitle = is_callable($pageSubtitleResolver)
+		? (string) $pageSubtitleResolver()
+		: (
+			is_array($pageContent)
+			? (
+				isset($pageContent['subtitle']) && is_string($pageContent['subtitle'])
+				? trim($pageContent['subtitle'])
+				: (
+					isset($pageContent['sub_title']) && is_string($pageContent['sub_title'])
+					? trim($pageContent['sub_title'])
+					: (
+						isset($pageContent['subTitle']) && is_string($pageContent['subTitle'])
+						? trim($pageContent['subTitle'])
+						: ''
+					)
+				)
+			)
+			: ''
+		);
+	$backgroundImg = isset($pagePresentation['backgroundImg']) && is_string($pagePresentation['backgroundImg'])
+		? trim($pagePresentation['backgroundImg'])
+		: '';
+	$endOfPageBackgroundImg = isset($pagePresentation['endOfPageBackgroundImg']) && is_string($pagePresentation['endOfPageBackgroundImg'])
+		? trim($pagePresentation['endOfPageBackgroundImg'])
+		: '';
+	$middleOfPageBackgroundImg = isset($pagePresentation['middleOfPageBackgroundImg']) && is_string($pagePresentation['middleOfPageBackgroundImg'])
+		? trim($pagePresentation['middleOfPageBackgroundImg'])
+		: '';
+	$useResponsivePageBackgrounds = !empty($pagePresentation['responsivePageBackgrounds']);
+	$seoTitle = is_array($seoContent) && isset($seoContent['title']) && is_string($seoContent['title'])
+		? trim($seoContent['title'])
+		: '';
+	$seoDescription = is_array($seoContent) && isset($seoContent['description']) && is_string($seoContent['description'])
+		? trim($seoContent['description'])
+		: '';
+	$seoImage = is_array($seoContent) && isset($seoContent['image']) && is_string($seoContent['image'])
+		? trim($seoContent['image'])
+		: '';
+	$seoType = 'website';
+	$seoSiteName = 'Bioprotection';
 
-    require TEMPLATES_PATH . '/layout.php';
+	require TEMPLATES_PATH . '/layout.php';
 }
 
 function redirectToLanguageHome(string $language): void
 {
-    header('Location: /' . $language . '/', true, 301);
-    exit;
+	header('Location: /' . $language . '/', true, 301);
+	exit;
 }
 
 function renderNotFound(): void
 {
-    http_response_code(404);
-    echo '404';
+	http_response_code(404);
+	echo '404';
 }
 
 function isJsonRequest(): bool
 {
-    $requestedWith = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && is_string($_SERVER['HTTP_X_REQUESTED_WITH'])
-        ? strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH']))
-        : '';
-    if ($requestedWith === 'xmlhttprequest') {
-        return true;
-    }
+	$requestedWith = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && is_string($_SERVER['HTTP_X_REQUESTED_WITH'])
+		? strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH']))
+		: '';
+	if ($requestedWith === 'xmlhttprequest') {
+		return true;
+	}
 
-    $acceptHeader = isset($_SERVER['HTTP_ACCEPT']) && is_string($_SERVER['HTTP_ACCEPT'])
-        ? strtolower($_SERVER['HTTP_ACCEPT'])
-        : '';
+	$acceptHeader = isset($_SERVER['HTTP_ACCEPT']) && is_string($_SERVER['HTTP_ACCEPT'])
+		? strtolower($_SERVER['HTTP_ACCEPT'])
+		: '';
 
-    return str_contains($acceptHeader, 'application/json');
+	return str_contains($acceptHeader, 'application/json');
 }
 
 function resolveRouteFromRequestUri(string $requestUri): ?array
 {
-    global $supportedLanguages;
-    global $routes;
+	global $supportedLanguages;
+	global $routes;
 
-    $path = trim(parse_url($requestUri, PHP_URL_PATH) ?? '', '/');
-    $query = parse_url($requestUri, PHP_URL_QUERY) ?? '';
-    parse_str($query, $queryParams);
+	$path = trim(parse_url($requestUri, PHP_URL_PATH) ?? '', '/');
+	$query = parse_url($requestUri, PHP_URL_QUERY) ?? '';
+	parse_str($query, $queryParams);
 
-    if ($path === '') {
-        return null;
-    }
+	if ($path === '') {
+		return null;
+	}
 
-    $segments = array_values(array_filter(explode('/', $path), static fn ($segment) => $segment !== ''));
-    $segmentsCount = count($segments);
+	$segments = array_values(array_filter(explode('/', $path), static fn($segment) => $segment !== ''));
+	$segmentsCount = count($segments);
 
-    if ($segmentsCount < 1 || $segmentsCount > 2) {
-        return null;
-    }
+	if ($segmentsCount < 1 || $segmentsCount > 2) {
+		return null;
+	}
 
-    $language = $segments[0];
-    $queryLanguage = isset($queryParams['locale']) && is_string($queryParams['locale'])
-        ? trim($queryParams['locale'])
-        : '';
-    if ($queryLanguage !== '' && in_array($queryLanguage, $supportedLanguages, true)) {
-        $language = $queryLanguage;
-    }
+	$language = $segments[0];
+	$queryLanguage = isset($queryParams['locale']) && is_string($queryParams['locale'])
+		? trim($queryParams['locale'])
+		: '';
+	if ($queryLanguage !== '' && in_array($queryLanguage, $supportedLanguages, true)) {
+		$language = $queryLanguage;
+	}
 
-    if (!in_array($language, $supportedLanguages, true)) {
-        return null;
-    }
+	if (!in_array($language, $supportedLanguages, true)) {
+		return null;
+	}
 
-    $slug = $segments[1] ?? 'home';
+	$slug = $segments[1] ?? 'home';
 
-    if (!isset($routes[$slug])) {
-        return null;
-    }
+	if (!isset($routes[$slug])) {
+		return null;
+	}
 
-    return [
-        'language' => $language,
-        'slug' => $slug,
-    ];
+	return [
+		'language' => $language,
+		'slug' => $slug,
+	];
 }
 
 function handleSiteRequest(): void
 {
-    global $supportedLanguages;
+	global $supportedLanguages;
 
-    $legacyPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '', '/');
-    $legacySegments = array_values(array_filter(explode('/', $legacyPath), static fn ($segment) => $segment !== ''));
-    if (
-        count($legacySegments) === 2
-        && $legacySegments[1] === 'plant-protection'
-        && in_array($legacySegments[0], $supportedLanguages, true)
-    ) {
-        header('Location: /' . $legacySegments[0] . '/biological-plant-protection', true, 301);
-        exit;
-    }
+	$legacyPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '', '/');
+	$legacySegments = array_values(array_filter(explode('/', $legacyPath), static fn($segment) => $segment !== ''));
+	if (
+		count($legacySegments) === 2
+		&& $legacySegments[1] === 'plant-protection'
+		&& in_array($legacySegments[0], $supportedLanguages, true)
+	) {
+		header('Location: /' . $legacySegments[0] . '/biological-plant-protection', true, 301);
+		exit;
+	}
 
-    $route = resolveRouteFromRequestUri($_SERVER['REQUEST_URI'] ?? '/');
+	$route = resolveRouteFromRequestUri($_SERVER['REQUEST_URI'] ?? '/');
 
-    if ($route === null) {
-        $path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '', '/');
+	if ($route === null) {
+		$path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '', '/');
 
-        if ($path === '') {
-            redirectToLanguageHome('en');
-        }
+		if ($path === '') {
+			redirectToLanguageHome('en');
+		}
 
-        renderNotFound();
-        return;
-    }
+		renderNotFound();
+		return;
+	}
 
-    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-        $requestSaved = processFeedbackRequestFormSubmission($route['language']);
-        if (isJsonRequest()) {
-            header('Content-Type: application/json; charset=UTF-8');
-            http_response_code($requestSaved ? 200 : 422);
-            echo json_encode(['success' => $requestSaved], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            exit;
-        }
+	if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+		$requestSaved = processFeedbackRequestFormSubmission($route['language']);
+		if (isJsonRequest()) {
+			header('Content-Type: application/json; charset=UTF-8');
+			http_response_code($requestSaved ? 200 : 422);
+			echo json_encode(['success' => $requestSaved], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+			exit;
+		}
 
-        $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
-        $redirectQuery = $requestSaved ? 'request_status=success' : 'request_status=error';
-        header('Location: ' . $requestPath . '?' . $redirectQuery . '#contact', true, 303);
-        exit;
-    }
+		$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+		$redirectQuery = $requestSaved ? 'request_status=success' : 'request_status=error';
+		header('Location: ' . $requestPath . '?' . $redirectQuery . '#contact', true, 303);
+		exit;
+	}
 
-    renderSitePage($route['slug'], $route['language']);
+	renderSitePage($route['slug'], $route['language']);
 }
