@@ -47,6 +47,7 @@ function renderSitePage(string $slug, string $language): void
         'home' => [
             'backgroundImg' => '/img/home/home-header.jpg',
             'endOfPageBackgroundImg' => '/img/home/home-bottom-bg.png',
+            'responsivePageBackgrounds' => true,
             'titleSource' => static function () use ($pageHomePayload): string {
                 return isset($pageHomePayload['title']) && is_string($pageHomePayload['title'])
                     ? trim($pageHomePayload['title'])
