@@ -1531,6 +1531,7 @@ h6,
 	margin-inline: auto;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
+	overflow: hidden;
 	background: #ffffff;
 	display: flex;
 	align-items: center;
@@ -1824,6 +1825,18 @@ h6,
 	width: 100%;
 	aspect-ratio: 1 / 1;
 	overflow: hidden;
+	background-image: url('/img/form-bg-m.jpg');
+	background-image: -webkit-image-set(
+		url('/img/form-bg-m.webp') type('image/webp'),
+		url('/img/form-bg-m.jpg') type('image/jpeg')
+	);
+	background-image: image-set(
+		url('/img/form-bg-m.webp') type('image/webp'),
+		url('/img/form-bg-m.jpg') type('image/jpeg')
+	);
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: cover;
 }
 
 .contact-form-section__hero-img {
@@ -2081,6 +2094,14 @@ h6,
 		position: absolute;
 		inset: 0;
 		background-image: url('/img/form-bg.jpg');
+		background-image: -webkit-image-set(
+			url('/img/form-bg.webp') type('image/webp'),
+			url('/img/form-bg.jpg') type('image/jpeg')
+		);
+		background-image: image-set(
+			url('/img/form-bg.webp') type('image/webp'),
+			url('/img/form-bg.jpg') type('image/jpeg')
+		);
 		background-repeat: no-repeat;
 		background-position: left center;
 		background-size: cover;

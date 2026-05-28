@@ -80,13 +80,6 @@ if ($requestStatus === 'success') {
 		<div class="contact-form-section__hero-sm">
 			<div class="contact-form-section__hero-sm-frame img-shadow">
 				<div class="contact-form-section__hero-sm-square">
-					<img
-						class="contact-form-section__hero-img"
-						src="/img/form-bg.jpg"
-						alt=""
-						width="1200"
-						height="1200"
-						decoding="async" />
 					<?php if ($contactTextHtml !== ''): ?>
 						<div class="contact-form-section__hero-sm-strip">
 							<div class="contact-form-section__hero-sm-strip-shade" aria-hidden="true"></div>
@@ -184,8 +177,8 @@ $contactFormTextareasSrc = getViteEntryJsUrl($contactFormTextareasEntry);
 	<?php
 	enqueueFooterScript(
 		'<script type="module" src="'
-		. htmlspecialchars($contactFormTextareasSrc, ENT_QUOTES, 'UTF-8')
-		. '"></script>'
+			. htmlspecialchars($contactFormTextareasSrc, ENT_QUOTES, 'UTF-8')
+			. '"></script>'
 	);
 	?>
 <?php endif; ?>

@@ -39,8 +39,7 @@ $homeKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/home/home
 						alt=""
 						width="21"
 						height="21"
-						decoding="async"
-					/>
+						decoding="async" />
 					<span class="key-benefits__text"><?= $benefitHtml; ?></span>
 				</li>
 			<?php endforeach; ?>
@@ -104,23 +103,32 @@ $hasNewsItems = $newsItems !== [];
 		<div class="our-customers__slider swiper" data-our-customers-slider>
 			<div class="swiper-wrapper">
 				<?php foreach ($ourCustomers as $customer): ?>
-				<?php
-				$customer = (array) $customer;
-				$customerImagePath = trim((string) ($customer['image']['path'] ?? ''));
-				$customerImageUrl = $customerImagePath !== '' ? UPLOADS_BASE_URL . $customerImagePath : '';
-				if ($customerImageUrl === '') {
-					continue;
-				}
-				$customerName = trim((string) ($customer['name'] ?? ''));
-				?>
+					<?php
+					$customer = (array) $customer;
+					$customerImagePath = trim((string) ($customer['image']['path'] ?? ''));
+					$customerImageWebpPath = trim((string) ($customer['image_webp']['path'] ?? ''));
+					$customerImageUrl = $customerImagePath !== '' ? UPLOADS_BASE_URL . $customerImagePath : '';
+					$customerImageWebpUrl = $customerImageWebpPath !== '' ? UPLOADS_BASE_URL . $customerImageWebpPath : '';
+					if ($customerImageUrl === '') {
+						continue;
+					}
+					$customerName = trim((string) ($customer['name'] ?? ''));
+					?>
 					<div class="swiper-slide">
 						<article class="our-customers__item">
 							<div class="our-customers__image-wrap">
-								<img
-									class="our-customers__image"
-									src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
-									alt="<?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?>"
-									decoding="async" />
+								<picture>
+									<?php if ($customerImageWebpUrl !== ''): ?>
+										<source
+											srcset="<?= htmlspecialchars($customerImageWebpUrl, ENT_QUOTES, 'UTF-8'); ?>"
+											type="image/webp">
+									<?php endif; ?>
+									<img
+										class="our-customers__image"
+										src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+										alt="<?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?>"
+										decoding="async" />
+								</picture>
 							</div>
 							<?php if ($customerName !== ''): ?>
 								<p class="our-customers__name"><?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?></p>
