@@ -70,6 +70,7 @@ $caseStudy = array_values(array_filter(
 				class="oil-how-gallery__img"
 				src="/img/oil-cleaning/oil-how_1.jpg"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</div>
 		<div class="oil-how-gallery__item img-shadow">
@@ -77,6 +78,7 @@ $caseStudy = array_values(array_filter(
 				class="oil-how-gallery__img"
 				src="/img/oil-cleaning/oil-how_2.jpg"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</div>
 		<div class="oil-how-gallery__item img-shadow">
@@ -84,6 +86,7 @@ $caseStudy = array_values(array_filter(
 				class="oil-how-gallery__img"
 				src="/img/oil-cleaning/oil-how_3.jpg"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</div>
 	</div>
@@ -95,6 +98,7 @@ $caseStudy = array_values(array_filter(
 			class="oil-stages__image"
 			src="<?= htmlspecialchars($stagesOfCleanupAndBioremediationImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 			alt=""
+			loading="lazy"
 			decoding="async" />
 	</div>
 	<div class="oil-stages__mobile-list">
@@ -118,6 +122,7 @@ $caseStudy = array_values(array_filter(
 				class="oil-diagram__image"
 				src="<?= htmlspecialchars($diagramSoilAndGroundwaterImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</picture>
 	</div>
@@ -128,12 +133,14 @@ $caseStudy = array_values(array_filter(
 			class="oil-before-after__image"
 			src="/img/oil-cleaning/oil-after.png"
 			alt=""
+			loading="lazy"
 			decoding="async" />
 		<div class="oil-before-after__after-layer">
 			<img
 				class="oil-before-after__image"
 				src="/img/oil-cleaning/oil-before.png"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</div>
 		<div class="oil-before-after__divider" aria-hidden="true"></div>
@@ -164,6 +171,7 @@ $caseStudy = array_values(array_filter(
 								class="oil-certifications__image"
 								src="<?= htmlspecialchars($certificationImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 								alt=""
+								loading="lazy"
 								decoding="async" />
 						</div>
 					</div>
@@ -184,6 +192,7 @@ $caseStudy = array_values(array_filter(
 						class="oil-case-study__image"
 						src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 						alt=""
+						loading="lazy"
 						decoding="async" />
 				</div>
 			<?php endforeach; ?>
@@ -201,6 +210,9 @@ $hasNewsItems = $newsItems !== [];
 <?php if ($hasNewsItems): ?>
 	<section class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
 		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+		<?php
+		$newsListImageLoading = 'lazy';
+		require TEMPLATES_PATH . '/partials/news-list.php';
+		?>
 	</section>
 <?php endif; ?>

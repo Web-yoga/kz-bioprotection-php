@@ -56,6 +56,7 @@ $homeKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/home/home
 				$alt = '';
 				$imgClass = 'home-solutions__img';
 				$useMobileVariant = false;
+				$imgLoading = 'lazy';
 				require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
 				?>
 			</div>
@@ -71,6 +72,7 @@ $homeKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/home/home
 				$alt = '';
 				$imgClass = 'home-solutions__img';
 				$useMobileVariant = false;
+				$imgLoading = 'lazy';
 				require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
 				?>
 			</div>
@@ -94,7 +96,10 @@ $hasNewsItems = $newsItems !== [];
 <?php if ($hasNewsItems): ?>
 	<section class="news-events" style="margin-top: var(--section-spacing);">
 		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+		<?php
+		$newsListImageLoading = 'lazy';
+		require TEMPLATES_PATH . '/partials/news-list.php';
+		?>
 	</section>
 <?php endif; ?>
 <?php if ($ourCustomers !== []): ?>
@@ -127,6 +132,7 @@ $hasNewsItems = $newsItems !== [];
 										class="our-customers__image"
 										src="<?= htmlspecialchars($customerImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 										alt="<?= htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8'); ?>"
+										loading="lazy"
 										decoding="async" />
 								</picture>
 							</div>

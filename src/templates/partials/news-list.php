@@ -6,6 +6,12 @@ $articles = (array) ($articlesJson ?? []);
 $currentLanguageCode = (string) ($currentLanguage ?? 'en');
 $fallbackImagePath = '/img/home/home-soil-btn.jpg';
 $newsCardLinkLabel = 'Open news';
+$newsListImageLoading = isset($newsListImageLoading) && is_string($newsListImageLoading)
+	? trim($newsListImageLoading)
+	: '';
+if ($newsListImageLoading !== 'lazy' && $newsListImageLoading !== 'eager') {
+	$newsListImageLoading = '';
+}
 ?>
 
 <section
@@ -82,6 +88,7 @@ $newsCardLinkLabel = 'Open news';
 						$imgWidth = 800;
 						$imgHeight = 600;
 						$imgDecoding = 'async';
+						$imgLoading = $newsListImageLoading;
 						require TEMPLATES_PATH . '/partials/webp-image-generated.php';
 						unset($generatedImageResolved, $pathField);
 						?>
@@ -92,7 +99,7 @@ $newsCardLinkLabel = 'Open news';
 							alt="<?= htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'); ?>"
 							width="800"
 							height="600"
-							decoding="async" />
+							decoding="async"<?= $newsListImageLoading !== '' ? ' loading="' . htmlspecialchars($newsListImageLoading, ENT_QUOTES, 'UTF-8') . '"' : ''; ?> />
 					<?php endif; ?>
 				</button>
 				<div class="news-list__copy">

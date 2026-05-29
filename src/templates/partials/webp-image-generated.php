@@ -10,13 +10,18 @@ declare(strict_types=1);
  * - $pathField — CMS field with `path` key
  * - $generatedImageResolved — pre-resolved array from uploadsResolveGeneratedImageUrls()
  *
- * Optional: $alt, $imgClass, $imgWidth, $imgHeight, $imgDecoding
+ * Optional: $alt, $imgClass, $imgWidth, $imgHeight, $imgDecoding, $imgLoading ("lazy" or "eager")
  */
 
 $imgClass = isset($imgClass) && is_string($imgClass) ? trim($imgClass) : '';
 $imgWidth = isset($imgWidth) ? (int) $imgWidth : 0;
 $imgHeight = isset($imgHeight) ? (int) $imgHeight : 0;
 $imgDecoding = isset($imgDecoding) && is_string($imgDecoding) ? trim($imgDecoding) : '';
+$imgLoading = isset($imgLoading) && is_string($imgLoading) ? trim($imgLoading) : '';
+
+if ($imgLoading !== 'lazy' && $imgLoading !== 'eager') {
+	$imgLoading = '';
+}
 
 $imgAttrParts = [];
 if ($imgClass !== '') {
@@ -30,6 +35,9 @@ if ($imgHeight > 0) {
 }
 if ($imgDecoding !== '') {
 	$imgAttrParts[] = 'decoding="' . htmlspecialchars($imgDecoding, ENT_QUOTES, 'UTF-8') . '"';
+}
+if ($imgLoading !== '') {
+	$imgAttrParts[] = 'loading="' . htmlspecialchars($imgLoading, ENT_QUOTES, 'UTF-8') . '"';
 }
 $imgAttrString = $imgAttrParts !== [] ? ' ' . implode(' ', $imgAttrParts) : '';
 

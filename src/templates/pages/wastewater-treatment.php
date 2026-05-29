@@ -86,6 +86,7 @@ $caseStudyText = array_values(array_filter(
 				class="oil-diagram__image"
 				src="<?= htmlspecialchars($wastewaterTreatmentStagesImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 				alt=""
+				loading="lazy"
 				decoding="async" />
 		</picture>
 	</div>
@@ -141,6 +142,7 @@ $caseStudyText = array_values(array_filter(
 								class="oil-certifications__image"
 								src="<?= htmlspecialchars($certificationImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 								alt=""
+								loading="lazy"
 								decoding="async" />
 						</div>
 					</div>
@@ -163,6 +165,7 @@ $caseStudyText = array_values(array_filter(
 								class="wastewater-case-study__image"
 								src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
 								alt=""
+								loading="lazy"
 								decoding="async" />
 						</div>
 					</div>
@@ -190,7 +193,10 @@ $hasNewsItems = $newsItems !== [];
 <?php if ($hasNewsItems): ?>
 	<section class="news-events" style="margin-top: var(--section-spacing); margin-bottom: var(--section-spacing);">
 		<h2 class="section-title"><?= $dictionary['newsEvents']; ?></h2>
-		<?php require TEMPLATES_PATH . '/partials/news-list.php'; ?>
+		<?php
+		$newsListImageLoading = 'lazy';
+		require TEMPLATES_PATH . '/partials/news-list.php';
+		?>
 	</section>
 <?php endif; ?>
 <?php

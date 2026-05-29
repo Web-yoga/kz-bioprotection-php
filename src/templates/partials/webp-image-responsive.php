@@ -8,12 +8,18 @@ declare(strict_types=1);
  * - .webp sources when browser supports WebP;
  * - original extension as fallback when WebP is not supported.
  * Set $useMobileVariant = false to always use non-mobile file names.
+ * Optional $imgLoading: "lazy" or "eager".
  */
 
 $imagePath = isset($imagePath) && is_string($imagePath) ? trim($imagePath) : '';
 $alt = isset($alt) && is_string($alt) ? trim($alt) : '';
 $imgClass = isset($imgClass) && is_string($imgClass) ? trim($imgClass) : '';
+$imgLoading = isset($imgLoading) && is_string($imgLoading) ? trim($imgLoading) : '';
 $useMobileVariant = !isset($useMobileVariant) || (bool) $useMobileVariant;
+
+if ($imgLoading !== 'lazy' && $imgLoading !== 'eager') {
+	$imgLoading = '';
+}
 
 if ($imagePath === '') {
 	return;
@@ -55,5 +61,5 @@ $imgClassAttribute = $imgClass !== ''
 		type="image/webp">
 	<img<?= $imgClassAttribute; ?>
 		src="<?= htmlspecialchars($desktopFallbackPath, ENT_QUOTES, 'UTF-8'); ?>"
-		alt="<?= htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>">
+		alt="<?= htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"<?= $imgLoading !== '' ? ' loading="' . htmlspecialchars($imgLoading, ENT_QUOTES, 'UTF-8') . '"' : ''; ?>>
 </picture>
