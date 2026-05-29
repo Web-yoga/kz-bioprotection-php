@@ -200,6 +200,20 @@ h6,
 	object-position: center bottom;
 }
 
+.page-middle-bg.responsive-bg,
+.page-bottom-bg.responsive-bg {
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.page-middle-bg.responsive-bg {
+	background-position: center center;
+}
+
+.page-bottom-bg.responsive-bg {
+	background-position: center bottom;
+}
+
 .end-of-page-zone {
 	position: relative;
 	isolation: isolate;
@@ -800,10 +814,6 @@ h6,
 	color: #22323f;
 }
 
-.key-benefits--oil-cleaning .key-benefits__media-bg {
-	background-image: url('/img/oil-cleaning/oil-key-benefits.jpg');
-}
-
 .key-benefits--wastewater-treatment .key-benefits__media-bg {
 	background-image: url('/img/wastewater-treatment/wastewater-key.jpg');
 }
@@ -862,21 +872,28 @@ h6,
 	touch-action: pan-y;
 }
 
-.oil-before-after__image,
-.oil-before-after__after-layer {
+.oil-before-after > picture,
+.oil-before-after__after-layer picture {
+	display: block;
 	position: absolute;
 	inset: 0;
 	width: 100%;
 	height: 100%;
 }
 
-.oil-before-after__image {
-	display: block;
-	object-fit: cover;
+.oil-before-after__after-layer {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	clip-path: inset(0 calc(100% - (var(--before-after-position) * 1%)) 0 0);
 }
 
-.oil-before-after__after-layer {
-	clip-path: inset(0 calc(100% - (var(--before-after-position) * 1%)) 0 0);
+.oil-before-after__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .oil-before-after__divider {
@@ -1104,6 +1121,12 @@ h6,
 .oil-how-gallery__item {
 	border-radius: 0.75rem;
 	overflow: hidden;
+}
+
+.oil-how-gallery__item picture {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
 .oil-how-gallery__img {

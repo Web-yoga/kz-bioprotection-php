@@ -71,6 +71,7 @@ function renderSitePage(string $slug, string $language): void
 			'backgroundImg' => '/img/oil-cleaning/oil-header.jpg',
 			'middleOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-middle.png',
 			'endOfPageBackgroundImg' => '/img/oil-cleaning/oil-bg-bottom.png',
+			'responsivePageBackgrounds' => true,
 		],
 		'wastewater-treatment' => [
 			'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',

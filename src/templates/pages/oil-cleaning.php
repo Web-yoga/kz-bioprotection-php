@@ -25,8 +25,9 @@ $caseStudyRaw = isset($pageOilPayload['caseStudy']) && is_array($pageOilPayload[
 	: [];
 $caseStudy = array_values(array_filter(
 	$caseStudyRaw,
-	static fn($item): bool => isset($item['path']) && trim((string) $item['path']) !== ''
+	static fn($item): bool => isset($item['image']['path']) && trim((string) $item['image']['path']) !== ''
 ));
+$oilKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/oil-cleaning/oil-key-benefits.jpg');
 ?>
 <?php if ($topText !== ''): ?>
 	<section class="home-top-text">
@@ -37,7 +38,7 @@ $caseStudy = array_values(array_filter(
 	<h2 class="section-title"><?= $dictionary['keyBenefits']; ?></h2>
 	<div class="key-benefits__layout">
 		<div class="key-benefits__media img-shadow">
-			<div class="key-benefits__media-bg" aria-hidden="true"></div>
+			<div class="key-benefits__media-bg responsive-bg" style="<?= $oilKeyBenefitsBackgroundStyle; ?>" aria-hidden="true"></div>
 		</div>
 		<ul class="key-benefits__list">
 			<?php foreach ($benefits as $benefit): ?>
@@ -66,28 +67,31 @@ $caseStudy = array_values(array_filter(
 	<div class="oil-content-section__body oil-content-section__body--justified"><?= $howDoesItWork; ?></div>
 	<div class="oil-how-gallery">
 		<div class="oil-how-gallery__item img-shadow">
-			<img
-				class="oil-how-gallery__img"
-				src="/img/oil-cleaning/oil-how_1.jpg"
-				alt=""
-				loading="lazy"
-				decoding="async" />
+			<?php
+			$imagePath = '/img/oil-cleaning/oil-how_1.jpg';
+			$alt = '';
+			$imgClass = 'oil-how-gallery__img';
+			$imgLoading = 'lazy';
+			require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+			?>
 		</div>
 		<div class="oil-how-gallery__item img-shadow">
-			<img
-				class="oil-how-gallery__img"
-				src="/img/oil-cleaning/oil-how_2.jpg"
-				alt=""
-				loading="lazy"
-				decoding="async" />
+			<?php
+			$imagePath = '/img/oil-cleaning/oil-how_2.jpg';
+			$alt = '';
+			$imgClass = 'oil-how-gallery__img';
+			$imgLoading = 'lazy';
+			require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+			?>
 		</div>
 		<div class="oil-how-gallery__item img-shadow">
-			<img
-				class="oil-how-gallery__img"
-				src="/img/oil-cleaning/oil-how_3.jpg"
-				alt=""
-				loading="lazy"
-				decoding="async" />
+			<?php
+			$imagePath = '/img/oil-cleaning/oil-how_3.jpg';
+			$alt = '';
+			$imgClass = 'oil-how-gallery__img';
+			$imgLoading = 'lazy';
+			require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+			?>
 		</div>
 	</div>
 </section>
@@ -129,19 +133,21 @@ $caseStudy = array_values(array_filter(
 </section>
 <section class="oil-content-section">
 	<div class="oil-before-after img-shadow" data-before-after style="--before-after-position: 50;">
-		<img
-			class="oil-before-after__image"
-			src="/img/oil-cleaning/oil-after.png"
-			alt=""
-			loading="lazy"
-			decoding="async" />
+		<?php
+		$imagePath = '/img/oil-cleaning/oil-after.png';
+		$alt = '';
+		$imgClass = 'oil-before-after__image';
+		$imgLoading = 'lazy';
+		require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+		?>
 		<div class="oil-before-after__after-layer">
-			<img
-				class="oil-before-after__image"
-				src="/img/oil-cleaning/oil-before.png"
-				alt=""
-				loading="lazy"
-				decoding="async" />
+			<?php
+			$imagePath = '/img/oil-cleaning/oil-before.png';
+			$alt = '';
+			$imgClass = 'oil-before-after__image';
+			$imgLoading = 'lazy';
+			require TEMPLATES_PATH . '/partials/webp-image-responsive.php';
+			?>
 		</div>
 		<div class="oil-before-after__divider" aria-hidden="true"></div>
 		<div class="oil-before-after__handle" aria-hidden="true">
@@ -186,14 +192,26 @@ $caseStudy = array_values(array_filter(
 		<h2 class="section-title"><?= $dictionary['caseStudy']; ?></h2>
 		<div class="oil-case-study__grid">
 			<?php foreach ($caseStudy as $caseStudyItem): ?>
-				<?php $caseStudyImageUrl = UPLOADS_BASE_URL . ltrim((string) $caseStudyItem['path'], '/'); ?>
+				<?php
+				$caseStudyImageUrl = UPLOADS_BASE_URL . ltrim((string) $caseStudyItem['image']['path'], '/');
+				$caseStudyImageWebpUrl = isset($caseStudyItem['image_webp']['path']) && trim((string) $caseStudyItem['image_webp']['path']) !== ''
+					? UPLOADS_BASE_URL . ltrim((string) $caseStudyItem['image_webp']['path'], '/')
+					: '';
+				?>
 				<div class="oil-case-study__item img-shadow">
-					<img
-						class="oil-case-study__image"
-						src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
-						alt=""
-						loading="lazy"
-						decoding="async" />
+					<picture>
+						<?php if ($caseStudyImageWebpUrl !== ''): ?>
+							<source
+								srcset="<?= htmlspecialchars($caseStudyImageWebpUrl, ENT_QUOTES, 'UTF-8'); ?>"
+								type="image/webp">
+						<?php endif; ?>
+						<img
+							class="oil-case-study__image"
+							src="<?= htmlspecialchars($caseStudyImageUrl, ENT_QUOTES, 'UTF-8'); ?>"
+							alt=""
+							loading="lazy"
+							decoding="async" />
+					</picture>
 				</div>
 			<?php endforeach; ?>
 		</div>
