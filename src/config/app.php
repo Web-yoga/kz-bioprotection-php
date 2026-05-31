@@ -77,6 +77,7 @@ function renderSitePage(string $slug, string $language): void
 			'backgroundImg' => '/img/wastewater-treatment/wastewater-header.jpg',
 			'middleOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-middle.png',
 			'endOfPageBackgroundImg' => '/img/wastewater-treatment/wastewater-bg-bottom.png',
+			'responsivePageBackgrounds' => true,
 		],
 		'biological-plant-protection' => [
 			'backgroundImg' => '/img/home/home-header.jpg',

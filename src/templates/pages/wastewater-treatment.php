@@ -33,6 +33,7 @@ $caseStudyText = array_values(array_filter(
 	$caseStudyTextRaw,
 	static fn($item): bool => trim((string) $item) !== ''
 ));
+$wastewaterKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/wastewater-treatment/wastewater-key.jpg');
 ?>
 <?php if ($topText !== ''): ?>
 	<section class="home-top-text">
@@ -43,7 +44,7 @@ $caseStudyText = array_values(array_filter(
 	<h2 class="section-title"><?= $dictionary['keyBenefits']; ?></h2>
 	<div class="key-benefits__layout">
 		<div class="key-benefits__media img-shadow">
-			<div class="key-benefits__media-bg" aria-hidden="true"></div>
+			<div class="key-benefits__media-bg responsive-bg" style="<?= $wastewaterKeyBenefitsBackgroundStyle; ?>" aria-hidden="true"></div>
 		</div>
 		<ul class="key-benefits__list">
 			<?php foreach ($benefits as $benefit): ?>
