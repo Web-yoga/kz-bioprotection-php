@@ -13,6 +13,7 @@ $stagesOfCleanupAndBioremediation = $pageOilPayload['stagesOfCleanupAndBioremedi
 $stagesOfCleanupAndBioremediationImageUrl = UPLOADS_BASE_URL . ltrim($pageOilPayload['stagesOfCleanupAndBioremediationImage']['path'], '/');
 $diagramSoilAndGroundwaterImageUrl = UPLOADS_BASE_URL . ltrim($pageOilPayload['diagramSoilAndGroundwaterImage']['path'], '/');
 $diagramSoilAndGroundwaterImageMobileUrl = UPLOADS_BASE_URL . ltrim($pageOilPayload['diagramSoilAndGroundwaterImageMobile']['path'], '/');
+$diagramSoilAndGroundwaterSubtitle = isset($pageOilPayload['diagramSoilAndGroundwaterSubtitle']) ? trim((string) $pageOilPayload['diagramSoilAndGroundwaterSubtitle']) : '';
 $certificationsAccreditationsRaw = isset($pageOilPayload['certificationsAccreditations']) && is_array($pageOilPayload['certificationsAccreditations'])
 	? $pageOilPayload['certificationsAccreditations']
 	: [];
@@ -119,6 +120,9 @@ $oilKeyBenefitsBackgroundStyle = buildResponsiveBackgroundStyle('/img/oil-cleani
 </section>
 <section class="oil-content-section oil-diagram">
 	<h2 class="section-title"><?= $dictionary['diagramSoilAndGroundwater']; ?></h2>
+	<?php if ($diagramSoilAndGroundwaterSubtitle !== ''): ?>
+		<p class="oil-diagram__subtitle"><?= $diagramSoilAndGroundwaterSubtitle; ?></p>
+	<?php endif; ?>
 	<div class="oil-diagram__image-wrap">
 		<picture>
 			<source media="(max-width: 767px)" srcset="<?= htmlspecialchars($diagramSoilAndGroundwaterImageMobileUrl, ENT_QUOTES, 'UTF-8'); ?>" />

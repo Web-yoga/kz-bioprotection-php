@@ -1269,8 +1269,14 @@ h6,
 	color: #22323f;
 }
 
-.oil-diagram__image-wrap {
+.oil-diagram__subtitle {
+	margin: 0;
+	color: #1a9ecc;
 	margin-top: 1.5rem;
+	font-size: 1rem;
+	line-height: 1.2;
+	font-weight: 700;
+	text-transform: uppercase;
 }
 
 .oil-diagram__image {
@@ -2307,6 +2313,11 @@ h6,
 
 	.section-title {
 		font-size: 1.6667rem;
+	}
+
+	/* 30px at 24px root */
+	.oil-diagram__subtitle {
+		font-size: 1.25rem;
 	}
 
 	/* 32px at 24px root */
